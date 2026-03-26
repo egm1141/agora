@@ -337,7 +337,13 @@
 
         <a-mixin id="arch-tunnel" geometry="primitive: torus; radius: 3; tube: 0.5; arc: 180"
             material="color: #45423a; roughness: 1"></a-mixin>
-        <a-mixin id="pillar-tunnel" geometry="primitive: box; width: 1; height: 5; depth: 1.5"
+        <a-mixin id="pillar-tunnel" geometry="primitive: box; width: 1; height: 7.5; depth: 1.5"
+            material="color: #45423a; roughness: 1"></a-mixin>
+        <!-- Yan tünellerin dışarıdan görünen uzun sütunları -->
+        <a-mixin id="pillar-outer" geometry="primitive: box; width: 1.2; height: 15; depth: 1.5"
+            material="color: #3d3a33; roughness: 1"></a-mixin>
+        <!-- Orta tünel pillarlari zemin altinda kalsin -->
+        <a-mixin id="pillar-center" geometry="primitive: box; width: 1; height: 6; depth: 1.5"
             material="color: #45423a; roughness: 1"></a-mixin>
         <a-mixin id="water" geometry="primitive: plane; width: 4.5; height: 40"
             material="color: #17546e; opacity: 0.85; transparent: true"></a-mixin>
@@ -401,67 +407,55 @@
 
         <!-- Tünel Mimari Blokları -->
         <!-- ORTA YOL X=0 (Z ekseninde 32, 40, 48 -KAVŞAK- 64, 72, 80) -->
-        <a-entity position="0 0 32"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
-        <a-entity position="0 0 40"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
-        <a-entity position="0 0 48"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="0 0 32"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-center" position="-3 3 0"></a-entity><a-entity mixin="pillar-center" position="3 3 0"></a-entity></a-entity>
+        <a-entity position="0 0 40"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-center" position="-3 3 0"></a-entity><a-entity mixin="pillar-center" position="3 3 0"></a-entity></a-entity>
+        <a-entity position="0 0 48"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-center" position="-3 3 0"></a-entity><a-entity mixin="pillar-center" position="3 3 0"></a-entity></a-entity>
 
-        <a-entity position="0 0 64"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
-        <a-entity position="0 0 72"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
-        <a-entity position="0 0 80"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="0 0 64"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-center" position="-3 3 0"></a-entity><a-entity mixin="pillar-center" position="3 3 0"></a-entity></a-entity>
+        <a-entity position="0 0 72"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-center" position="-3 3 0"></a-entity><a-entity mixin="pillar-center" position="3 3 0"></a-entity></a-entity>
+        <a-entity position="0 0 80"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-center" position="-3 3 0"></a-entity><a-entity mixin="pillar-center" position="3 3 0"></a-entity></a-entity>
 
-        <!-- SOL YOL X=-8 -->
-        <a-entity position="-8 0 32"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
-        <a-entity position="-8 0 40"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
-        <a-entity position="-8 0 48"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
+        <!-- SOL YOL X=-8 (Kemerler dışarıdan görünsün diye yukarı kaldırıldı) -->
+        <a-entity position="-8 0 32"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 3.25 0"></a-entity></a-entity>
+        <a-entity position="-8 0 40"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 3.25 0"></a-entity></a-entity>
+        <a-entity position="-8 0 48"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 3.25 0"></a-entity></a-entity>
 
-        <a-entity position="-8 0 64"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
-        <a-entity position="-8 0 72"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
-        <a-entity position="-8 0 80"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="-8 0 64"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 3.25 0"></a-entity></a-entity>
+        <a-entity position="-8 0 72"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 3.25 0"></a-entity></a-entity>
+        <a-entity position="-8 0 80"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 3.25 0"></a-entity></a-entity>
 
-        <!-- SAĞ YOL X=8 -->
-        <a-entity position="8 0 32"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
-        <a-entity position="8 0 40"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
-        <a-entity position="8 0 48"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
+        <!-- SAĞ YOL X=8 (Kemerler dışarıdan görünsün diye yukarı kaldırıldı) -->
+        <a-entity position="8 0 32"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 3.25 0"></a-entity></a-entity>
+        <a-entity position="8 0 40"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 3.25 0"></a-entity></a-entity>
+        <a-entity position="8 0 48"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 3.25 0"></a-entity></a-entity>
 
-        <a-entity position="8 0 64"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
-        <a-entity position="8 0 72"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
-        <a-entity position="8 0 80"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="8 0 64"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 3.25 0"></a-entity></a-entity>
+        <a-entity position="8 0 72"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 3.25 0"></a-entity></a-entity>
+        <a-entity position="8 0 80"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 3.25 0"></a-entity></a-entity>
 
         <!-- KAVŞAK (Yatay Dönüş Yeri, Z=56) -->
         <!-- Kavşak merkezindeki çapraz kemerler (yere uçan sarkan bacaklar oluşturdukları için) silindi. -->
