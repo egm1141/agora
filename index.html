@@ -76,60 +76,107 @@
         <div class="instruction"><span class="key">W</span><span class="key">A</span><span class="key">S</span><span
                 class="key">D</span> ile hareket edin.</div>
         <div class="instruction">Mouse'a basılı tutarak etrafa bakın.</div>
-        <div class="instruction highlight">⬇️ Artık üst katta başlıyorsunuz. Açık alandaki eserleri gezip,<br>aşağı
-            bakıp W'ye basarak alt kata (su tünellerine) inebilirsiniz.</div>
+        <div class="instruction highlight">⬇️ ARKANIZDAKİ MERDİVENLERİ kullanarak<br>alt kata (su tünellerine)
+            inebilirsiniz.</div>
     </div>
 
-    <!-- Sahne: Dağları kaldırdık, düz gökyüzü ve geniş bir açık alan var -->
+    <!-- Sahne -->
     <a-scene loading-screen="dotsColor: #ffda75; backgroundColor: #111"
         renderer="antialias: true; colorManagement: true;">
 
-        <!-- ======================= -->
-        <!-- ÇEVRE (DAĞSIZ, TAM DÜZ) -->
-        <!-- ======================= -->
-
-        <!-- Dağsız sade masmavi bir gökyüzü ve atmosferik sis -->
-        <a-sky color="#74a5e3"></a-sky> <!-- Mavi gökyüzü -->
+        <!-- ÇEVRE -->
+        <a-sky color="#74a5e3"></a-sky>
         <a-light type="ambient" color="#fffaf0" intensity="0.55"></a-light>
         <a-light type="directional" position="15 25 5" color="#fff" intensity="0.9" castShadow="true"
             shadow-mapSize="2048"></a-light>
         <a-scene fog="type: linear; color: #74a5e3; near: 30; far: 180"></a-scene>
 
-        <!-- Kamera: Üst Katta (Y = 8.4) başlatıldı. Zemin 6.8 + İnsan Boyu 1.6 = 8.4 -->
+        <!-- Kamera: Başlangıçta üst katta. -->
         <a-entity position="0 8.4 15">
             <a-camera look-controls="pointerLockEnabled: false" wasd-controls="acceleration: 25; fly: true"></a-camera>
         </a-entity>
 
 
         <!-- ============================================== -->
-        <!-- ÜST KAT: AÇIK AGORA VE YENİ TARİHİ ESERLER     -->
+        <!-- ÜST KAT ZEMİNİ (AÇIK KAZI ALANI & TRENCHLER)   -->
         <!-- ============================================== -->
+        <a-plane position="-80.5 6.81 0" rotation="-90 0 0" width="139" height="300" color="#687d55"
+            material="roughness: 1"></a-plane> <!-- En Sol Dış -->
+        <a-plane position="80.5 6.81 0" rotation="-90 0 0" width="139" height="300" color="#687d55"
+            material="roughness: 1"></a-plane> <!-- En Sağ Dış -->
+        <a-plane position="0 6.81 -66" rotation="-90 0 0" width="22" height="168" color="#687d55"
+            material="roughness: 1"></a-plane> <!-- Ön (Merdivenin ilerisi) -->
+        <a-plane position="0 6.81 119" rotation="-90 0 0" width="22" height="62" color="#687d55"
+            material="roughness: 1"></a-plane> <!-- Arka (Tünellerin bitişi) -->
+        <a-plane position="0 6.81 59" rotation="-90 0 0" width="10" height="58" color="#687d55"
+            material="roughness: 1"></a-plane> <!-- Orta Tünelin Tavanı -->
+        <a-plane position="-7 6.81 24" rotation="-90 0 0" width="8" height="12" color="#687d55"
+            material="roughness: 1"></a-plane> <!-- Merdiven sol yanı -->
+        <a-plane position="7 6.81 24" rotation="-90 0 0" width="8" height="12" color="#687d55"
+            material="roughness: 1"></a-plane> <!-- Merdiven sağ yanı -->
 
-        <!-- Zemin (Çimen/Toprak yeşili hue eklendi) -->
-        <a-plane position="0 6.81 0" rotation="-90 0 0" width="300" height="300" color="#687d55" material="roughness: 1"></a-plane>
 
+        <!-- ============================================== -->
+        <!-- ALT KATA İNİŞ MERDİVENİ (Z=20 ile Z=30 arası)  -->
+        <!-- ============================================== -->
+        <a-entity id="staircase" position="0 0 0">
+            <!-- Üst Kat Korkulukları (Düşmemek için) -->
+            <a-box position="-3.1 7.3 25" width="0.2" height="1" depth="10" color="#4a4740"></a-box>
+            <a-box position="3.1 7.3 25" width="0.2" height="1" depth="10" color="#4a4740"></a-box>
+            <a-box position="0 7.3 30.1" width="6.4" height="1" depth="0.2" color="#4a4740"></a-box>
+            <!-- Uçurumun sonu -->
+
+            <a-plane position="-3.25 7.3 25" width="10" height="1" color="#222" rotation="0 -90 0"></a-plane>
+            <a-text position="-3.26 7.3 25" value="<- TUNELLERE INIS" align="center" color="#FFF" width="4"
+                rotation="0 -90 0"></a-text>
+
+            <a-plane position="3.25 7.3 25" width="10" height="1" color="#222" rotation="0 90 0"></a-plane>
+            <a-text position="3.26 7.3 25" value="TUNELLERE INIS ->" align="center" color="#FFF" width="4"
+                rotation="0 90 0"></a-text>
+
+            <!-- Dev Basamaklar -->
+            <a-box position="0 6.46 20.5" width="6" height="0.68" depth="1" color="#736d62"></a-box>
+            <a-box position="0 5.78 21.5" width="6" height="0.68" depth="1" color="#736d62"></a-box>
+            <a-box position="0 5.10 22.5" width="6" height="0.68" depth="1" color="#736d62"></a-box>
+            <a-box position="0 4.42 23.5" width="6" height="0.68" depth="1" color="#736d62"></a-box>
+            <a-box position="0 3.74 24.5" width="6" height="0.68" depth="1" color="#736d62"></a-box>
+            <a-box position="0 3.06 25.5" width="6" height="0.68" depth="1" color="#736d62"></a-box>
+            <a-box position="0 2.38 26.5" width="6" height="0.68" depth="1" color="#736d62"></a-box>
+            <a-box position="0 1.70 27.5" width="6" height="0.68" depth="1" color="#736d62"></a-box>
+            <a-box position="0 1.02 28.5" width="6" height="0.68" depth="1" color="#736d62"></a-box>
+            <a-box position="0 0.34 29.5" width="6" height="0.68" depth="1" color="#736d62"></a-box>
+        </a-entity>
+
+
+        <!-- ============================================== -->
+        <!-- ÜST KAT: TARİHİ ESERLER (AYNEN KORUNDU)        -->
+        <!-- ============================================== -->
         <a-entity id="upper-level" position="0 6.8 0">
 
-            <!-- FOTOĞRAF 1: Antik Çeşme (Akar Sulu) -->
+            <!-- FOTOĞRAF 1: Antik Çeşme -->
             <a-entity id="fountain" position="0 0 7" rotation="0 0 0">
-                <a-plane position="0 1.5 -1.05" width="4" height="3" color="#a8a396"></a-plane> <!-- Arka Duvar -->
+                <a-plane position="0 1.5 -1.05" width="4" height="3" color="#a8a396"></a-plane>
                 <a-box position="0 1 -0.8" width="1.2" height="1.8" depth="0.4" color="#d1cabc"></a-box>
                 <a-box position="0 1.95 -0.8" width="1.4" height="0.1" depth="0.5" color="#b5b0a1"></a-box>
                 <a-plane position="0 1.4 -0.59" width="0.8" height="0.3" color="#222"></a-plane>
-                <a-text position="0 1.4 -0.58" value="SMYRNA AGORASI\nSU ICILMEZ" align="center" color="#FFF" width="1.5"></a-text>
-                
+                <a-text position="0 1.4 -0.58" value="SMYRNA AGORASI\nSU ICILMEZ" align="center" color="#FFF"
+                    width="1.5"></a-text>
+
                 <a-box position="0 0.1 -0.1" width="1.4" height="0.2" depth="1" color="#a8a396"></a-box>
                 <a-box position="0 0.35 0.35" width="1.4" height="0.3" depth="0.1" color="#c9c3b3"></a-box>
                 <a-box position="-0.65 0.35 -0.1" width="0.1" height="0.3" depth="1" color="#c9c3b3"></a-box>
                 <a-box position="0.65 0.35 -0.1" width="0.1" height="0.3" depth="1" color="#c9c3b3"></a-box>
 
-                <a-cylinder position="0 0.7 -0.5" radius="0.05" height="0.3" color="#444" rotation="90 0 0"></a-cylinder>
-                <a-cylinder position="0 0.45 -0.3" radius="0.04" height="0.6" color="#a1e0eb" opacity="0.6" rotation="20 0 0"></a-cylinder>
-                <a-plane position="0 0.3 -0.1" width="1.2" height="0.8" color="#6cbccf" opacity="0.8" rotation="-90 0 0"></a-plane>
+                <a-cylinder position="0 0.7 -0.5" radius="0.05" height="0.3" color="#444"
+                    rotation="90 0 0"></a-cylinder>
+                <a-cylinder position="0 0.45 -0.3" radius="0.04" height="0.6" color="#a1e0eb" opacity="0.6"
+                    rotation="20 0 0"></a-cylinder>
+                <a-plane position="0 0.3 -0.1" width="1.2" height="0.8" color="#6cbccf" opacity="0.8"
+                    rotation="-90 0 0"></a-plane>
 
-                <!-- TABELA (Önüne ne olduğu yazıldı) -->
                 <a-plane position="0 0.5 1.5" width="1.5" height="0.6" color="#333" rotation="-20 0 0"></a-plane>
-                <a-text position="0 0.5 1.51" value="ANTIK CESME" align="center" color="#FFF" width="3" rotation="-20 0 0"></a-text>
+                <a-text position="0 0.5 1.51" value="ANTIK CESME" align="center" color="#FFF" width="3"
+                    rotation="-20 0 0"></a-text>
             </a-entity>
 
 
@@ -139,53 +186,69 @@
                 <a-box position="0 0.75 0" width="6" height="0.5" depth="6" color="#9e988a"></a-box>
                 <a-box position="0 1.25 0" width="4" height="0.5" depth="4" color="#8c8779"></a-box>
                 <a-box position="0 2 0" width="2" height="1" depth="1" color="#787367"></a-box>
-                
-                <!-- TABELA -->
+
                 <a-plane position="0 1.5 4.1" width="2" height="1" color="#333"></a-plane>
-                <a-text position="0 1.5 4.11" value="MERKEZ SUNAK\n(ALTAR)" align="center" color="#FFF" width="4"></a-text>
+                <a-text position="0 1.5 4.11" value="MERKEZ SUNAK\n(ALTAR)" align="center" color="#FFF"
+                    width="4"></a-text>
             </a-entity>
 
 
-            <!-- FOTOĞRAF 3: YOĞUN MEZARLIK ALANI (Osmanlı Stelleri & İçi Ot Dolu Mezarlar) -->
+
+            <!-- FOTOĞRAF 3: YOĞUN MEZARLIK ALANI -->
             <a-entity id="graveyard" position="-15 0 -5">
                 <a-plane position="0 0.05 0" width="25" height="20" color="#546b40" rotation="-90 0 0"></a-plane>
 
-                <a-box position="-8 0.8 -6" width="0.5" height="1.6" depth="0.15" color="#c9c3b3" rotation="5 15 0"></a-box>
-                <a-box position="-6 0.7 -5" width="0.4" height="1.4" depth="0.1" color="#b5b0a1" rotation="0 -10 0"></a-box>
+                <a-box position="-8 0.8 -6" width="0.5" height="1.6" depth="0.15" color="#c9c3b3"
+                    rotation="5 15 0"></a-box>
+                <a-box position="-6 0.7 -5" width="0.4" height="1.4" depth="0.1" color="#b5b0a1"
+                    rotation="0 -10 0"></a-box>
                 <a-box position="-4 1 -6" width="0.6" height="2" depth="0.2" color="#e3e0d8" rotation="-5 5 2"></a-box>
-                <a-box position="-2 0.9 -7" width="0.5" height="1.8" depth="0.15" color="#a8a396" rotation="10 -20 0"></a-box>
-                <a-box position="0 0.8 -6" width="0.4" height="1.6" depth="0.1" color="#c9c3b3" rotation="0 10 0"></a-box>
-                <a-box position="2 0.7 -5" width="0.5" height="1.4" depth="0.2" color="#d1cabc" rotation="15 0 5"></a-box>
-                <a-box position="4 1.1 -6" width="0.6" height="2.2" depth="0.15" color="#e3e0d8" rotation="-10 25 0"></a-box>
-                <a-box position="6 0.8 -5" width="0.4" height="1.6" depth="0.1" color="#a8a396" rotation="0 -15 0"></a-box>
-                
-                <a-box position="-7 0.9 -2" width="0.5" height="1.8" depth="0.15" color="#e3e0d8" rotation="0 5 0"></a-box>
-                <a-box position="-5 0.6 -1" width="0.4" height="1.2" depth="0.1" color="#b5b0a1" rotation="20 -10 0"></a-box>
-                <a-box position="-3 1 -2" width="0.6" height="2" depth="0.2" color="#c9c3b3" rotation="-5 0 -5"></a-box>
-                <a-box position="-1 0.8 -1" width="0.5" height="1.6" depth="0.15" color="#a8a396" rotation="10 30 0"></a-box>
-                <a-box position="1 0.9 -2" width="0.4" height="1.8" depth="0.1" color="#e3e0d8" rotation="0 -10 0"></a-box>
-                <a-box position="3 0.7 -1" width="0.5" height="1.4" depth="0.2" color="#d1cabc" rotation="5 0 0"></a-box>
+                <a-box position="-2 0.9 -7" width="0.5" height="1.8" depth="0.15" color="#a8a396"
+                    rotation="10 -20 0"></a-box>
+                <a-box position="0 0.8 -6" width="0.4" height="1.6" depth="0.1" color="#c9c3b3"
+                    rotation="0 10 0"></a-box>
+                <a-box position="2 0.7 -5" width="0.5" height="1.4" depth="0.2" color="#d1cabc"
+                    rotation="15 0 5"></a-box>
+                <a-box position="4 1.1 -6" width="0.6" height="2.2" depth="0.15" color="#e3e0d8"
+                    rotation="-10 25 0"></a-box>
+                <a-box position="6 0.8 -5" width="0.4" height="1.6" depth="0.1" color="#a8a396"
+                    rotation="0 -15 0"></a-box>
 
-                <!-- Yatay Toprak/Ot Dolu Mezarlar -->
+                <a-box position="-7 0.9 -2" width="0.5" height="1.8" depth="0.15" color="#e3e0d8"
+                    rotation="0 5 0"></a-box>
+                <a-box position="-5 0.6 -1" width="0.4" height="1.2" depth="0.1" color="#b5b0a1"
+                    rotation="20 -10 0"></a-box>
+                <a-box position="-3 1 -2" width="0.6" height="2" depth="0.2" color="#c9c3b3" rotation="-5 0 -5"></a-box>
+                <a-box position="-1 0.8 -1" width="0.5" height="1.6" depth="0.15" color="#a8a396"
+                    rotation="10 30 0"></a-box>
+                <a-box position="1 0.9 -2" width="0.4" height="1.8" depth="0.1" color="#e3e0d8"
+                    rotation="0 -10 0"></a-box>
+                <a-box position="3 0.7 -1" width="0.5" height="1.4" depth="0.2" color="#d1cabc"
+                    rotation="5 0 0"></a-box>
+
                 <a-entity position="-6 0.4 4">
                     <a-box width="1.2" height="0.8" depth="2.4" color="#a8a396"></a-box>
-                    <a-plane position="0 0.41 0" width="1" height="2.2" color="#425c2d" rotation="-90 0 0"></a-plane> <!-- İçi ot dolu yüzey -->
-                    <a-box position="0 0.8 -1" width="0.6" height="1.6" depth="0.15" color="#e3e0d8" rotation="0 0 0"></a-box> <!-- Baş taşı -->
+                    <a-plane position="0 0.41 0" width="1" height="2.2" color="#425c2d" rotation="-90 0 0"></a-plane>
+                    <a-box position="0 0.8 -1" width="0.6" height="1.6" depth="0.15" color="#e3e0d8"
+                        rotation="0 0 0"></a-box>
                 </a-entity>
                 <a-entity position="-2 0.3 3" rotation="0 15 0">
                     <a-box width="1.2" height="0.6" depth="2.2" color="#c9c3b3"></a-box>
-                    <a-plane position="0 0.31 0" width="1" height="2" color="#425c2d" rotation="-90 0 0"></a-plane> 
-                    <a-box position="0 0.6 -0.9" width="0.5" height="1.2" depth="0.1" color="#a8a396" rotation="-10 0 0"></a-box>
+                    <a-plane position="0 0.31 0" width="1" height="2" color="#425c2d" rotation="-90 0 0"></a-plane>
+                    <a-box position="0 0.6 -0.9" width="0.5" height="1.2" depth="0.1" color="#a8a396"
+                        rotation="-10 0 0"></a-box>
                 </a-entity>
                 <a-entity position="3 0.4 5" rotation="0 -10 0">
                     <a-box width="1.4" height="0.5" depth="2.2" color="#b5b0a1"></a-box>
-                    <a-box position="0.8 0 0" width="0.5" height="0.3" depth="1" color="#b5b0a1" rotation="0 20 20"></a-box> 
-                    <a-box position="0 0.6 -0.8" width="0.5" height="1.2" depth="0.1" color="#e3e0d8" rotation="0 0 0"></a-box>
+                    <a-box position="0.8 0 0" width="0.5" height="0.3" depth="1" color="#b5b0a1"
+                        rotation="0 20 20"></a-box>
+                    <a-box position="0 0.6 -0.8" width="0.5" height="1.2" depth="0.1" color="#e3e0d8"
+                        rotation="0 0 0"></a-box>
                 </a-entity>
 
-                <!-- TABELA -->
                 <a-plane position="-2 1.5 10" width="3" height="1" color="#333"></a-plane>
-                <a-text position="-2 1.5 10.01" value="KABRISTAN\n(Osmanli Stelleri)" align="center" color="#FFF" width="4"></a-text>
+                <a-text position="-2 1.5 10.01" value="KABRISTAN\n(Osmanli Stelleri)" align="center" color="#FFF"
+                    width="4"></a-text>
             </a-entity>
 
 
@@ -194,15 +257,18 @@
                 <a-box position="0 0.3 0" width="3" height="0.6" depth="0.8" color="#d1cabc" rotation="0 15 0"></a-box>
                 <a-box position="4 0.4 -2" width="4" height="0.8" depth="1" color="#e3e0d8" rotation="0 -25 0"></a-box>
                 <a-box position="2 0.2 3" width="2" height="0.4" depth="1.5" color="#b5b0a1" rotation="0 45 0"></a-box>
-                <a-box position="-3 0.35 1" width="2.5" height="0.7" depth="0.9" color="#c9c3b3" rotation="0 5 0"></a-box>
-                <a-box position="-1 0.25 -4" width="3.5" height="0.5" depth="1.2" color="#e3e0d8" rotation="0 -10 0"></a-box>
-                <a-cylinder position="-5 0.4 -1" radius="0.4" height="3" color="#e3e0d8" rotation="0 20 90"></a-cylinder>
+                <a-box position="-3 0.35 1" width="2.5" height="0.7" depth="0.9" color="#c9c3b3"
+                    rotation="0 5 0"></a-box>
+                <a-box position="-1 0.25 -4" width="3.5" height="0.5" depth="1.2" color="#e3e0d8"
+                    rotation="0 -10 0"></a-box>
+                <a-cylinder position="-5 0.4 -1" radius="0.4" height="3" color="#e3e0d8"
+                    rotation="0 20 90"></a-cylinder>
                 <a-cylinder position="5 0.3 2" radius="0.3" height="2" color="#c9c3b3" rotation="0 -15 90"></a-cylinder>
                 <a-box position="-6 0.3 4" width="2" height="0.6" depth="0.8" color="#d1cabc" rotation="0 35 0"></a-box>
 
-                <!-- TABELA -->
                 <a-plane position="0 1.5 6" width="3" height="1" color="#333" rotation="0 15 0"></a-plane>
-                <a-text position="0 1.5 6.01" value="ANTIK KALINTILAR\n(Yikilmis Sutun Basi, Bloklar)" align="center" color="#FFF" width="3.5"  rotation="0 15 0"></a-text>
+                <a-text position="0 1.5 6.01" value="ANTIK KALINTILAR\n(Yikilmis Sutun Basi, Bloklar)" align="center"
+                    color="#FFF" width="3.5" rotation="0 15 0"></a-text>
             </a-entity>
 
 
@@ -210,43 +276,56 @@
             <a-entity id="monumental-gate" position="-22 0 10" rotation="0 45 0">
                 <a-box position="-4 3 0" width="2" height="6" depth="2" color="#9a9587"></a-box>
                 <a-box position="4 3 0" width="2" height="6" depth="2" color="#9a9587"></a-box>
-                <!-- Üst Kemer Parçası (Kutu ile düz anıtsal giriş) -->
                 <a-box position="0 6.5 0" width="10" height="1.5" depth="2" color="#858074"></a-box>
-                <!-- Devrilmiş Kapı Taşı -->
                 <a-box position="5 0.5 3" width="1.5" height="1" depth="4" color="#858074" rotation="0 30 0"></a-box>
             </a-entity>
 
 
             <!-- 4) SIRA SÜTUNLAR (Colonnade) - SAĞ TARAF -->
             <a-entity id="colonnade" position="20 0 0">
-                <!-- Sütun Zemin Platformu -->
                 <a-box position="0 0.4 0" width="6" height="0.8" depth="50" color="#8f8c81"></a-box>
-                
-                <a-mixin id="tall-column" geometry="primitive: cylinder; radius: 0.4; height: 10" material="color: #cfc9ba; roughness: 0.9"></a-mixin>
-                <a-mixin id="tall-base" geometry="primitive: box; width: 1.1; height: 0.6; depth: 1.1" material="color: #9c9990"></a-mixin>
-                <a-mixin id="corinthian-cap" geometry="primitive: box; width: 1; height: 0.8; depth: 1" material="color: #b5b1a6"></a-mixin>
 
-                <!-- Açık Hava Sıra Sütunları (Daha uzun ve gösterişli) -->
-                <a-entity position="0 5.6 20"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
-                <a-entity position="0 5.6 15"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
-                <a-entity position="0 5.6 10"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
-                <a-entity position="0 5.6 5"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
-                <a-entity position="0 5.6 0"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
-                
-                <!-- Yıkılmış bir sütun -->
+                <a-mixin id="tall-column" geometry="primitive: cylinder; radius: 0.4; height: 10"
+                    material="color: #cfc9ba; roughness: 0.9"></a-mixin>
+                <a-mixin id="tall-base" geometry="primitive: box; width: 1.1; height: 0.6; depth: 1.1"
+                    material="color: #9c9990"></a-mixin>
+                <a-mixin id="corinthian-cap" geometry="primitive: box; width: 1; height: 0.8; depth: 1"
+                    material="color: #b5b1a6"></a-mixin>
+
+                <a-entity position="0 5.6 20"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base"
+                        position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap"
+                        position="0 5 0"></a-entity></a-entity>
+                <a-entity position="0 5.6 15"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base"
+                        position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap"
+                        position="0 5 0"></a-entity></a-entity>
+                <a-entity position="0 5.6 10"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base"
+                        position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap"
+                        position="0 5 0"></a-entity></a-entity>
+                <a-entity position="0 5.6 5"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base"
+                        position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap"
+                        position="0 5 0"></a-entity></a-entity>
+                <a-entity position="0 5.6 0"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base"
+                        position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap"
+                        position="0 5 0"></a-entity></a-entity>
+
                 <a-entity position="1 0.5 -5" rotation="0 30 90">
                     <a-cylinder radius="0.4" height="6" color="#cfc9ba"></a-cylinder>
                 </a-entity>
                 <a-box position="2 0.4 -8" width="1" height="0.8" depth="1" color="#b5b1a6" rotation="10 45 0"></a-box>
 
-                <!-- Sütunlar devam ediyor -->
-                <a-entity position="0 5.6 -10"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
-                <a-entity position="0 5.6 -15"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
-                <a-entity position="0 5.6 -20"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
+                <a-entity position="0 5.6 -10"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base"
+                        position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap"
+                        position="0 5 0"></a-entity></a-entity>
+                <a-entity position="0 5.6 -15"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base"
+                        position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap"
+                        position="0 5 0"></a-entity></a-entity>
+                <a-entity position="0 5.6 -20"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base"
+                        position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap"
+                        position="0 5 0"></a-entity></a-entity>
 
-                <!-- TABELA -->
                 <a-plane position="-3 1.5 24" width="2" height="1" color="#333" rotation="0 -45 0"></a-plane>
-                <a-text position="-3 1.5 24.01" value="SUTUNLU YOL\n(Colonnade)" align="center" color="#FFF" width="4" rotation="0 -45 0"></a-text>
+                <a-text position="-3 1.5 24.01" value="SUTUNLU YOL\n(Colonnade)" align="center" color="#FFF" width="4"
+                    rotation="0 -45 0"></a-text>
             </a-entity>
 
         </a-entity> <!-- Üst Kat Bitiş -->
@@ -256,77 +335,146 @@
         <!-- ALT KAT: GİZLİ SU TÜNELLERİ (BAZİLİKA ALTI)               -->
         <!-- ========================================================= -->
 
-        <!-- Üst Kat zemini altındaki karanlık tüneller. Yukarı bakıp uçarak (Veya aşağı inerek) gezilebilir. -->
         <a-mixin id="arch-tunnel" geometry="primitive: torus; radius: 3; tube: 0.5; arc: 180"
             material="color: #45423a; roughness: 1"></a-mixin>
-        <a-mixin id="pillar-tunnel" geometry="primitive: box; width: 1; height: 3; depth: 1.5"
+        <a-mixin id="pillar-tunnel" geometry="primitive: box; width: 1; height: 5; depth: 1.5"
             material="color: #45423a; roughness: 1"></a-mixin>
         <a-mixin id="water" geometry="primitive: plane; width: 4.5; height: 40"
             material="color: #17546e; opacity: 0.85; transparent: true"></a-mixin>
 
         <a-entity id="basement" position="0 0 0">
-            <!-- Tünellerin üstündeki devasa kapak (üst kat zemininin altı) -->
-            <a-box position="0 6.5 0" width="80" height="0.6" depth="80" color="#3d3a33"></a-box>
-            <!-- Tünel Tabanı -->
-            <a-box position="0 0.05 0" width="80" height="0.1" depth="80" color="#33302a"></a-box>
+            <!-- Tavan: Sağ ve Sol Tünel Tavanları İptal (Görseldeki gibi açık gökyüzü kemer silüeti için) -->
+            <a-box position="0 6.5 59" width="10" height="0.6" depth="58" color="#3d3a33"></a-box>
+            <!-- Orta Tünel Kapalı Tavanı -->
+            <a-box position="0 6.5 14" width="26" height="0.6" depth="12" color="#3d3a33"></a-box>
+            <!-- Merdiven Önü Arka Alan Kapaması -->
 
-            <!-- Orta Tünel (Kuru Yürüyüş Yolu) X = 0 -->
-            <a-entity position="0 0 0">
-                <a-light type="point" color="#e8a864" intensity="0.5" distance="20" position="0 4 15"></a-light>
-                <a-light type="point" color="#e8a864" intensity="0.5" distance="20" position="0 4 0"></a-light>
-                <a-light type="point" color="#e8a864" intensity="0.5" distance="20" position="0 4 -15"></a-light>
+            <!-- Zemin -->
+            <a-box position="0 0.05 48" width="80" height="0.1" depth="80" color="#33302a"></a-box>
 
-                <a-entity position="0 0 16"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                        mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                        position="3 1.5 0"></a-entity></a-entity>
-                <a-entity position="0 0 8"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                        mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                        position="3 1.5 0"></a-entity></a-entity>
-                <a-entity position="0 0 0"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                        mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                        position="3 1.5 0"></a-entity></a-entity>
-                <a-entity position="0 0 -8"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                        mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                        position="3 1.5 0"></a-entity></a-entity>
-                <a-entity position="0 0 -16"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                        mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                        position="3 1.5 0"></a-entity></a-entity>
+            <!-- YER ALTI DOLGU (TOPRAK/TAŞ) DUVARLARI (Z Ekseninde ileri taşındı) -->
+            <a-entity id="earth-walls">
+                <!-- En Sol Dış Duvar (X=-12) -->
+                <a-box position="-12 3.25 48" width="2" height="6.5" depth="80" color="#312f2a"></a-box>
+
+                <!-- Orta yol ile yan yolları ayıran blokaj duvarları (görselle uyum için) tamamen SİLİNDİ. -->
+                <!-- Böylece üç nefli açık devasa tonozlu görsel alan hissiyatı eklendi. -->
+
+                <!-- Sol ve Orta Tünel Arası (X=-4) -->
+                <a-box position="-4 3.25 30" width="2" height="6.5" depth="40" color="#312f2a"></a-box>
+                <a-box position="-4 3.25 75" width="2" height="6.5" depth="26" color="#312f2a"></a-box>
+                <!-- Orta ve Sağ Tünel Arası (X=4) -->
+                <a-box position="4 3.25 30" width="2" height="6.5" depth="40" color="#312f2a"></a-box>
+                <a-box position="4 3.25 75" width="2" height="6.5" depth="26" color="#312f2a"></a-box>
             </a-entity>
 
-            <!-- Sol Su Tüneli X = -8 -->
-            <a-entity position="-8 0 0">
-                <a-entity mixin="water" position="0 0.4 0" rotation="-90 0 0"></a-entity>
-                <a-light type="point" color="#5ea8c9" intensity="0.5" distance="15" position="0 2 0"></a-light>
-                <a-entity position="0 0 16"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                        mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                        position="3 1.5 0"></a-entity></a-entity>
-                <a-entity position="0 0 0"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                        mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                        position="3 1.5 0"></a-entity></a-entity>
-                <a-entity position="0 0 -16"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                        mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                        position="3 1.5 0"></a-entity></a-entity>
-            </a-entity>
+            <!-- Orta yol üzerinde hiçbir su kalmadı (ellemeden yap: orta bölme tamamen kuru zemin). -->
 
-            <!-- Sağ Su Tüneli X = 8 -->
-            <a-entity position="8 0 0">
-                <a-entity mixin="water" position="0 0.4 0" rotation="-90 0 0"></a-entity>
-                <a-light type="point" color="#5ea8c9" intensity="0.5" distance="15" position="0 2 0"></a-light>
-                <a-entity position="0 0 16"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                        mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                        position="3 1.5 0"></a-entity></a-entity>
-                <a-entity position="0 0 0"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                        mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                        position="3 1.5 0"></a-entity></a-entity>
-                <a-entity position="0 0 -16"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
-                        mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
-                        position="3 1.5 0"></a-entity></a-entity>
-            </a-entity>
+            <!-- En Sağ Dış Duvar (X=12) -->
+            <a-box position="12 3.25 48" width="2" height="6.5" depth="80" color="#312f2a"></a-box>
 
-            <!-- Tabela -->
-            <a-plane position="0 1.5 18" width="2" height="1" color="#111" rotation="0 180 0"></a-plane>
-            <a-text position="0 1.5 17.9" value="GIZLI SU\nTUNELLERI" align="center" color="#FFF" width="3.5"
-                rotation="0 180 0"></a-text>
+            <!-- Arka Kapama Duvarı (Merdivenin Arkası) -->
+            <a-box position="0 3.25 8" width="26" height="6.5" depth="2" color="#312f2a"></a-box>
+            <!-- Ön Kapama (Su tünelleri en uç bitişi) -->
+            <a-box position="0 3.25 88" width="26" height="6.5" depth="2" color="#312f2a"></a-box>
+
+            <!-- Suların Merdiven Boşluğuna Akmasını Engelleyen Duvarlar -->
+            <a-box position="-8 3.25 29.5" width="6" height="6.5" depth="0.5" color="#312f2a"></a-box>
+            <a-box position="8 3.25 29.5" width="6" height="6.5" depth="0.5" color="#312f2a"></a-box>
+        </a-entity>
+
+        <!-- Sular: SADECE sağ (X=8) ve sol (X=-8) tünellerin zemininde -->
+        <!-- Orta yol (X=0) tamamen kuru yürüyüş yolu olarak kalır -->
+        <a-entity position="-8 0.15 59"><a-plane width="4.5" height="58" color="#1a6a8a" opacity="0.95"
+                transparent="true" rotation="-90 0 0"></a-plane></a-entity>
+        <a-entity position="8 0.15 59"><a-plane width="4.5" height="58" color="#1a6a8a" opacity="0.95"
+                transparent="true" rotation="-90 0 0"></a-plane></a-entity>
+
+        <!-- Kavşak (Z=56) su bağlantısı kaldırıldı - sadece yan yollarda su var -->
+
+        <!-- Işıklandırma -->
+        <a-light type="point" color="#e8a864" intensity="0.6" distance="25" position="0 4 35"></a-light>
+        <a-light type="point" color="#e8a864" intensity="0.6" distance="25" position="0 4 56"></a-light>
+        <a-light type="point" color="#e8a864" intensity="0.6" distance="25" position="0 4 75"></a-light>
+        <a-light type="point" color="#5ea8c9" intensity="0.5" distance="20" position="-8 3 56"></a-light>
+        <a-light type="point" color="#5ea8c9" intensity="0.5" distance="20" position="8 3 56"></a-light>
+
+        <!-- Tünel Mimari Blokları -->
+        <!-- ORTA YOL X=0 (Z ekseninde 32, 40, 48 -KAVŞAK- 64, 72, 80) -->
+        <a-entity position="0 0 32"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="0 0 40"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="0 0 48"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+
+        <a-entity position="0 0 64"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="0 0 72"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="0 0 80"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+
+        <!-- SOL YOL X=-8 -->
+        <a-entity position="-8 0 32"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="-8 0 40"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="-8 0 48"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+
+        <a-entity position="-8 0 64"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="-8 0 72"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="-8 0 80"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+
+        <!-- SAĞ YOL X=8 -->
+        <a-entity position="8 0 32"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="8 0 40"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="8 0 48"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+
+        <a-entity position="8 0 64"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="8 0 72"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+        <a-entity position="8 0 80"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
+                mixin="pillar-tunnel" position="-3 1.5 0"></a-entity><a-entity mixin="pillar-tunnel"
+                position="3 1.5 0"></a-entity></a-entity>
+
+        <!-- KAVŞAK (Yatay Dönüş Yeri, Z=56) -->
+        <!-- Kavşak merkezindeki çapraz kemerler (yere uçan sarkan bacaklar oluşturdukları için) silindi. -->
+        <!-- Tavan zaten devasa kaplamalarla düz ve kapalı, tamamen açık bir meydan oldu. -->
+
+        <!-- Tabela (Artık oyuncu merdivenden inip tünellere doğru bakıyor) -->
+        <a-plane position="0 1.5 31" width="3" height="1" color="#111" rotation="0 180 0"></a-plane>
+        <a-text position="0 1.5 30.9" value="<- ARKA CEPHE" align="center" color="#FFF" width="4"
+            rotation="0 180 0"></a-text>
+
+        <a-plane position="0 1.5 31" width="3" height="1" color="#111" rotation="0 0 0"></a-plane>
+        <a-text position="0 1.5 31.1" value="GIZLI SU TUNELLERI ->\n(Ileri Dogru)" align="center" color="#FFF" width="4"
+            rotation="0 0 0"></a-text>
         </a-entity>
 
     </a-scene>
