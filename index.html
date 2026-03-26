@@ -143,6 +143,126 @@
                 display: none;
             }
         }
+
+        /* BİLGİ PANELİ */
+        #info-panel {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(10, 8, 5, 0.93);
+            color: #f0ead8;
+            padding: 28px 32px;
+            border-radius: 18px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 380px;
+            width: 88vw;
+            z-index: 9999;
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 218, 117, 0.35);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            pointer-events: all;
+        }
+
+        #info-panel.visible {
+            display: block;
+            animation: fadeInPanel 0.25s ease;
+        }
+
+        @keyframes fadeInPanel {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -46%);
+            }
+
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        #info-panel .panel-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffda75;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255, 218, 117, 0.25);
+            padding-bottom: 10px;
+        }
+
+        #info-panel .panel-body {
+            font-size: 14px;
+            line-height: 1.7;
+            color: #ddd8cc;
+        }
+
+        #info-panel .panel-close {
+            margin-top: 18px;
+            display: block;
+            text-align: center;
+            background: rgba(255, 218, 117, 0.15);
+            border: 1px solid rgba(255, 218, 117, 0.4);
+            color: #ffda75;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background 0.2s;
+        }
+
+        #info-panel .panel-close:hover {
+            background: rgba(255, 218, 117, 0.3);
+        }
+
+        /* ESERLER MENÜSÜ - sağ taraf */
+        #exhibit-menu {
+            position: fixed;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 1000;
+        }
+
+        #exhibit-menu .menu-label {
+            color: rgba(255, 218, 117, 0.7);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 11px;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+
+        .exhibit-btn {
+            background: rgba(15, 12, 8, 0.82);
+            border: 1px solid rgba(255, 218, 117, 0.4);
+            color: #ffda75;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 13px;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            transition: background 0.2s, border-color 0.2s;
+            text-align: left;
+            white-space: nowrap;
+            pointer-events: all;
+            -webkit-tap-highlight-color: transparent;
+            display: block;
+            width: 100%;
+        }
+
+        .exhibit-btn:hover,
+        .exhibit-btn:active {
+            background: rgba(255, 218, 117, 0.2);
+            border-color: #ffda75;
+        }
     </style>
 </head>
 
@@ -154,6 +274,7 @@
         <div class="instruction"><span class="key">W</span><span class="key">A</span><span class="key">S</span><span
                 class="key">D</span> ile hareket edin.</div>
         <div class="instruction">Mouse'a basılı tutarak etrafa bakın.</div>
+        <div class="instruction highlight">🖱️ Tabelaların YANINA GİDİP tıklayın — bilgi paneli açılır.</div>
         <div class="instruction highlight">⬇️ ARKANIZDAKİ MERDİVENLERİ kullanarak<br>alt kata (su tünellerine)
             inebilirsiniz.</div>
     </div>
@@ -165,6 +286,24 @@
         <div id="btn-center" class="dpad-btn"></div>
         <div id="btn-right" class="dpad-btn">▶</div>
         <div id="btn-down" class="dpad-btn">▼</div>
+    </div>
+
+    <!-- Bilgi Paneli -->
+    <div id="info-panel">
+        <div class="panel-title" id="panel-title"></div>
+        <div class="panel-body" id="panel-body"></div>
+        <span class="panel-close" onclick="closePanel()">✕ Kapat</span>
+    </div>
+
+    <!-- Eserler Menüsü -->
+    <div id="exhibit-menu">
+        <div class="menu-label">📖 Eserler</div>
+        <button class="exhibit-btn" onclick="showInfo('cesme')">🚰 Antik Çeşme</button>
+        <button class="exhibit-btn" onclick="showInfo('altar')">🏛️ Merkez Sunak</button>
+        <button class="exhibit-btn" onclick="showInfo('kabristan')">⚰️ Kabristan</button>
+        <button class="exhibit-btn" onclick="showInfo('kalinti')">🗿 Antik Kalıntılar</button>
+        <button class="exhibit-btn" onclick="showInfo('kolonad')">🏟️ Sütunlu Yol</button>
+        <button class="exhibit-btn" onclick="showInfo('tunel')">💧 Su Tünelleri</button>
     </div>
 
     <!-- Sahne: vr-mode-ui="enabled: false" ile VR butonu kapatıldı -->
@@ -258,7 +397,8 @@
                 <a-plane position="0 0.3 -0.1" width="1.2" height="0.8" color="#6cbccf" opacity="0.8"
                     rotation="-90 0 0"></a-plane>
 
-                <a-plane position="0 0.5 1.5" width="1.5" height="0.6" color="#333" rotation="-20 0 0"></a-plane>
+                <a-plane id="sign-cesme" class="clickable" position="0 0.5 1.5" width="1.5" height="0.6" color="#333"
+                    rotation="-20 0 0"></a-plane>
                 <a-text position="0 0.5 1.51" value="ANTIK CESME" align="center" color="#FFF" width="3"
                     rotation="-20 0 0"></a-text>
             </a-entity>
@@ -269,7 +409,8 @@
                 <a-box position="0 0.75 0" width="6" height="0.5" depth="6" color="#9e988a"></a-box>
                 <a-box position="0 1.25 0" width="4" height="0.5" depth="4" color="#8c8779"></a-box>
                 <a-box position="0 2 0" width="2" height="1" depth="1" color="#787367"></a-box>
-                <a-plane position="0 1.5 4.1" width="2" height="1" color="#333"></a-plane>
+                <a-plane id="sign-altar" class="clickable" position="0 1.5 4.1" width="2" height="1"
+                    color="#333"></a-plane>
                 <a-text position="0 1.5 4.11" value="MERKEZ SUNAK\n(ALTAR)" align="center" color="#FFF"
                     width="4"></a-text>
             </a-entity>
@@ -324,7 +465,8 @@
                     <a-box position="0 0.6 -0.8" width="0.5" height="1.2" depth="0.1" color="#e3e0d8"></a-box>
                 </a-entity>
 
-                <a-plane position="-2 1.5 10" width="3" height="1" color="#333"></a-plane>
+                <a-plane id="sign-kabristan" class="clickable" position="-2 1.5 10" width="3" height="1"
+                    color="#333"></a-plane>
                 <a-text position="-2 1.5 10.01" value="KABRISTAN\n(Osmanli Stelleri)" align="center" color="#FFF"
                     width="4"></a-text>
             </a-entity>
@@ -343,7 +485,8 @@
                 <a-cylinder position="5 0.3 2" radius="0.3" height="2" color="#c9c3b3" rotation="0 -15 90"></a-cylinder>
                 <a-box position="-6 0.3 4" width="2" height="0.6" depth="0.8" color="#d1cabc" rotation="0 35 0"></a-box>
 
-                <a-plane position="0 1.5 6" width="3" height="1" color="#333" rotation="0 15 0"></a-plane>
+                <a-plane id="sign-kalinti" class="clickable" position="0 1.5 6" width="3" height="1" color="#333"
+                    rotation="0 15 0"></a-plane>
                 <a-text position="0 1.5 6.01" value="ANTIK KALINTILAR\n(Yikilmis Sutun Basi, Bloklar)" align="center"
                     color="#FFF" width="3.5" rotation="0 15 0"></a-text>
             </a-entity>
@@ -398,7 +541,8 @@
                         position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap"
                         position="0 5 0"></a-entity></a-entity>
 
-                <a-plane position="-3 1.5 24" width="2" height="1" color="#333" rotation="0 -45 0"></a-plane>
+                <a-plane id="sign-kolonad" class="clickable" position="-3 1.5 24" width="2" height="1" color="#333"
+                    rotation="0 -45 0"></a-plane>
                 <a-text position="-3 1.5 24.01" value="SUTUNLU YOL\n(Colonnade)" align="center" color="#FFF" width="4"
                     rotation="0 -45 0"></a-text>
             </a-entity>
@@ -518,43 +662,76 @@
         <a-text position="0 1.5 30.9" value="<- ARKA CEPHE" align="center" color="#FFF" width="4"
             rotation="0 180 0"></a-text>
 
-        <a-plane position="0 1.5 31" width="3" height="1" color="#111" rotation="0 0 0"></a-plane>
+        <a-plane id="sign-tunel" class="clickable" position="0 1.5 31" width="3" height="1" color="#111"
+            rotation="0 0 0"></a-plane>
         <a-text position="0 1.5 31.1" value="GIZLI SU TUNELLERI ->\n(Ileri Dogru)" align="center" color="#FFF" width="4"
             rotation="0 0 0"></a-text>
 
     </a-scene>
 
     <script>
-        // VR butonunu DOM'dan da temizle (ekstra güvence)
-        document.addEventListener('DOMContentLoaded', () => {
-            const removeVR = () => {
-                const vrBtn = document.querySelector('.a-enter-vr');
-                if (vrBtn) vrBtn.remove();
-            };
-            // A-Frame yüklendikten sonra da kontrol et
-            setTimeout(removeVR, 500);
-            setTimeout(removeVR, 1500);
-        });
+        const infoData = {
+            cesme: {
+                title: '🚰 Antik Çeşme',
+                body: 'Smyrna Agorası\'nın kuzey koridorunda yer alan bu çeşme Roma dönemine aittir. MS 2. yüzyılda inşa edilmiştir.\n\nAntik kaynaklar çeşmenin yüzyıllar boyunca kesintisiz aktığını belirtmektedir. Günümüzde de su akmakta, ancak içilmesi önerilmemektedir.\n\nÇeşme dönemin şehir altyapısının ne kadar gelişmiş olduğunu gözler önüne sermektedir.'
+            },
+            altar: {
+                title: '🏛️ Merkez Sunak (Altar)',
+                body: 'Agoranın tam ortasındaki bu sunak dini törenlerin ve kurban ritüellerinin gerçekleştirildiği kutsal mekândır.\n\nMS 178 depreminden sonra İmparator Marcus Aurelius döneminde yeniden inşa edilmiştir.\n\nKademeli platformlar Hellenistik ve Roma dönemi tapınak mimarisinin özgün bir bileşimini yansıtmaktadır.'
+            },
+            kabristan: {
+                title: '⚰️ Kabristan (Osmanlı Stelleri)',
+                body: 'Agora alanı Bizans ve Osmanlı dönemlerinde mezarlık olarak kullanılmıştır. Osmanlı dönemine ait mermer mezar taşları (steller) görülmektedir.\n\nKabartma yazılar ve çiçek desenleriyle süslü stellerin büyük bölümü 18-19. yüzyıllara tarihlenmektedir.\n\nBu alan İzmir\'in antik Yunan\'dan Osmanlı\'ya kadar farklı dönemleri iç içe barındırdığını ortaya koymaktadır.'
+            },
+            kalinti: {
+                title: '🗿 Antik Kalıntılar',
+                body: 'Alana dağılmış taş bloklar ve yıkılmış sütun başlıkları MS 178 depreminin izlerini taşımaktadır.\n\nBlokların bir bölümü Hellenistik dönem yapılarına, diğerleri Roma dönemi portiko ve tapınaklarına aittir.\n\nSütun başlıklarındaki Korint üslubu agoranın ne kadar görkemli olduğunu göstermektedir. Kazılar hâlâ sürmektedir.'
+            },
+            kolonad: {
+                title: '🏟️ Sütunlu Yol (Colonnade)',
+                body: 'Batı Stoa\'nın parçası olan bu sütunlu yol MS 2. yüzyılda inşa edilmiştir. Günümüze ulaşan en büyük Roma agorası portikoları arasındadır.\n\nSütunların bir kısmı 1940\'lı yıllardaki kazılarda ayağa kaldırılmıştır. Her sütun yaklaşık 8-9 metre yüksekliğindedir.\n\nPortiko; dükkanlar, büro odaları ve toplantı alanlarıyla kent yaşamının merkeziydi.'
+            },
+            tunel: {
+                title: '💧 Gizli Su Tünelleri',
+                body: 'Bazilika\'nın altındaki tonozlu tüneller Roma dönemine ait karmaşık bir su ve kanalizasyon sistemidir.\n\nMS 2. yüzyılda inşa edilen yapı suyu depolamak, dağıtmak ve atık suyu uzaklaştırmak amacıyla kullanılmıştır.\n\nÜç paralel koridordan oluşan sistem büyük bir kavşakla birbirine bağlanmaktadır. Antik Smyrna\'nın ileri mühendisliğinin kanıtıdır.'
+            }
+        };
 
-        // Mobil Kontrol Mantığı
-        function simulateKey(key, isPressed) {
-            const eventType = isPressed ? 'keydown' : 'keyup';
-            window.dispatchEvent(new KeyboardEvent(eventType, { key: key, code: 'Key' + key.toUpperCase() }));
+        function showInfo(key) {
+            const data = infoData[key];
+            if (!data) return;
+            document.getElementById('panel-title').textContent = data.title;
+            document.getElementById('panel-body').textContent = data.body;
+            document.getElementById('info-panel').classList.add('visible');
         }
 
-        const setupBtn = (id, key) => {
+        function closePanel() {
+            document.getElementById('info-panel').classList.remove('visible');
+        }
+
+        window.addEventListener('load', () => {
+            [0, 800, 2000].forEach(t => setTimeout(() => {
+                const v = document.querySelector('.a-enter-vr');
+                if (v) v.remove();
+            }, t));
+        });
+
+        function simulateKey(key, isPressed) {
+            const type = isPressed ? 'keydown' : 'keyup';
+            window.dispatchEvent(new KeyboardEvent(type, { key, code: 'Key' + key.toUpperCase() }));
+        }
+
+        function setupBtn(id, key) {
             const btn = document.getElementById(id);
             if (!btn) return;
-
-            const handleStart = (e) => { e.preventDefault(); simulateKey(key, true); };
-            const handleEnd = (e) => { e.preventDefault(); simulateKey(key, false); };
-
-            btn.addEventListener('touchstart', handleStart, { passive: false });
-            btn.addEventListener('mousedown', handleStart);
-            btn.addEventListener('touchend', handleEnd, { passive: false });
-            btn.addEventListener('mouseup', handleEnd);
-            btn.addEventListener('mouseleave', handleEnd);
-        };
+            const on = e => { e.preventDefault(); simulateKey(key, true); };
+            const off = e => { e.preventDefault(); simulateKey(key, false); };
+            btn.addEventListener('touchstart', on, { passive: false });
+            btn.addEventListener('mousedown', on);
+            btn.addEventListener('touchend', off, { passive: false });
+            btn.addEventListener('mouseup', off);
+            btn.addEventListener('mouseleave', off);
+        }
 
         setupBtn('btn-up', 'w');
         setupBtn('btn-left', 'a');
