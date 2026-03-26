@@ -65,6 +65,57 @@
             font-weight: bold;
             margin-top: 5px;
         }
+
+        /* MOBİL KONTROLLER (D-PAD) */
+        #mobile-controls {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            width: 150px;
+            height: 150px;
+            display: none; /* Varsayılan gizli, JS ile açılacak */
+            z-index: 1000;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .dpad-btn {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: rgba(128, 128, 128, 0.5);
+            border: 2px solid rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            touch-action: manipulation;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .dpad-btn:active {
+            background: rgba(200, 200, 200, 0.8);
+            box-shadow: none;
+            transform: translateY(2px);
+        }
+
+        #btn-up { top: 0; left: 50px; }
+        #btn-left { top: 50px; left: 0; }
+        #btn-center { top: 50px; left: 50px; border-radius: 4px; background: rgba(128, 128, 128, 0.3); }
+        #btn-right { top: 50px; left: 100px; }
+        #btn-down { top: 100px; left: 50px; }
+
+        /* Sadece dokunmatik kapabilitesi olan cihazlarda (veya dar ekranlarda) göster */
+        @media (pointer: coarse) {
+            #mobile-controls {
+                display: block;
+            }
+            #ui-container {
+                display: none; /* Mobilde WASD yazısını gizleyelim */
+            }
+        }
     </style>
 </head>
 
@@ -78,6 +129,15 @@
         <div class="instruction">Mouse'a basılı tutarak etrafa bakın.</div>
         <div class="instruction highlight">⬇️ ARKANIZDAKİ MERDİVENLERİ kullanarak<br>alt kata (su tünellerine)
             inebilirsiniz.</div>
+    </div>
+
+    <!-- Mobil Yön Tuşları -->
+    <div id="mobile-controls">
+        <div id="btn-up" class="dpad-btn">▲</div>
+        <div id="btn-left" class="dpad-btn">◀</div>
+        <div id="btn-center" class="dpad-btn"></div>
+        <div id="btn-right" class="dpad-btn">▶</div>
+        <div id="btn-down" class="dpad-btn">▼</div>
     </div>
 
     <!-- Sahne -->
@@ -473,6 +533,46 @@
 
     </a-scene>
 
+    <script>
+        // Mobil Kontrol Mantığı
+        const cameraEl = document.querySelector('a-camera');
+        const keys = {
+            'w': false,
+            'a': false,
+            's': false,
+            'd': false
+        };
+
+        function simulateKey(key, isPressed) {
+            const eventType = isPressed ? 'keydown' : 'keyup';
+            window.dispatchEvent(new KeyboardEvent(eventType, { key: key, code: 'Key' + key.toUpperCase() }));
+        }
+
+        const setupBtn = (id, key) => {
+            const btn = document.getElementById(id);
+            if (!btn) return;
+            
+            const handleStart = (e) => {
+                e.preventDefault();
+                simulateKey(key, true);
+            };
+            const handleEnd = (e) => {
+                e.preventDefault();
+                simulateKey(key, false);
+            };
+
+            btn.addEventListener('touchstart', handleStart);
+            btn.addEventListener('mousedown', handleStart); // Test için PC'de de çalışsın
+            btn.addEventListener('touchend', handleEnd);
+            btn.addEventListener('mouseup', handleEnd);
+            btn.addEventListener('mouseleave', handleEnd);
+        };
+
+        setupBtn('btn-up', 'w');
+        setupBtn('btn-left', 'a');
+        setupBtn('btn-right', 'd');
+        setupBtn('btn-down', 's');
+    </script>
 </body>
 
 </html>
