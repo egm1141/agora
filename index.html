@@ -362,7 +362,6 @@
             </a-camera>
         </a-entity>
 
-
         <!-- ============================================== -->
         <!-- ÜST KAT ZEMİNİ                                -->
         <!-- ============================================== -->
@@ -380,7 +379,6 @@
             static-body></a-plane>
         <a-plane position="7 6.81 24" rotation="-90 0 0" width="8" height="12" color="#687d55" material="roughness: 1"
             static-body></a-plane>
-
 
         <!-- ============================================== -->
         <!-- ALT KATA İNİŞ MERDİVENİ                       -->
@@ -410,14 +408,12 @@
             <a-box position="0 0.34 29.5" width="6" height="0.68" depth="1" color="#736d62"></a-box>
         </a-entity>
 
-
         <!-- ============================================== -->
         <!-- ÜST KAT: TARİHİ ESERLER                       -->
         <!-- ============================================== -->
         <a-entity id="upper-level" position="0 6.8 0">
 
             <!-- FOTOĞRAF 1: Antik Çeşme -->
-
 
             <!-- MERKEZDEKİ BÜYÜK SUNAK (ALTAR) -->
             <a-entity position="48 0 41" static-body>
@@ -607,7 +603,6 @@
 
         </a-entity>
 
-
         <!-- ========================================================= -->
         <!-- ALT KAT: GİZLİ SU TÜNELLERİ                              -->
         <!-- ========================================================= -->
@@ -621,14 +616,8 @@
         <a-mixin id="pillar-center" geometry="primitive: box; width: 1; height: 6; depth: 1.5"
             material="color: #45423a; roughness: 1; normalMap: https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/textures/stone/stone_normal.jpg; normalTextureRepeat: 1 3"></a-mixin>
 
-
-
-
-
-
         <a-mixin id="water" geometry="primitive: plane; width: 4.5; height: 40"
             material="color: #17546e; opacity: 0.85; transparent: true"></a-mixin>
-
 
         <a-entity id="basement" position="0 0 0">
             <a-box position="0 6.5 59" width="10" height="0.6" depth="58"
@@ -636,16 +625,8 @@
             <a-box position="0 6.5 14" width="26" height="0.6" depth="12"
                 material="color: #3d3a33; roughness: 1; normalMap: https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/textures/stone/stone_normal.jpg; normalTextureRepeat: 5 3"></a-box>
 
-
-
-
-
             <a-box position="0 0.05 48" width="80" height="0.1" depth="80"
                 material="color: #33302a; roughness: 1; normalMap: https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/textures/stone/stone_normal.jpg; normalTextureRepeat: 20 20"></a-box>
-
-
-
-
 
             <a-entity id="earth-walls">
                 <a-box position="-12 3.25 48" width="2" height="6.5" depth="80"
@@ -659,13 +640,7 @@
                 <a-box position="4 3.25 75" width="2" height="6.5" depth="26"
                     material="color: #312f2a; roughness: 1; normalMap: https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/textures/stone/stone_normal.jpg; normalTextureRepeat: 1 5"></a-box>
 
-
-
-
             </a-entity>
-
-
-
 
             <a-box position="12 3.25 48" width="2" height="6.5" depth="80"
                 material="color: #312f2a; roughness: 1; normalMap: https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/textures/stone/stone_normal.jpg; normalTextureRepeat: 1 15"></a-box>
@@ -691,28 +666,23 @@
                 <!-- Yazıt Yüzü (Inscription Face) -->
                 <a-plane position="0 1.2 0.31" width="1" height="1.4"
                     material="src: anc-stela.png; roughness: 1; color: #ccc"></a-plane>
+                <!-- Bilgi Tabelası (Translation Sign) -->
+                <a-plane id="sign-stela" class="clickable" position="0 0.6 0.32" width="0.8" height="0.3"
+                    color="#111" onclick="showInfo('stela')"></a-plane>
+                <a-text position="0 0.6 0.33" value="TURKCE CEVIRI\n(Tiklayin)" align="center" color="#ffda75"
+                    width="2"></a-text>
             </a-entity>
-
-
-
-
-
-
-
 
         </a-entity>
 
-
         <a-entity position="-8 0.15 59"><a-plane width="4.5" height="58" color="#1a6a8a" opacity="0.95"
                 transparent="true" rotation="-90 0 0"></a-plane></a-entity>
-
 
         <a-light type="point" color="#e8a864" intensity="1.2" distance="40" position="0 4 35"></a-light>
         <a-light type="point" color="#e8a864" intensity="1.2" distance="40" position="0 4 56"></a-light>
         <a-light type="point" color="#e8a864" intensity="1.2" distance="40" position="0 4 75"></a-light>
 
         <a-light type="point" color="#5ea8c9" intensity="0.5" distance="20" position="-8 3 56"></a-light>
-
 
         <!-- Tünel Mimari Blokları - ORTA YOL -->
         <a-entity position="0 0 32"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
@@ -841,6 +811,10 @@
             tunel: {
                 title: '💧 Gizli Su Tünelleri',
                 body: 'Bazilika\'nın altındaki tonozlu tüneller Roma dönemine ait karmaşık bir su ve kanalizasyon sistemidir.\n\nMS 2. yüzyılda inşa edilen yapı suyu depolamak, dağıtmak ve atık suyu uzaklaştırmak amacıyla kullanılmıştır.\n\nÜç paralel koridordan oluşan sistem büyük bir kavşakla birbirine bağlanmaktadır. Antik Smyrna\'nın ileri mühendisliğinin kanıtıdır.'
+            },
+            stela: {
+                title: '📜 Onur Yazıtı (Menekles)',
+                body: 'En tatlı vatanı (Smyrna), Asya Birliği Başkanı (Asiarkh) olarak onurlu ve cömert hizmetlerde bulunan Iulius Menekles Diophantos’u onurlandırdı.\n\nBu yazıt, antik Smyrna\'nın sosyal hiyerarşisini ve kente hizmet edenlerin nasıl ödüllendirildiğini gösteren önemli bir belgedir.'
             }
         };
 
