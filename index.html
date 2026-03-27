@@ -7,6 +7,10 @@
     <title>3D Agora Müze Gezisi</title>
     <!-- A-Frame Kütüphanesi -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <!-- Physics ve Extras (Çarpışma ve Gelişmiş Kontroller için) -->
+    <script
+        src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -263,6 +267,23 @@
             background: rgba(255, 218, 117, 0.2);
             border-color: #ffda75;
         }
+
+        /* KOORDINAT GOSTERGESI */
+        #coords-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 15, 20, 0.85);
+            color: #ffda75;
+            padding: 10px 15px;
+            border-radius: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            z-index: 1001;
+            border: 1px solid rgba(255, 218, 117, 0.3);
+            pointer-events: none;
+            backdrop-filter: blur(5px);
+        }
     </style>
 </head>
 
@@ -306,9 +327,25 @@
         <button class="exhibit-btn" onclick="showInfo('tunel')">💧 Su Tünelleri</button>
     </div>
 
-    <!-- Sahne: vr-mode-ui="enabled: false" ile VR butonu kapatıldı -->
-    <a-scene vr-mode-ui="enabled: false" loading-screen="dotsColor: #ffda75; backgroundColor: #111"
-        renderer="antialias: true; colorManagement: true;">
+    <!-- Koordinat Göstergesi -->
+    <div id="coords-display">X: 0.0, Y: 0.0, Z: 0.0</div>
+
+    <!-- Sahne: physics eklendi -->
+    <a-scene physics="debug: false" vr-mode-ui="enabled: false"
+        loading-screen="dotsColor: #ffda75; backgroundColor: #111" renderer="antialias: true; colorManagement: true;">
+
+        <!-- ASSETS: Sesler -->
+        <a-assets>
+            <audio id="wind-sound" src="https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav"
+                preload="auto"></audio>
+            <audio id="water-sound" src="https://actions.google.com/sounds/v1/water/dripping_water.ogg"
+                preload="auto"></audio>
+        </a-assets>
+
+        <!-- Ambiyans Sesleri -->
+        <a-sound src="#wind-sound" autoplay="true" loop="true" volume="0.3" position="0 10 0"></a-sound>
+        <a-entity id="tunnel-sound" sound="src: #water-sound; autoplay: true; loop: true; volume: 0.5"
+            position="0 0 50"></a-entity>
 
         <!-- ÇEVRE -->
         <a-sky color="#74a5e3"></a-sky>
@@ -317,9 +354,12 @@
             shadow-mapSize="2048"></a-light>
         <a-scene fog="type: linear; color: #74a5e3; near: 30; far: 180"></a-scene>
 
-        <!-- Kamera -->
-        <a-entity position="0 8.4 15">
-            <a-camera look-controls="pointerLockEnabled: false" wasd-controls="acceleration: 25; fly: true"></a-camera>
+        <!-- Kamera Rig: Uçma Modu (Fly) Aktif ve Fare Kilidi (Pointer Lock) -->
+        <a-entity id="camera-rig" position="0 8.4 15">
+            <a-camera id="main-camera" look-controls="pointerLockEnabled: true"
+                wasd-controls="acceleration: 25; fly: true">
+                <a-cursor fuse="false" raycaster="objects: .clickable" color="#ffda75"></a-cursor>
+            </a-camera>
         </a-entity>
 
 
@@ -327,19 +367,19 @@
         <!-- ÜST KAT ZEMİNİ                                -->
         <!-- ============================================== -->
         <a-plane position="-80.5 6.81 0" rotation="-90 0 0" width="139" height="300" color="#687d55"
-            material="roughness: 1"></a-plane>
+            material="roughness: 1" static-body></a-plane>
         <a-plane position="80.5 6.81 0" rotation="-90 0 0" width="139" height="300" color="#687d55"
-            material="roughness: 1"></a-plane>
+            material="roughness: 1" static-body></a-plane>
         <a-plane position="0 6.81 -66" rotation="-90 0 0" width="22" height="168" color="#687d55"
-            material="roughness: 1"></a-plane>
-        <a-plane position="0 6.81 119" rotation="-90 0 0" width="22" height="62" color="#687d55"
-            material="roughness: 1"></a-plane>
-        <a-plane position="0 6.81 59" rotation="-90 0 0" width="10" height="58" color="#687d55"
-            material="roughness: 1"></a-plane>
-        <a-plane position="-7 6.81 24" rotation="-90 0 0" width="8" height="12" color="#687d55"
-            material="roughness: 1"></a-plane>
-        <a-plane position="7 6.81 24" rotation="-90 0 0" width="8" height="12" color="#687d55"
-            material="roughness: 1"></a-plane>
+            material="roughness: 1" static-body></a-plane>
+        <a-plane position="0 6.81 119" rotation="-90 0 0" width="22" height="62" color="#687d55" material="roughness: 1"
+            static-body></a-plane>
+        <a-plane position="0 6.81 59" rotation="-90 0 0" width="10" height="58" color="#687d55" material="roughness: 1"
+            static-body></a-plane>
+        <a-plane position="-7 6.81 24" rotation="-90 0 0" width="8" height="12" color="#687d55" material="roughness: 1"
+            static-body></a-plane>
+        <a-plane position="7 6.81 24" rotation="-90 0 0" width="8" height="12" color="#687d55" material="roughness: 1"
+            static-body></a-plane>
 
 
         <!-- ============================================== -->
@@ -404,7 +444,7 @@
             </a-entity>
 
             <!-- MERKEZDEKİ BÜYÜK SUNAK (ALTAR) -->
-            <a-entity position="0 0 -5">
+            <a-entity position="48 0 41" static-body>
                 <a-box position="0 0.25 0" width="8" height="0.5" depth="8" color="#8c8779"></a-box>
                 <a-box position="0 0.75 0" width="6" height="0.5" depth="6" color="#9e988a"></a-box>
                 <a-box position="0 1.25 0" width="4" height="0.5" depth="4" color="#8c8779"></a-box>
@@ -415,64 +455,90 @@
                     width="4"></a-text>
             </a-entity>
 
-            <!-- YOĞUN MEZARLIK ALANI -->
-            <a-entity id="graveyard" position="-15 0 -5">
-                <a-plane position="0 0.05 0" width="25" height="20" color="#546b40" rotation="-90 0 0"></a-plane>
+            <a-entity id="graveyard-complex" position="35 0 81">
+                <!-- Yükseltilmiş Platform -->
+                <a-box position="0 1 0" width="26" height="2" depth="21" color="#8c8779" static-body></a-box>
 
-                <a-box position="-8 0.8 -6" width="0.5" height="1.6" depth="0.15" color="#c9c3b3"
-                    rotation="5 15 0"></a-box>
-                <a-box position="-6 0.7 -5" width="0.4" height="1.4" depth="0.1" color="#b5b0a1"
-                    rotation="0 -10 0"></a-box>
-                <a-box position="-4 1 -6" width="0.6" height="2" depth="0.2" color="#e3e0d8" rotation="-5 5 2"></a-box>
-                <a-box position="-2 0.9 -7" width="0.5" height="1.8" depth="0.15" color="#a8a396"
-                    rotation="10 -20 0"></a-box>
-                <a-box position="0 0.8 -6" width="0.4" height="1.6" depth="0.1" color="#c9c3b3"
-                    rotation="0 10 0"></a-box>
-                <a-box position="2 0.7 -5" width="0.5" height="1.4" depth="0.2" color="#d1cabc"
-                    rotation="15 0 5"></a-box>
-                <a-box position="4 1.1 -6" width="0.6" height="2.2" depth="0.15" color="#e3e0d8"
-                    rotation="-10 25 0"></a-box>
-                <a-box position="6 0.8 -5" width="0.4" height="1.6" depth="0.1" color="#a8a396"
-                    rotation="0 -15 0"></a-box>
-
-                <a-box position="-7 0.9 -2" width="0.5" height="1.8" depth="0.15" color="#e3e0d8"
-                    rotation="0 5 0"></a-box>
-                <a-box position="-5 0.6 -1" width="0.4" height="1.2" depth="0.1" color="#b5b0a1"
-                    rotation="20 -10 0"></a-box>
-                <a-box position="-3 1 -2" width="0.6" height="2" depth="0.2" color="#c9c3b3" rotation="-5 0 -5"></a-box>
-                <a-box position="-1 0.8 -1" width="0.5" height="1.6" depth="0.15" color="#a8a396"
-                    rotation="10 30 0"></a-box>
-                <a-box position="1 0.9 -2" width="0.4" height="1.8" depth="0.1" color="#e3e0d8"
-                    rotation="0 -10 0"></a-box>
-                <a-box position="3 0.7 -1" width="0.5" height="1.4" depth="0.2" color="#d1cabc"
-                    rotation="5 0 0"></a-box>
-
-                <a-entity position="-6 0.4 4">
-                    <a-box width="1.2" height="0.8" depth="2.4" color="#a8a396"></a-box>
-                    <a-plane position="0 0.41 0" width="1" height="2.2" color="#425c2d" rotation="-90 0 0"></a-plane>
-                    <a-box position="0 0.8 -1" width="0.6" height="1.6" depth="0.15" color="#e3e0d8"></a-box>
-                </a-entity>
-                <a-entity position="-2 0.3 3" rotation="0 15 0">
-                    <a-box width="1.2" height="0.6" depth="2.2" color="#c9c3b3"></a-box>
-                    <a-plane position="0 0.31 0" width="1" height="2" color="#425c2d" rotation="-90 0 0"></a-plane>
-                    <a-box position="0 0.6 -0.9" width="0.5" height="1.2" depth="0.1" color="#a8a396"
-                        rotation="-10 0 0"></a-box>
-                </a-entity>
-                <a-entity position="3 0.4 5" rotation="0 -10 0">
-                    <a-box width="1.4" height="0.5" depth="2.2" color="#b5b0a1"></a-box>
-                    <a-box position="0.8 0 0" width="0.5" height="0.3" depth="1" color="#b5b0a1"
-                        rotation="0 20 20"></a-box>
-                    <a-box position="0 0.6 -0.8" width="0.5" height="1.2" depth="0.1" color="#e3e0d8"></a-box>
+                <!-- Merdivenler -->
+                <a-entity id="graveyard-stairs" position="0 0 -10.5">
+                    <a-box position="0 0.2 -2" width="5" height="0.4" depth="1" color="#7d796e"></a-box>
+                    <a-box position="0 0.6 -1" width="5" height="0.4" depth="1" color="#7d796e"></a-box>
+                    <a-box position="0 1.0 0" width="5" height="0.4" depth="1" color="#7d796e"></a-box>
+                    <a-box position="0 1.4 1" width="5" height="0.4" depth="1" color="#7d796e"></a-box>
+                    <a-box position="0 1.8 2" width="5" height="0.4" depth="1" color="#7d796e"></a-box>
                 </a-entity>
 
-                <a-plane id="sign-kabristan" class="clickable" position="-2 1.5 10" width="3" height="1"
-                    color="#333"></a-plane>
-                <a-text position="-2 1.5 10.01" value="KABRISTAN\n(Osmanli Stelleri)" align="center" color="#FFF"
-                    width="4"></a-text>
+                <a-entity id="graveyard" position="0 2 0" rotation="0 180 0">
+                    <a-plane position="0 0.05 0" width="25" height="20" color="#546b40" rotation="-90 0 0"></a-plane>
+
+                    <!-- Taştan Çit (Fence) -->
+                    <a-box position="0 0.4 -10" width="25" height="0.8" depth="0.2" color="#6e6a5f"></a-box>
+                    <!-- Kuzey -->
+                    <a-box position="0 0.4 10" width="25" height="0.8" depth="0.2" color="#6e6a5f"></a-box>
+                    <!-- Güney -->
+                    <a-box position="-12.5 0.4 0" width="0.2" height="0.8" depth="20" color="#6e6a5f"></a-box>
+                    <!-- Batı -->
+                    <a-box position="12.5 0.4 0" width="0.2" height="0.8" depth="20" color="#6e6a5f"></a-box>
+                    <!-- Doğu -->
+
+                    <a-box position="-8 0.8 -6" width="0.5" height="1.6" depth="0.15" color="#c9c3b3"
+                        rotation="5 15 0"></a-box>
+                    <a-box position="-6 0.7 -5" width="0.4" height="1.4" depth="0.1" color="#b5b0a1"
+                        rotation="0 -10 0"></a-box>
+                    <a-box position="-4 1 -6" width="0.6" height="2" depth="0.2" color="#e3e0d8"
+                        rotation="-5 5 2"></a-box>
+                    <a-box position="-2 0.9 -7" width="0.5" height="1.8" depth="0.15" color="#a8a396"
+                        rotation="10 -20 0"></a-box>
+                    <a-box position="0 0.8 -6" width="0.4" height="1.6" depth="0.1" color="#c9c3b3"
+                        rotation="0 10 0"></a-box>
+                    <a-box position="2 0.7 -5" width="0.5" height="1.4" depth="0.2" color="#d1cabc"
+                        rotation="15 0 5"></a-box>
+                    <a-box position="4 1.1 -6" width="0.6" height="2.2" depth="0.15" color="#e3e0d8"
+                        rotation="-10 25 0"></a-box>
+                    <a-box position="6 0.8 -5" width="0.4" height="1.6" depth="0.1" color="#a8a396"
+                        rotation="0 -15 0"></a-box>
+
+                    <a-box position="-7 0.9 -2" width="0.5" height="1.8" depth="0.15" color="#e3e0d8"
+                        rotation="0 5 0"></a-box>
+                    <a-box position="-5 0.6 -1" width="0.4" height="1.2" depth="0.1" color="#b5b0a1"
+                        rotation="20 -10 0"></a-box>
+                    <a-box position="-3 1 -2" width="0.6" height="2" depth="0.2" color="#c9c3b3"
+                        rotation="-5 0 -5"></a-box>
+                    <a-box position="-1 0.8 -1" width="0.5" height="1.6" depth="0.15" color="#a8a396"
+                        rotation="10 30 0"></a-box>
+                    <a-box position="1 0.9 -2" width="0.4" height="1.8" depth="0.1" color="#e3e0d8"
+                        rotation="0 -10 0"></a-box>
+                    <a-box position="3 0.7 -1" width="0.5" height="1.4" depth="0.2" color="#d1cabc"
+                        rotation="5 0 0"></a-box>
+
+                    <a-entity position="-6 0.4 4">
+                        <a-box width="1.2" height="0.8" depth="2.4" color="#a8a396"></a-box>
+                        <a-plane position="0 0.41 0" width="1" height="2.2" color="#425c2d"
+                            rotation="-90 0 0"></a-plane>
+                        <a-box position="0 0.8 -1" width="0.6" height="1.6" depth="0.15" color="#e3e0d8"></a-box>
+                    </a-entity>
+                    <a-entity position="-2 0.3 3" rotation="0 15 0">
+                        <a-box width="1.2" height="0.6" depth="2.2" color="#c9c3b3"></a-box>
+                        <a-plane position="0 0.31 0" width="1" height="2" color="#425c2d" rotation="-90 0 0"></a-plane>
+                        <a-box position="0 0.6 -0.9" width="0.5" height="1.2" depth="0.1" color="#a8a396"
+                            rotation="-10 0 0"></a-box>
+                    </a-entity>
+                    <a-entity position="3 0.4 5" rotation="0 -10 0">
+                        <a-box width="1.4" height="0.5" depth="2.2" color="#b5b0a1"></a-box>
+                        <a-box position="0.8 0 0" width="0.5" height="0.3" depth="1" color="#b5b0a1"
+                            rotation="0 20 20"></a-box>
+                        <a-box position="0 0.6 -0.8" width="0.5" height="1.2" depth="0.1" color="#e3e0d8"></a-box>
+                    </a-entity>
+
+                    <a-plane id="sign-kabristan" class="clickable" position="-2 1.5 10" width="3" height="1"
+                        color="#333"></a-plane>
+                    <a-text position="-2 1.5 10.01" value="KABRISTAN\n(Osmanli Stelleri)" align="center" color="#FFF"
+                        width="4"></a-text>
+                </a-entity>
             </a-entity>
 
             <!-- ANTİK BLOKLAR (Scattered Ruins) -->
-            <a-entity id="ruins-field" position="-10 0 15">
+            <a-entity id="ruins-field" position="42 0 36">
                 <a-box position="0 0.3 0" width="3" height="0.6" depth="0.8" color="#d1cabc" rotation="0 15 0"></a-box>
                 <a-box position="4 0.4 -2" width="4" height="0.8" depth="1" color="#e3e0d8" rotation="0 -25 0"></a-box>
                 <a-box position="2 0.2 3" width="2" height="0.4" depth="1.5" color="#b5b0a1" rotation="0 45 0"></a-box>
@@ -500,8 +566,8 @@
             </a-entity>
 
             <!-- SIRA SÜTUNLAR (Colonnade) -->
-            <a-entity id="colonnade" position="20 0 0">
-                <a-box position="0 0.4 0" width="6" height="0.8" depth="50" color="#8f8c81"></a-box>
+            <a-entity id="colonnade" position="18 0 55">
+                <a-box position="0 0.4 0" width="6" height="0.8" depth="50" color="#8f8c81" static-body></a-box>
 
                 <a-mixin id="tall-column" geometry="primitive: cylinder; radius: 0.4; height: 10"
                     material="color: #cfc9ba; roughness: 0.9"></a-mixin>
@@ -737,6 +803,29 @@
         setupBtn('btn-left', 'a');
         setupBtn('btn-right', 'd');
         setupBtn('btn-down', 's');
+
+        const coordsDisplay = document.getElementById('coords-display');
+        const cameraEntity = document.querySelector('a-camera');
+
+        function updateCoords() {
+            if (cameraEntity && cameraEntity.object3D) {
+                const worldPos = new THREE.Vector3();
+                cameraEntity.object3D.getWorldPosition(worldPos);
+
+                // Kat tespiti (Y koordinatına göre)
+                const floor = worldPos.y > 4 ? "Üst Kat" : "Alt Kat (Tüneller)";
+                coordsDisplay.textContent = `Kat: ${floor} | X: ${worldPos.x.toFixed(1)}, Y: ${worldPos.y.toFixed(1)}, Z: ${worldPos.z.toFixed(1)}`;
+
+                // Tünel Sesi Kontrolü
+                const tunnelSound = document.getElementById('tunnel-sound');
+                if (tunnelSound) {
+                    const volume = worldPos.y < 4 ? 0.6 : 0.05;
+                    tunnelSound.setAttribute('sound', 'volume', volume);
+                }
+            }
+            requestAnimationFrame(updateCoords);
+        }
+        updateCoords();
     </script>
 </body>
 
