@@ -124,6 +124,7 @@
 
     <div id="exhibit-menu">
         <div class="menu-label">📖 Eserler</div>
+        <button class="exhibit-btn" onclick="showInfo('nest')">🪺 Kuş Yuvası</button>
         <button class="exhibit-btn" onclick="showInfo('cesme')">🚰 Antik Çeşme</button>
         <button class="exhibit-btn" onclick="showInfo('altar')">🏛️ Merkez Sunak</button>
         <button class="exhibit-btn" onclick="showInfo('kabristan')">⚰️ Kabristan</button>
@@ -145,21 +146,135 @@
         <a-light type="ambient" color="#fffaf0" intensity="0.55"></a-light>
         <a-light type="directional" position="15 25 5" color="#fff" intensity="0.9"></a-light>
 
-        <!-- KUŞ YUVASI - Sketchfab GLB modeli (X=18, Y=18, Z=55) -->
+        <!-- ============================================================ -->
+        <!-- KUŞ YUVASI — Tamamen primitive şekillerle (X=18, Y=18, Z=55) -->
+        <!-- ============================================================ -->
         <a-entity id="bird-nest" position="18 18 55">
-            <a-entity
-                gltf-model="https://sketchfab.com/models/7abe9a54a3194b179061524384e540c9/download"
-                scale="2 2 2"
-                rotation="0 45 0">
-            </a-entity>
+
+            <!-- === YUVA GÖVDESİ === -->
+            <!-- Alt taban — hafif basık silindir -->
+            <a-cylinder position="0 0 0" radius="0.72" height="0.18" color="#6b4c2a" segments-radial="14"></a-cylinder>
+
+            <!-- Yuva duvarı — dışta halka şeklinde dallar -->
+            <!-- Dış halka silindir (içi boş görünüm için büyük+küçük iç içe) -->
+            <a-cylinder position="0 0.28 0" radius="0.72" height="0.42" color="#5a3d1e" segments-radial="14" open-ended="true"></a-cylinder>
+            <!-- İç daha açık renk duvar -->
+            <a-cylinder position="0 0.28 0" radius="0.60" height="0.38" color="#7a5530" segments-radial="14" open-ended="true"></a-cylinder>
+
+            <!-- Dal dokusu — çevreye dağılmış ince kutucuklar (twigs) -->
+            <!-- Dal seti 1 - dış çevrede yatay -->
+            <a-box position="0.65 0.12 0"    width="0.06" height="0.06" depth="0.55" color="#4a3018" rotation="0 20 5"></a-box>
+            <a-box position="-0.65 0.15 0"   width="0.06" height="0.06" depth="0.48" color="#5c3c1f" rotation="0 -15 -4"></a-box>
+            <a-box position="0 0.10 0.65"    width="0.55" height="0.06" depth="0.06" color="#4a3018" rotation="5 0 0"></a-box>
+            <a-box position="0 0.16 -0.65"   width="0.48" height="0.06" depth="0.06" color="#5c3c1f" rotation="-6 0 0"></a-box>
+            <a-box position="0.46 0.13 0.46" width="0.06" height="0.06" depth="0.52" color="#4a3018" rotation="0 45 3"></a-box>
+            <a-box position="-0.46 0.17 0.46" width="0.52" height="0.06" depth="0.06" color="#5c3c1f" rotation="4 0 -5"></a-box>
+            <a-box position="0.46 0.11 -0.46" width="0.06" height="0.06" depth="0.5" color="#4a3018" rotation="0 -45 0"></a-box>
+            <a-box position="-0.46 0.14 -0.46" width="0.5" height="0.06" depth="0.06" color="#5c3c1f" rotation="0 0 3"></a-box>
+
+            <!-- Dal seti 2 - üst kenarda çapraz -->
+            <a-box position="0.55 0.45 0.2"  width="0.05" height="0.05" depth="0.62" color="#3d2810" rotation="10 30 8"></a-box>
+            <a-box position="-0.55 0.48 0.1" width="0.05" height="0.05" depth="0.58" color="#4a3018" rotation="-8 -20 0"></a-box>
+            <a-box position="0.2 0.46 0.55"  width="0.60" height="0.05" depth="0.05" color="#3d2810" rotation="6 0 10"></a-box>
+            <a-box position="-0.2 0.42 -0.55" width="0.58" height="0.05" depth="0.05" color="#4a3018" rotation="-10 0 -8"></a-box>
+            <a-box position="0.38 0.50 -0.5" width="0.05" height="0.05" depth="0.55" color="#3d2810" rotation="12 -50 5"></a-box>
+            <a-box position="-0.38 0.44 0.5" width="0.55" height="0.05" depth="0.05" color="#4a3018" rotation="-5 0 12"></a-box>
+
+            <!-- Dal seti 3 - ince uzun dallar fırlıyor (taşan kenarlar) -->
+            <a-box position="0.82 0.38 0.1"  width="0.04" height="0.04" depth="0.35" color="#2e1e0a" rotation="0 10 15"></a-box>
+            <a-box position="-0.80 0.40 -0.1" width="0.04" height="0.04" depth="0.30" color="#2e1e0a" rotation="0 -5 -18"></a-box>
+            <a-box position="0.1 0.42 0.82"  width="0.32" height="0.04" depth="0.04" color="#2e1e0a" rotation="12 0 5"></a-box>
+            <a-box position="-0.15 0.38 -0.80" width="0.28" height="0.04" depth="0.04" color="#2e1e0a" rotation="-15 0 0"></a-box>
+
+            <!-- İç zemin — ot ve yumuşak malzeme (küçük düzensiz parçalar) -->
+            <a-cylinder position="0 0.1 0" radius="0.52" height="0.08" color="#8a7250" segments-radial="10"></a-cylinder>
+            <!-- İnce ot tutamları -->
+            <a-box position="0.15 0.17 0.1"  width="0.08" height="0.08" depth="0.24" color="#9e8a5c" rotation="5 20 0"></a-box>
+            <a-box position="-0.2 0.17 0.15" width="0.22" height="0.08" depth="0.07" color="#9e8a5c" rotation="0 -15 4"></a-box>
+            <a-box position="0.1 0.16 -0.18" width="0.07" height="0.07" depth="0.20" color="#b09a6e" rotation="-3 30 0"></a-box>
+            <a-box position="-0.1 0.15 -0.1" width="0.18" height="0.07" depth="0.06" color="#9e8a5c" rotation="0 0 -3"></a-box>
+
+            <!-- === YUMURTALAR (3 adet) === -->
+            <!-- Yumurta 1 — solda -->
+            <a-sphere position="-0.18 0.24 0.08" radius="0.115"
+                color="#d4cdb8" segments-width="10" segments-height="8"
+                scale="1 1.18 1"></a-sphere>
+            <!-- Yumurta noktalı desen — üstünde küçük silindir gölge -->
+            <a-sphere position="-0.18 0.24 0.08" radius="0.118"
+                color="#b8b09a" segments-width="6" segments-height="5"
+                scale="1 1.18 1" opacity="0.25" transparent="true"></a-sphere>
+
+            <!-- Yumurta 2 — ortada -->
+            <a-sphere position="0.05 0.26 -0.14" radius="0.12"
+                color="#cfc8b2" segments-width="10" segments-height="8"
+                scale="1 1.2 1"></a-sphere>
+
+            <!-- Yumurta 3 — sağda biraz yatık -->
+            <a-sphere position="0.20 0.23 0.10" radius="0.11"
+                color="#d8d0bb" segments-width="10" segments-height="8"
+                scale="1.05 1.15 1" rotation="0 0 15"></a-sphere>
+
+            <!-- === ANNE MARTI === -->
+            <!-- Gövde -->
+            <a-sphere position="0 0.72 0" radius="0.30"
+                color="#f8f8f5" segments-width="10" segments-height="8"
+                scale="1 0.75 1.5"></a-sphere>
+            <!-- Kafa -->
+            <a-sphere position="0 0.90 0.30" radius="0.18"
+                color="#f5f5f2" segments-width="8" segments-height="6"></a-sphere>
+            <!-- Gaga -->
+            <a-box position="0 0.87 0.50" width="0.06" height="0.05" depth="0.16"
+                color="#e8a020" rotation="-5 0 0"></a-box>
+            <!-- Gaga ucu koyu çizgi -->
+            <a-box position="0 0.85 0.56" width="0.06" height="0.025" depth="0.04"
+                color="#c05010"></a-box>
+            <!-- Göz sol -->
+            <a-sphere position="-0.07 0.94 0.42" radius="0.03"
+                color="#1a1008" segments-width="6" segments-height="5"></a-sphere>
+            <!-- Göz sağ -->
+            <a-sphere position="0.07 0.94 0.42" radius="0.03"
+                color="#1a1008" segments-width="6" segments-height="5"></a-sphere>
+
+            <!-- Kanat sol — hafif açık, yumurtaları örter -->
+            <a-box position="-0.38 0.68 -0.05" width="0.55" height="0.06" depth="0.40"
+                color="#e8e8e3" rotation="0 10 -18"
+                animation="property: rotation; to: 0 10 -12; dur: 3000; dir: alternate; loop: true; easing: easeInOutSine">
+            </a-box>
+            <!-- Kanat sol iç tüy -->
+            <a-box position="-0.32 0.65 -0.02" width="0.40" height="0.05" depth="0.32"
+                color="#d8d8d2" rotation="0 8 -10"></a-box>
+
+            <!-- Kanat sağ -->
+            <a-box position="0.38 0.68 -0.05" width="0.55" height="0.06" depth="0.40"
+                color="#e8e8e3" rotation="0 -10 18"
+                animation="property: rotation; to: 0 -10 12; dur: 3000; dir: alternate; loop: true; easing: easeInOutSine">
+            </a-box>
+            <!-- Kanat sağ iç tüy -->
+            <a-box position="0.32 0.65 -0.02" width="0.40" height="0.05" depth="0.32"
+                color="#d8d8d2" rotation="0 -8 10"></a-box>
+
+            <!-- Kuyruk -->
+            <a-box position="0 0.62 -0.42" width="0.22" height="0.05" depth="0.25"
+                color="#e0e0da" rotation="-15 0 0"></a-box>
+
+            <!-- Ayaklar -->
+            <a-cylinder position="-0.08 0.50 0.05" radius="0.02" height="0.18"
+                color="#e8a020" rotation="10 0 5"></a-cylinder>
+            <a-cylinder position="0.08 0.50 0.05" radius="0.02" height="0.18"
+                color="#e8a020" rotation="10 0 -5"></a-cylinder>
+            <!-- Pençe sol -->
+            <a-box position="-0.10 0.42 0.12" width="0.16" height="0.015" depth="0.05" color="#c88a10"></a-box>
+            <!-- Pençe sağ -->
+            <a-box position="0.10 0.42 0.12" width="0.16" height="0.015" depth="0.05" color="#c88a10"></a-box>
 
             <!-- Yuva tabelası -->
-            <a-plane id="sign-nest" class="clickable" position="0 1.2 0" width="1.2" height="0.45" color="#2a1a08"
+            <a-plane id="sign-nest" class="clickable" position="0 1.6 0" width="1.4" height="0.50" color="#2a1a08"
                 onclick="showInfo('nest')"></a-plane>
-            <a-text position="0 1.2 0.01" value="KUS YUVASI" align="center" color="#ffda75" width="3.5"></a-text>
-            <a-plane position="0 1.2 -0.01" width="1.2" height="0.45" color="#2a1a08" rotation="0 180 0"></a-plane>
-            <a-text position="0 1.2 -0.02" value="KUS YUVASI" align="center" color="#ffda75" width="3.5" rotation="0 180 0"></a-text>
+            <a-text position="0 1.6 0.01" value="KUS YUVASI" align="center" color="#ffda75" width="4.0"></a-text>
+            <a-plane position="0 1.6 -0.01" width="1.4" height="0.50" color="#2a1a08" rotation="0 180 0"></a-plane>
+            <a-text position="0 1.6 -0.02" value="KUS YUVASI" align="center" color="#ffda75" width="4.0" rotation="0 180 0"></a-text>
         </a-entity>
+        <!-- /KUŞ YUVASI -->
 
         <!-- MARTILAR -->
         <a-entity id="seagulls">
@@ -288,9 +403,7 @@
 
             <!-- KABRISTAN ALANI -->
             <a-entity id="graveyard-platform" position="47 0 84">
-                <!-- Yükseltilmiş Platform -->
                 <a-box position="0 1 0" width="26" height="2" depth="21" color="#8c8779"></a-box>
-                <!-- Platform merdivenleri -->
                 <a-entity id="graveyard-stairs" position="0 0 -10.5">
                     <a-box position="0 0.2 -2" width="5" height="0.4" depth="1" color="#7d796e"></a-box>
                     <a-box position="0 0.6 -1" width="5" height="0.4" depth="1" color="#7d796e"></a-box>
@@ -301,12 +414,10 @@
 
                 <a-entity id="graveyard" position="0 2 0" rotation="0 180 0">
                     <a-plane position="0 0.05 0" width="25" height="20" color="#546b40" rotation="-90 0 0"></a-plane>
-                    <!-- Çit -->
                     <a-box position="0 0.4 -10" width="25" height="0.8" depth="0.2" color="#6e6a5f"></a-box>
                     <a-box position="0 0.4 10" width="25" height="0.8" depth="0.2" color="#6e6a5f"></a-box>
                     <a-box position="-12.5 0.4 0" width="0.2" height="0.8" depth="20" color="#6e6a5f"></a-box>
                     <a-box position="12.5 0.4 0" width="0.2" height="0.8" depth="20" color="#6e6a5f"></a-box>
-                    <!-- Mezar taşları -->
                     <a-box position="-8 0.8 -6" width="0.5" height="1.6" depth="0.15" color="#c9c3b3" rotation="5 15 0"></a-box>
                     <a-box position="-6 0.7 -5" width="0.4" height="1.4" depth="0.1" color="#b5b0a1" rotation="0 -10 0"></a-box>
                     <a-box position="-4 1 -6" width="0.6" height="2" depth="0.2" color="#e3e0d8" rotation="-5 5 2"></a-box>
@@ -321,7 +432,6 @@
                     <a-box position="-1 0.8 -1" width="0.5" height="1.6" depth="0.15" color="#a8a396" rotation="10 30 0"></a-box>
                     <a-box position="1 0.9 -2" width="0.4" height="1.8" depth="0.1" color="#e3e0d8" rotation="0 -10 0"></a-box>
                     <a-box position="3 0.7 -1" width="0.5" height="1.4" depth="0.2" color="#d1cabc" rotation="5 0 0"></a-box>
-                    <!-- Sandık mezarlar -->
                     <a-entity position="-6 0.4 4">
                         <a-box width="1.2" height="0.8" depth="2.4" color="#a8a396"></a-box>
                         <a-plane position="0 0.41 0" width="1" height="2.2" color="#425c2d" rotation="-90 0 0"></a-plane>
@@ -337,7 +447,6 @@
                         <a-box position="0.8 0 0" width="0.5" height="0.3" depth="1" color="#b5b0a1" rotation="0 20 20"></a-box>
                         <a-box position="0 0.6 -0.8" width="0.5" height="1.2" depth="0.1" color="#e3e0d8"></a-box>
                     </a-entity>
-                    <!-- Kabristan tabelası -->
                     <a-plane id="sign-kabristan" class="clickable" position="-2 1.5 10" width="3" height="1" color="#333" onclick="showInfo('kabristan')"></a-plane>
                     <a-text position="-2 1.5 10.01" value="KABRISTAN&#10;(Osmanli Stelleri)" align="center" color="#FFF" width="4"></a-text>
                     <a-plane position="-2 1.5 9.99" width="3" height="1" color="#333" rotation="0 180 0"></a-plane>
@@ -345,7 +454,7 @@
                 </a-entity>
             </a-entity>
 
-            <!-- ANTİK BLOKLAR (Scattered Ruins) — Y=6.8 üst kat içinde -->
+            <!-- ANTİK BLOKLAR -->
             <a-entity id="ruins-field" position="42 0 36">
                 <a-box position="0 0.3 0" width="3" height="0.6" depth="0.8" color="#d1cabc" rotation="0 15 0"></a-box>
                 <a-box position="4 0.4 -2" width="4" height="0.8" depth="1" color="#e3e0d8" rotation="0 -25 0"></a-box>
@@ -355,7 +464,6 @@
                 <a-cylinder position="-5 0.4 -1" radius="0.4" height="3" color="#e3e0d8" rotation="0 20 90"></a-cylinder>
                 <a-cylinder position="5 0.3 2" radius="0.3" height="2" color="#c9c3b3" rotation="0 -15 90"></a-cylinder>
                 <a-box position="-6 0.3 4" width="2" height="0.6" depth="0.8" color="#d1cabc" rotation="0 35 0"></a-box>
-
                 <a-plane id="sign-kalinti" class="clickable" position="0 1.5 6" width="3" height="1" color="#333"
                     rotation="0 15 0" onclick="showInfo('kalinti')"></a-plane>
                 <a-text position="0 1.5 6.01" value="ANTIK KALINTILAR&#10;(Yikilmis Sutun Basi, Bloklar)"
@@ -365,7 +473,7 @@
                     align="center" color="#FFF" width="3.5" rotation="0 195 0"></a-text>
             </a-entity>
 
-            <!-- KEMERLİ KAPI — Y=6.8 üst kat içinde -->
+            <!-- KEMERLİ KAPI -->
             <a-entity id="monumental-gate" position="50 0 45" rotation="0 45 0">
                 <a-box position="-4 3 0" width="2" height="6" depth="2" color="#9a9587"></a-box>
                 <a-box position="4 3 0" width="2" height="6" depth="2" color="#9a9587"></a-box>
@@ -373,17 +481,15 @@
                 <a-box position="5 0.5 3" width="1.5" height="1" depth="4" color="#858074" rotation="0 30 0"></a-box>
             </a-entity>
 
-            <!-- SIRA SÜTUNLAR (Colonnade) — Y=6.8 üst kat içinde -->
+            <!-- SIRA SÜTUNLAR (Colonnade) -->
             <a-entity id="colonnade" position="18 0 55">
                 <a-box position="0 0.4 0" width="6" height="0.8" depth="50" color="#8f8c81"></a-box>
-
                 <a-mixin id="tall-column" geometry="primitive: cylinder; radius: 0.4; height: 10"
                     material="color: #cfc9ba; roughness: 0.9"></a-mixin>
                 <a-mixin id="tall-base" geometry="primitive: box; width: 1.1; height: 0.6; depth: 1.1"
                     material="color: #9c9990"></a-mixin>
                 <a-mixin id="corinthian-cap" geometry="primitive: box; width: 1; height: 0.8; depth: 1"
                     material="color: #b5b1a6"></a-mixin>
-
                 <a-entity position="0 5.6 20"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
                 <a-entity position="0 5.6 15"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
                 <a-entity position="0 5.6 10"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
@@ -396,7 +502,6 @@
                 <a-entity position="0 5.6 -10"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
                 <a-entity position="0 5.6 -15"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
                 <a-entity position="0 5.6 -20"><a-entity mixin="tall-column"></a-entity><a-entity mixin="tall-base" position="0 -5 0"></a-entity><a-entity mixin="corinthian-cap" position="0 5 0"></a-entity></a-entity>
-
                 <a-plane id="sign-kolonad" class="clickable" position="-3 1.5 24" width="2" height="1" color="#333"
                     rotation="0 -45 0" onclick="showInfo('kolonad')"></a-plane>
                 <a-text position="-3 1.5 24.01" value="SUTUNLU YOL&#10;(Colonnade)" align="center" color="#FFF" width="4" rotation="0 -45 0"></a-text>
@@ -405,7 +510,6 @@
             </a-entity>
 
         </a-entity>
-        <!-- /upper-level -->
 
         <!-- ========================================================= -->
         <!-- ALT KAT: SU TÜNELLERİ                                     -->
@@ -439,7 +543,7 @@
             <a-box position="-8 3.25 29.5" width="6" height="6.5" depth="0.5" material="color: #312f2a; roughness: 1"></a-box>
             <a-box position="8 3.25 29.5" width="6" height="6.5" depth="0.5" material="color: #312f2a; roughness: 1"></a-box>
 
-            <!-- Yazıtlı Taş Anıt (Stela) -->
+            <!-- Yazıtlı Taş Anıt -->
             <a-entity id="stela-monument" position="2.5 0.05 68" rotation="0 270 0">
                 <a-box position="0 0.1 0" width="2" height="0.2" depth="1.5" material="color: #312f2a; roughness: 1"></a-box>
                 <a-box position="0 0.3 0" width="1.6" height="0.2" depth="1.2" material="color: #312f2a; roughness: 1"></a-box>
@@ -482,7 +586,7 @@
         <a-entity position="8 0 72"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3.25 0"></a-entity></a-entity>
         <a-entity position="8 0 80"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3.25 0"></a-entity></a-entity>
 
-        <!-- ANTİK ÇEŞME (Alt Kat) -->
+        <!-- ANTİK ÇEŞME -->
         <a-entity id="fountain" position="8 0.15 85.5" rotation="0 180 0">
             <a-plane position="0 1.5 -1.05" width="4" height="3" color="#a8a396"></a-plane>
             <a-box position="0 1 -0.8" width="1.2" height="1.8" depth="0.4" color="#d1cabc"></a-box>
