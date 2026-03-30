@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Agora Müze Gezisi</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.2/dist/aframe-physics-system.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
     <style>
         body { margin: 0; padding: 0; overflow: hidden; background-color: #87CEEB; }
         .a-enter-vr, .a-enter-vr-button, [class*="a-enter-vr"] { display: none !important; }
@@ -136,22 +134,16 @@
 
     <div id="coords-display">X: 0.0, Y: 0.0, Z: 0.0</div>
 
-    <a-scene physics="debug: false" vr-mode-ui="enabled: false"
+    <a-scene vr-mode-ui="enabled: false"
         loading-screen="dotsColor: #ffda75; backgroundColor: #111"
-        renderer="antialias: true; colorManagement: true;">
+        renderer="antialias: false; colorManagement: false; physicallyCorrectLights: false">
 
-        <a-assets>
-            <audio id="wind-sound" src="https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav" preload="auto"></audio>
-            <audio id="water-sound" src="https://actions.google.com/sounds/v1/water/dripping_water.ogg" preload="auto"></audio>
-        </a-assets>
-
-        <a-sound src="#wind-sound" autoplay="true" loop="true" volume="0.3" position="0 10 0"></a-sound>
-        <a-entity id="tunnel-sound" sound="src: #water-sound; autoplay: true; loop: true; volume: 0.5" position="0 0 50"></a-entity>
+        <a-assets timeout="3000"></a-assets>
 
         <!-- ÇEVRE -->
         <a-sky color="#74a5e3"></a-sky>
         <a-light type="ambient" color="#fffaf0" intensity="0.55"></a-light>
-        <a-light type="directional" position="15 25 5" color="#fff" intensity="0.9" castShadow="true" shadow-mapSize="2048"></a-light>
+        <a-light type="directional" position="15 25 5" color="#fff" intensity="0.9"></a-light>
 
         <!-- KUŞ YUVASI (X=18, Y=18, Z=55) -->
         <a-entity id="bird-nest" position="18 18 55">
@@ -290,13 +282,13 @@
         </a-entity>
 
         <!-- ÜST KAT ZEMİNİ -->
-        <a-plane position="-80.5 6.81 0" rotation="-90 0 0" width="139" height="300" color="#687d55" material="roughness: 1" static-body></a-plane>
-        <a-plane position="80.5 6.81 0" rotation="-90 0 0" width="139" height="300" color="#687d55" material="roughness: 1" static-body></a-plane>
-        <a-plane position="0 6.81 -66" rotation="-90 0 0" width="22" height="168" color="#687d55" material="roughness: 1" static-body></a-plane>
-        <a-plane position="0 6.81 119" rotation="-90 0 0" width="22" height="62" color="#687d55" material="roughness: 1" static-body></a-plane>
-        <a-plane position="0 6.81 59" rotation="-90 0 0" width="10" height="58" color="#687d55" material="roughness: 1" static-body></a-plane>
-        <a-plane position="-7 6.81 24" rotation="-90 0 0" width="8" height="12" color="#687d55" material="roughness: 1" static-body></a-plane>
-        <a-plane position="7 6.81 24" rotation="-90 0 0" width="8" height="12" color="#687d55" material="roughness: 1" static-body></a-plane>
+        <a-plane position="-80.5 6.81 0" rotation="-90 0 0" width="139" height="300" color="#687d55" material="roughness: 1"></a-plane>
+        <a-plane position="80.5 6.81 0" rotation="-90 0 0" width="139" height="300" color="#687d55" material="roughness: 1"></a-plane>
+        <a-plane position="0 6.81 -66" rotation="-90 0 0" width="22" height="168" color="#687d55" material="roughness: 1"></a-plane>
+        <a-plane position="0 6.81 119" rotation="-90 0 0" width="22" height="62" color="#687d55" material="roughness: 1"></a-plane>
+        <a-plane position="0 6.81 59" rotation="-90 0 0" width="10" height="58" color="#687d55" material="roughness: 1"></a-plane>
+        <a-plane position="-7 6.81 24" rotation="-90 0 0" width="8" height="12" color="#687d55" material="roughness: 1"></a-plane>
+        <a-plane position="7 6.81 24" rotation="-90 0 0" width="8" height="12" color="#687d55" material="roughness: 1"></a-plane>
 
         <!-- MERDIVEN -->
         <a-entity id="staircase" position="0 0 0">
@@ -327,7 +319,7 @@
             <!-- KABRISTAN ALANI -->
             <a-entity id="graveyard-platform" position="47 0 84">
                 <!-- Yükseltilmiş Platform -->
-                <a-box position="0 1 0" width="26" height="2" depth="21" color="#8c8779" static-body></a-box>
+                <a-box position="0 1 0" width="26" height="2" depth="21" color="#8c8779"></a-box>
                 <!-- Platform merdivenleri -->
                 <a-entity id="graveyard-stairs" position="0 0 -10.5">
                     <a-box position="0 0.2 -2" width="5" height="0.4" depth="1" color="#7d796e"></a-box>
@@ -413,7 +405,7 @@
 
             <!-- SIRA SÜTUNLAR (Colonnade) — Y=6.8 üst kat içinde -->
             <a-entity id="colonnade" position="18 0 55">
-                <a-box position="0 0.4 0" width="6" height="0.8" depth="50" color="#8f8c81" static-body></a-box>
+                <a-box position="0 0.4 0" width="6" height="0.8" depth="50" color="#8f8c81"></a-box>
 
                 <a-mixin id="tall-column" geometry="primitive: cylinder; radius: 0.4; height: 10"
                     material="color: #cfc9ba; roughness: 0.9"></a-mixin>
@@ -635,11 +627,6 @@
                 cameraEntity.object3D.getWorldPosition(worldPos);
                 const floor = worldPos.y > 4 ? "Üst Kat" : "Alt Kat (Tüneller)";
                 coordsDisplay.textContent = `Kat: ${floor} | X: ${worldPos.x.toFixed(1)}, Y: ${worldPos.y.toFixed(1)}, Z: ${worldPos.z.toFixed(1)}`;
-                const tunnelSound = document.getElementById('tunnel-sound');
-                if (tunnelSound) {
-                    const volume = worldPos.y < 4 ? 0.6 : 0.05;
-                    tunnelSound.setAttribute('sound', 'volume', volume);
-                }
             }
             requestAnimationFrame(updateCoords);
         }
