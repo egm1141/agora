@@ -145,50 +145,20 @@
         <a-light type="ambient" color="#fffaf0" intensity="0.55"></a-light>
         <a-light type="directional" position="15 25 5" color="#fff" intensity="0.9"></a-light>
 
-        <!-- KUŞ YUVASI (X=18, Y=18, Z=55) -->
+        <!-- KUŞ YUVASI - Sketchfab GLB modeli (X=18, Y=18, Z=55) -->
         <a-entity id="bird-nest" position="18 18 55">
-
-            <!-- Yuva tabanı (kalın çember gövde) -->
-            <a-torus position="0 0 0" radius="0.38" tube="0.13" segments-radial="16" segments-tubular="12"
-                color="#6b4f2a" rotation="0 0 0"></a-torus>
-            <!-- İç dolgu (düz zemin) -->
-            <a-cylinder position="0 -0.05 0" radius="0.26" height="0.08" color="#7a5c30"></a-cylinder>
-            <!-- Dış çevre dalcıklar - yuva dokusu -->
-            <a-torus position="0 0.06 0" radius="0.42" tube="0.06" segments-radial="12" segments-tubular="8"
-                color="#8a6535" rotation="0 25 5"></a-torus>
-            <a-torus position="0 0.1 0" radius="0.45" tube="0.05" segments-radial="10" segments-tubular="8"
-                color="#7d5c2e" rotation="0 -15 8"></a-torus>
-
-            <!-- Yumurtalar (3 adet) -->
-            <a-sphere position="-0.1 0.06 0.05" radius="0.085" color="#d4c89a" scale="1 0.82 1"></a-sphere>
-            <a-sphere position="0.1 0.06 -0.04" radius="0.08" color="#cfc49a" scale="1 0.82 1"></a-sphere>
-            <a-sphere position="0.0 0.07 0.13" radius="0.078" color="#d8ceaa" scale="1 0.82 1"></a-sphere>
-
-            <!-- Anne martı (yuvada oturuyor) -->
-            <a-entity position="0 0.22 0" rotation="0 30 0">
-                <!-- Gövde -->
-                <a-sphere position="0 0 0" radius="0.18" color="#f5f5f0" scale="1.2 0.9 1.4"></a-sphere>
-                <!-- Baş -->
-                <a-sphere position="0 0.15 0.18" radius="0.1" color="#f5f5f0"></a-sphere>
-                <!-- Gaga -->
-                <a-box position="0 0.12 0.29" width="0.04" height="0.04" depth="0.1" color="#e8a020"></a-box>
-                <!-- Göz -->
-                <a-sphere position="0.04 0.17 0.26" radius="0.02" color="#1a1a1a"></a-sphere>
-                <!-- Sol kanat (yatık, dinlenme pozisyonu) -->
-                <a-box position="-0.2 0.02 0" width="0.28" height="0.06" depth="0.22" color="#ebebeb" rotation="0 10 12"></a-box>
-                <!-- Sağ kanat -->
-                <a-box position="0.2 0.02 0" width="0.28" height="0.06" depth="0.22" color="#ebebeb" rotation="0 -10 -12"></a-box>
-                <!-- Kuyruk -->
-                <a-box position="0 0.0 -0.22" width="0.14" height="0.05" depth="0.14" color="#e8e8e3" rotation="10 0 0"></a-box>
+            <a-entity
+                gltf-model="https://sketchfab.com/models/7abe9a54a3194b179061524384e540c9/download"
+                scale="2 2 2"
+                rotation="0 45 0">
             </a-entity>
 
             <!-- Yuva tabelası -->
-            <a-plane id="sign-nest" class="clickable" position="0 0.8 0" width="1.2" height="0.45" color="#2a1a08"
-                rotation="0 0 0" onclick="showInfo('nest')"></a-plane>
-            <a-text position="0 0.8 0.01" value="KUS YUVASI" align="center" color="#ffda75" width="3.5"></a-text>
-            <a-plane position="0 0.8 -0.01" width="1.2" height="0.45" color="#2a1a08" rotation="0 180 0"></a-plane>
-            <a-text position="0 0.8 -0.02" value="KUS YUVASI" align="center" color="#ffda75" width="3.5" rotation="0 180 0"></a-text>
-
+            <a-plane id="sign-nest" class="clickable" position="0 1.2 0" width="1.2" height="0.45" color="#2a1a08"
+                onclick="showInfo('nest')"></a-plane>
+            <a-text position="0 1.2 0.01" value="KUS YUVASI" align="center" color="#ffda75" width="3.5"></a-text>
+            <a-plane position="0 1.2 -0.01" width="1.2" height="0.45" color="#2a1a08" rotation="0 180 0"></a-plane>
+            <a-text position="0 1.2 -0.02" value="KUS YUVASI" align="center" color="#ffda75" width="3.5" rotation="0 180 0"></a-text>
         </a-entity>
 
         <!-- MARTILAR -->
