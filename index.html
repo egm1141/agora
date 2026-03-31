@@ -458,6 +458,9 @@
                 preload="metadata"></audio>
             <audio id="water-sound" src="https://actions.google.com/sounds/v1/water/dripping_water.ogg"
                 preload="metadata"></audio>
+            <!-- Bazilika sesi: buraya gerçek ses dosyanızı ekleyin -->
+            <audio id="bazilika-sound" src="https://actions.google.com/sounds/v1/ambiences/city_square.ogg"
+                preload="auto"></audio>
         </a-assets>
 
         <!-- Ambiyans Sesleri -->
@@ -856,6 +859,12 @@
                 <a-plane position="0 3.2 -0.06" width="3" height="1.2" color="#1a1208" rotation="0 180 0"></a-plane>
                 <a-text position="0 3.2 -0.07" value="BAZİLİKA&#10;165 x 28 m&#10;(Bilinen En Büyük Roma Bazilikası)" align="center"
                     color="#ffda75" width="4" rotation="0 180 0"></a-text>
+
+                <!-- Bazilika Ses Kontrol Düğmesi -->
+                <a-box id="bazilika-sound-btn" position="0 2.1 0.8" width="1" height="0.4" depth="0.1" color="#2871c4"
+                    class="clickable" onclick="toggleBazilikaSound()"></a-box>
+                <a-text id="bazilika-sound-btn-text" position="0 2.1 0.9" value="Ses: Kapalı" align="center" color="#ffffff" width="1.8"></a-text>
+                <a-entity id="bazilika-sound-entity" sound="src: #bazilika-sound; autoplay: false; loop: true; volume: 0.6" position="0 1.5 0"></a-entity>
             </a-entity>
             <a-entity id="colonnade" position="18 0 55">
                 <a-box position="0 0.4 0" width="6" height="0.8" depth="50" color="#8f8c81" static-body></a-box>
@@ -1235,6 +1244,22 @@
 
         function closePanel() {
             document.getElementById('info-panel').classList.remove('visible');
+        }
+
+        function toggleBazilikaSound() {
+            const soundEnt = document.getElementById('bazilika-sound-entity');
+            const textEl = document.getElementById('bazilika-sound-btn-text');
+            if (!soundEnt || !soundEnt.components || !soundEnt.components.sound) return;
+            const sound = soundEnt.components.sound;
+            if (sound.isPlaying) {
+                sound.pause();
+                textEl.setAttribute('value', 'Ses: Kapalı');
+                document.getElementById('bazilika-sound-btn').setAttribute('color', '#2871c4');
+            } else {
+                sound.play();
+                textEl.setAttribute('value', 'Ses: Açık');
+                document.getElementById('bazilika-sound-btn').setAttribute('color', '#32c132');
+            }
         }
 
         window.addEventListener('load', () => {
