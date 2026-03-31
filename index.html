@@ -428,6 +428,7 @@
     <div id="info-panel">
         <div class="panel-title" id="panel-title"></div>
         <div class="panel-body" id="panel-body"></div>
+        <button id="bazilika-sound-toggle" onclick="toggleBazilikaSound()" style="display:none; margin-top:12px; width:100%; padding:10px; border:none; background:#2871c4; color:#fff; border-radius:8px; cursor:pointer; font-weight:bold;">🔊 Bazilika Sesini Aç</button>
         <span class="panel-close" onclick="closePanel()">✕ Kapat</span>
     </div>
 
@@ -467,6 +468,7 @@
         <a-sound src="#wind-sound" autoplay="true" loop="true" volume="0.3" position="0 10 0"></a-sound>
         <a-entity id="tunnel-sound" sound="src: #water-sound; autoplay: true; loop: true; volume: 0.5"
             position="0 0 50"></a-entity>
+        <a-sound id="bazilika-sound-entity" src="#bazilika-sound" autoplay="false" loop="true" volume="0.6" position="7 1.5 20"></a-sound>
 
         <!-- ÇEVRE -->
         <a-sky color="#74a5e3"></a-sky>
@@ -860,11 +862,6 @@
                 <a-text position="0 3.2 -0.07" value="BAZİLİKA&#10;165 x 28 m&#10;(Bilinen En Büyük Roma Bazilikası)" align="center"
                     color="#ffda75" width="4" rotation="0 180 0"></a-text>
 
-                <!-- Bazilika Ses Kontrol Düğmesi -->
-                <a-box id="bazilika-sound-btn" position="0 2.1 0.8" width="1" height="0.4" depth="0.1" color="#2871c4"
-                    class="clickable" onclick="toggleBazilikaSound()"></a-box>
-                <a-text id="bazilika-sound-btn-text" position="0 2.1 0.9" value="Ses: Kapalı" align="center" color="#ffffff" width="1.8"></a-text>
-                <a-entity id="bazilika-sound-entity" sound="src: #bazilika-sound; autoplay: false; loop: true; volume: 0.6" position="0 1.5 0"></a-entity>
             </a-entity>
             <a-entity id="colonnade" position="18 0 55">
                 <a-box position="0 0.4 0" width="6" height="0.8" depth="50" color="#8f8c81" static-body></a-box>
@@ -1234,11 +1231,20 @@
             }
         };
 
+        let isBazilikaSoundOn = false;
+
         function showInfo(key) {
             const data = infoData[key];
             if (!data) return;
             document.getElementById('panel-title').textContent = data.title;
             document.getElementById('panel-body').textContent = data.body;
+            const soundToggle = document.getElementById('bazilika-sound-toggle');
+            if (key === 'bazilika') {
+                soundToggle.style.display = 'block';
+                soundToggle.textContent = isBazilikaSoundOn ? '🔊 Ses: Açık (Kapat)' : '🔈 Ses: Kapalı (Aç)';
+            } else {
+                soundToggle.style.display = 'none';
+            }
             document.getElementById('info-panel').classList.add('visible');
         }
 
@@ -1248,17 +1254,17 @@
 
         function toggleBazilikaSound() {
             const soundEnt = document.getElementById('bazilika-sound-entity');
-            const textEl = document.getElementById('bazilika-sound-btn-text');
+            const soundToggle = document.getElementById('bazilika-sound-toggle');
             if (!soundEnt || !soundEnt.components || !soundEnt.components.sound) return;
             const sound = soundEnt.components.sound;
-            if (sound.isPlaying) {
-                sound.pause();
-                textEl.setAttribute('value', 'Ses: Kapalı');
-                document.getElementById('bazilika-sound-btn').setAttribute('color', '#2871c4');
+            if (isBazilikaSoundOn) {
+                sound.pauseSound();
+                isBazilikaSoundOn = false;
+                soundToggle.textContent = '🔈 Ses: Kapalı (Aç)';
             } else {
-                sound.play();
-                textEl.setAttribute('value', 'Ses: Açık');
-                document.getElementById('bazilika-sound-btn').setAttribute('color', '#32c132');
+                sound.playSound();
+                isBazilikaSoundOn = true;
+                soundToggle.textContent = '🔊 Ses: Açık (Kapat)';
             }
         }
 
