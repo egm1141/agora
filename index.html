@@ -398,7 +398,7 @@
             <div class="map-grid"></div>
             <!-- Üst Kat Landmarkları -->
             <div id="marks-upper">
-                <div class="map-dot" style="left: 66%; top: 63%;" data-label="Sunak"></div>
+                <div class="map-dot" style="left: 66%; top: 63%;" data-label="Anıtsal Kapı"></div>
                 <div class="map-dot" style="left: 61%; top: 77%;" data-label="Kabristan"></div>
                 <div class="map-dot" style="left: 56%; top: 68%;" data-label="Sütunlu Yol"></div>
                 <div class="map-dot" style="left: 42%; top: 53%;" data-label="Anıtsal Kapı"></div>
@@ -409,6 +409,7 @@
                 <div class="map-dot" style="left: 50%; top: 27%;" data-label="Merdiven"></div>
                 <div class="map-dot" style="left: 83%; top: 96%;" data-label="Çeşme"></div>
                 <div class="map-dot" style="left: 60%; top: 75%;" data-label="Yazıt"></div>
+                <div class="map-dot" style="left: 35%; top: 60%;" data-label="Graffiti"></div>
             </div>
             <div id="map-player"></div>
         </div>
@@ -435,11 +436,13 @@
         <div class="menu-label">📖 Eserler</div>
         <button class="exhibit-btn" onclick="showInfo('nest')">🪺 Kuş Yuvası</button>
         <button class="exhibit-btn" onclick="showInfo('cesme')">🚰 Antik Çeşme</button>
-        <button class="exhibit-btn" onclick="showInfo('altar')">🏛️ Merkez Sunak</button>
+        <button class="exhibit-btn" onclick="showInfo('gate')">🚪 Anıtsal Kapı</button>
         <button class="exhibit-btn" onclick="showInfo('kabristan')">⚰️ Kabristan</button>
         <button class="exhibit-btn" onclick="showInfo('kalinti')">🗿 Antik Kalıntılar</button>
-        <button class="exhibit-btn" onclick="showInfo('kolonad')">🏟️ Sütunlu Yol</button>
+        <button class="exhibit-btn" onclick="showInfo('kolonad')">🏟️ Batı Stoa</button>
         <button class="exhibit-btn" onclick="showInfo('tunel')">💧 Su Tünelleri</button>
+        <button class="exhibit-btn" onclick="showInfo('graffiti')">✍️ Graffitiler</button>
+        <button class="exhibit-btn" onclick="showInfo('bazilika')">⚖️ Bazilika</button>
     </div>
 
     <!-- Koordinat Göstergesi -->
@@ -716,21 +719,19 @@
         <!-- ============================================== -->
         <a-entity id="upper-level" position="0 6.8 0">
 
-            <!-- FOTOĞRAF 1: Antik Çeşme -->
-
-            <!-- MERKEZDEKİ BÜYÜK SUNAK (ALTAR) -->
-            <a-entity position="48 0 41" static-body>
-                <a-box position="0 0.25 0" width="8" height="0.5" depth="8" color="#8c8779"></a-box>
-                <a-box position="0 0.75 0" width="6" height="0.5" depth="6" color="#9e988a"></a-box>
-                <a-box position="0 1.25 0" width="4" height="0.5" depth="4" color="#8c8779"></a-box>
-                <a-box position="0 2 0" width="2" height="1" depth="1" color="#787367"></a-box>
-                <a-plane id="sign-altar" class="clickable" position="0 1.5 4.1" width="2" height="1" color="#333"
-                    onclick="showInfo('altar')"></a-plane>
-                <a-text position="0 1.5 4.11" value="MERKEZ SUNAK\n(ALTAR)" align="center" color="#FFF"
-                    width="4"></a-text>
-                <!-- Arkası -->
-                <a-plane position="0 1.5 4.09" width="2" height="1" color="#333" rotation="0 180 0"></a-plane>
-                <a-text position="0 1.5 4.08" value="MERKEZ SUNAK\n(ALTAR)" align="center" color="#FFF" width="4"
+            <!-- ANITsal KAPI - Sunak konumuna taşındı -->
+            <a-entity id="monumental-gate" position="48 0 41" rotation="0 0 0">
+                <a-box position="-4 3 0" width="2" height="6" depth="2" color="#9a9587"></a-box>
+                <a-box position="4 3 0" width="2" height="6" depth="2" color="#9a9587"></a-box>
+                <a-box position="0 6.5 0" width="10" height="1.5" depth="2" color="#858074"></a-box>
+                <a-box position="5 0.5 3" width="1.5" height="1" depth="4" color="#858074" rotation="0 30 0"></a-box>
+                <!-- Tabela önden -->
+                <a-plane id="sign-gate" class="clickable" position="0 1.5 1.1" width="2.5" height="1" color="#333"
+                    onclick="showInfo('gate')"></a-plane>
+                <a-text position="0 1.5 1.11" value="ANIT KAPI&#10;(Propylon)" align="center" color="#FFF" width="4"></a-text>
+                <!-- Tabela arkadan -->
+                <a-plane position="0 1.5 1.09" width="2.5" height="1" color="#333" rotation="0 180 0"></a-plane>
+                <a-text position="0 1.5 1.08" value="ANIT KAPI&#10;(Propylon)" align="center" color="#FFF" width="4"
                     rotation="0 180 0"></a-text>
             </a-entity>
 
@@ -811,11 +812,11 @@
 
                     <a-plane id="sign-kabristan" class="clickable" position="-2 1.5 10" width="3" height="1"
                         color="#333" onclick="showInfo('kabristan')"></a-plane>
-                    <a-text position="-2 1.5 10.01" value="KABRISTAN\n(Osmanli Stelleri)" align="center" color="#FFF"
+                    <a-text position="-2 1.5 10.01" value="KABRISTAN&#10;(Osmanli Stelleri)" align="center" color="#FFF"
                         width="4"></a-text>
                     <!-- Arkası -->
                     <a-plane position="-2 1.5 9.99" width="3" height="1" color="#333" rotation="0 180 0"></a-plane>
-                    <a-text position="-2 1.5 9.98" value="KABRISTAN\n(Osmanli Stelleri)" align="center" color="#FFF"
+                    <a-text position="-2 1.5 9.98" value="KABRISTAN&#10;(Osmanli Stelleri)" align="center" color="#FFF"
                         width="4" rotation="0 180 0"></a-text>
                 </a-entity>
             </a-entity>
@@ -836,23 +837,26 @@
 
                 <a-plane id="sign-kalinti" class="clickable" position="0 1.5 6" width="3" height="1" color="#333"
                     rotation="0 15 0" onclick="showInfo('kalinti')"></a-plane>
-                <a-text position="0 1.5 6.01" value="ANTIK KALINTILAR\n(Yikilmis Sutun Basi, Bloklar)" align="center"
+                <a-text position="0 1.5 6.01" value="ANTIK KALINTILAR&#10;(Yikilmis Sutun Basi, Bloklar)" align="center"
                     color="#FFF" width="3.5" rotation="0 15 0"></a-text>
                 <!-- Arkası -->
                 <a-plane position="0 1.5 5.99" width="3" height="1" color="#333" rotation="0 195 0"></a-plane>
-                <a-text position="0 1.5 5.98" value="ANTIK KALINTILAR\n(Yikilmis Sutun Basi, Bloklar)" align="center"
+                <a-text position="0 1.5 5.98" value="ANTIK KALINTILAR&#10;(Yikilmis Sutun Basi, Bloklar)" align="center"
                     color="#FFF" width="3.5" rotation="0 195 0"></a-text>
             </a-entity>
 
-            <!-- KEMERLİ KAPI (ANITSAL KAPI) -->
-            <a-entity id="monumental-gate" position="-22 0 10" rotation="0 45 0">
-                <a-box position="-4 3 0" width="2" height="6" depth="2" color="#9a9587"></a-box>
-                <a-box position="4 3 0" width="2" height="6" depth="2" color="#9a9587"></a-box>
-                <a-box position="0 6.5 0" width="10" height="1.5" depth="2" color="#858074"></a-box>
-                <a-box position="5 0.5 3" width="1.5" height="1" depth="4" color="#858074" rotation="0 30 0"></a-box>
+            <!-- BAZİLİKA BİLGİ PANELİ (Üst Kat - Tünel Girişi Yanı) -->
+            <a-entity id="bazilika-sign" position="7 0 20">
+                <!-- Kısa açıklayıcı levha direk üzerinde -->
+                <a-box position="0 1.5 0" width="0.1" height="3" depth="0.1" color="#4a4740"></a-box>
+                <a-plane id="sign-bazilika" class="clickable" position="0 3.2 0.06" width="3" height="1.2" color="#1a1208"
+                    onclick="showInfo('bazilika')"></a-plane>
+                <a-text position="0 3.2 0.07" value="BAZİLİKA&#10;165 x 28 m&#10;(Bilinen En Büyük Roma Bazilikası)" align="center"
+                    color="#ffda75" width="4"></a-text>
+                <a-plane position="0 3.2 -0.06" width="3" height="1.2" color="#1a1208" rotation="0 180 0"></a-plane>
+                <a-text position="0 3.2 -0.07" value="BAZİLİKA&#10;165 x 28 m&#10;(Bilinen En Büyük Roma Bazilikası)" align="center"
+                    color="#ffda75" width="4" rotation="0 180 0"></a-text>
             </a-entity>
-
-            <!-- SIRA SÜTUNLAR (Colonnade) -->
             <a-entity id="colonnade" position="18 0 55">
                 <a-box position="0 0.4 0" width="6" height="0.8" depth="50" color="#8f8c81" static-body></a-box>
 
@@ -896,11 +900,11 @@
 
                 <a-plane id="sign-kolonad" class="clickable" position="-3 1.5 24" width="2" height="1" color="#333"
                     rotation="0 -45 0" onclick="showInfo('kolonad')"></a-plane>
-                <a-text position="-3 1.5 24.01" value="SUTUNLU YOL\n(Colonnade)" align="center" color="#FFF" width="4"
+                <a-text position="-3 1.5 24.01" value="SUTUNLU YOL&#10;(Colonnade)" align="center" color="#FFF" width="4"
                     rotation="0 -45 0"></a-text>
                 <!-- Arkası -->
                 <a-plane position="-3 1.5 23.99" width="2" height="1" color="#333" rotation="0 135 0"></a-plane>
-                <a-text position="-3 1.5 23.98" value="SUTUNLU YOL\n(Colonnade)" align="center" color="#FFF" width="4"
+                <a-text position="-3 1.5 23.98" value="SUTUNLU YOL&#10;(Colonnade)" align="center" color="#FFF" width="4"
                     rotation="0 135 0"></a-text>
             </a-entity>
 
@@ -972,13 +976,38 @@
                 <!-- Bilgi Tabelası (Translation Sign) -->
                 <a-plane id="sign-stela" class="clickable" position="0 0.6 0.32" width="0.8" height="0.3" color="#111"
                     onclick="showInfo('stela')"></a-plane>
-                <a-text position="0 0.6 0.33" value="TURKCE CEVIRI\n(Tiklayin)" align="center" color="#ffda75"
+                <a-text position="0 0.6 0.33" value="TURKCE CEVIRI&#10;(Tiklayin)" align="center" color="#ffda75"
                     width="2"></a-text>
             </a-entity>
 
         </a-entity>
 
-        <a-entity position="-8 0.15 59"><a-plane width="4.5" height="58" color="#1a6a8a" opacity="0.95"
+            <!-- Graffiti Duvarı (Alt Kat - Tüneller) -->
+            <a-entity id="graffiti-wall" position="-3.8 0.05 55" rotation="0 90 0">
+                <!-- Duvar yüzeyi -->
+                <a-box position="0 2.5 0" width="0.15" height="5" depth="6" color="#3a3730"></a-box>
+                <!-- Grafiti çizgileri / simüle edilmiş yazılar -->
+                <a-box position="0.09 3.2 -1.5" width="0.02" height="0.06" depth="1.2" color="#1a1208" rotation="0 0 8"></a-box>
+                <a-box position="0.09 3.0 -0.8" width="0.02" height="0.06" depth="0.9" color="#1a1208" rotation="0 0 -5"></a-box>
+                <a-box position="0.09 2.7 0.2" width="0.02" height="0.06" depth="1.4" color="#241a0a" rotation="0 0 3"></a-box>
+                <a-box position="0.09 2.4 1.2" width="0.02" height="0.06" depth="1.0" color="#1a1208" rotation="0 0 -10"></a-box>
+                <a-box position="0.09 3.5 0.5" width="0.02" height="0.6" depth="0.06" color="#1a1208"></a-box>
+                <a-box position="0.09 3.5 0.8" width="0.02" height="0.5" depth="0.06" color="#241a0a"></a-box>
+                <a-box position="0.09 3.5 -0.2" width="0.02" height="0.7" depth="0.06" color="#1a1208"></a-box>
+                <!-- Gemi/tekne simgesi -->
+                <a-box position="0.09 2.0 -0.5" width="0.02" height="0.08" depth="0.6" color="#2a1e0c"></a-box>
+                <a-box position="0.09 2.08 -0.5" width="0.02" height="0.35" depth="0.04" color="#2a1e0c"></a-box>
+                <a-box position="0.09 2.22 -0.38" width="0.02" height="0.04" depth="0.26" color="#2a1e0c" rotation="0 0 -20"></a-box>
+                <!-- Tabela -->
+                <a-plane id="sign-graffiti" class="clickable" position="0.1 1.0 0" width="2.5" height="0.8" color="#111"
+                    rotation="0 90 0" onclick="showInfo('graffiti')"></a-plane>
+                <a-text position="0.11 1.0 0" value="GRAFFİTİLER&#10;(Roma Dönemi)" align="center" color="#ffda75" width="3.5"
+                    rotation="0 90 0"></a-text>
+                <a-plane position="0.1 1.0 0" width="2.5" height="0.8" color="#111"
+                    rotation="0 270 0"></a-plane>
+                <a-text position="0.09 1.0 0" value="GRAFFİTİLER&#10;(Roma Dönemi)" align="center" color="#ffda75" width="3.5"
+                    rotation="0 270 0"></a-text>
+            </a-entity>
                 transparent="true" rotation="-90 0 0"></a-plane></a-entity>
 
         <a-light type="point" color="#e8a864" intensity="1.2" distance="40" position="0 4 35"></a-light>
@@ -1021,8 +1050,7 @@
                 mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
                 position="3 3.25 0"></a-entity></a-entity>
         <a-entity position="-8 0 72"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
-                mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
-                position="3 3.25 0"></a-entity></a-entity>
+                mixin="pillar-tunnel" position="-3 3.25 0"></a-entry></a-entity>
         <a-entity position="-8 0 80"><a-entity mixin="arch-tunnel" position="0 7 0"></a-entity><a-entity
                 mixin="pillar-tunnel" position="-3 3.25 0"></a-entity><a-entity mixin="pillar-tunnel"
                 position="3 3.25 0"></a-entity></a-entity>
@@ -1053,7 +1081,7 @@
             <a-box position="0 1 -0.8" width="1.2" height="1.8" depth="0.4" color="#d1cabc"></a-box>
             <a-box position="0 1.95 -0.8" width="1.4" height="0.1" depth="0.5" color="#b5b0a1"></a-box>
             <a-plane position="0 1.4 -0.59" width="0.8" height="0.3" color="#222"></a-plane>
-            <a-text position="0 1.4 -0.58" value="SMYRNA AGORASI\nSU ICILMEZ" align="center" color="#FFF"
+            <a-text position="0 1.4 -0.58" value="SMYRNA AGORASI&#10;SU ICILMEZ" align="center" color="#FFF"
                 width="1.5"></a-text>
 
             <a-box position="0 0.1 -0.1" width="1.4" height="0.2" depth="1" color="#a8a396"></a-box>
@@ -1094,9 +1122,9 @@
                 title: '🚰 Antik Çeşme',
                 body: 'Smyrna Agorası\'nın kuzey koridorunda yer alan bu çeşme Roma dönemine aittir. MS 2. yüzyılda inşa edilmiştir.\n\nAntik kaynaklar çeşmenin yüzyıllar boyunca kesintisiz aktığını belirtmektedir. Günümüzde de su akmakta, ancak içilmesi önerilmemektedir.\n\nÇeşme dönemin şehir altyapısının ne kadar gelişmiş olduğunu gözler önüne sermektedir.'
             },
-            altar: {
-                title: '🏛️ Merkez Sunak (Altar)',
-                body: 'Agoranın tam ortasındaki bu sunak dini törenlerin ve kurban ritüellerinin gerçekleştirildiği kutsal mekândır.\n\nMS 178 depreminden sonra İmparator Marcus Aurelius döneminde yeniden inşa edilmiştir.\n\nKademeli platformlar Hellenistik ve Roma dönemi tapınak mimarisinin özgün bir bileşimini yansıtmaktadır.'
+            gate: {
+                title: '🚪 Anıtsal Kapı (Propylon)',
+                body: 'Izgara planlı Smyrna kentinin doğu-batı yönlü caddelerinden biri agoradan geçiyordu. Bu caddenin batı yandan agoraya giriş yaptığı noktada görkemli iki gözlü bir kapı yükselmekteydi.\n\nKuzey kemerin merkezinde Roma İmparatoru Marcus Aurelius\'un eşi Faustina\'nın portre kabartması yer alır. İkinci gözde ise olasılıkla Marcus Aurelius\'un portresi bulunmaktadır. Bu iki isim, MS 178 depreminde yıkılan agorayı yeniden inşa ettirdiği için Smyrnalılar vefa borçlarını bu kapıyla ödemiştir.\n\n1940\'lı yıllarda hatalı ölçülerle onarılan kemerli kapı, 2004 yılında aslına uygun olarak yeniden restore edilmiştir.'
             },
             kabristan: {
                 title: '⚰️ Kabristan (Osmanlı Stelleri)',
@@ -1107,16 +1135,24 @@
                 body: 'Alana dağılmış taş bloklar ve yıkılmış sütun başlıkları MS 178 depreminin izlerini taşımaktadır.\n\nBlokların bir bölümü Hellenistik dönem yapılarına, diğerleri Roma dönemi portiko ve tapınaklarına aittir.\n\nSütun başlıklarındaki Korint üslubu agoranın ne kadar görkemli olduğunu göstermektedir. Kazılar hâlâ sürmektedir.'
             },
             kolonad: {
-                title: '🏟️ Sütunlu Yol (Colonnade)',
-                body: 'Batı Stoa\'nın parçası olan bu sütunlu yol MS 2. yüzyılda inşa edilmiştir. Günümüze ulaşan en büyük Roma agorası portikoları arasındadır.\n\nSütunların bir kısmı 1940\'lı yıllardaki kazılarda ayağa kaldırılmıştır. Her sütun yaklaşık 8-9 metre yüksekliğindedir.\n\nPortiko; dükkanlar, büro odaları ve toplantı alanlarıyla kent yaşamının merkeziydi.'
+                title: '🏟️ Batı Stoa',
+                body: 'Üç sıra sütun dizisiyle ayrılmış neflerden oluşan Batı Stoa, bazilika gibi bir bodrum kat üzerinde yükselmekteydi. Antik dönemde bodrum katı üzerinde iki katlı bir yapı olduğu anlaşılmaktadır.\n\nAvludan üç sıra basamakla çıkılan zemin kat ve ahşap tabanlı ikinci kat, Antik Çağ\'da insanların yağmur ve güneşten korunarak gezinti yaptığı alanlardı.\n\nRoma Dönemi sonlarında bodrum kat galerilerinin bazı duvarları örülerek sarnıçlar yapılmıştır. Avluya bakan birinci kat sütunları 1940\'lı yıllarda ayağa kaldırılmıştır.'
             },
             tunel: {
                 title: '💧 Gizli Su Tünelleri',
                 body: 'Bazilika\'nın altındaki tonozlu tüneller Roma dönemine ait karmaşık bir su ve kanalizasyon sistemidir.\n\nMS 2. yüzyılda inşa edilen yapı suyu depolamak, dağıtmak ve atık suyu uzaklaştırmak amacıyla kullanılmıştır.\n\nÜç paralel koridordan oluşan sistem büyük bir kavşakla birbirine bağlanmaktadır. Antik Smyrna\'nın ileri mühendisliğinin kanıtıdır.'
             },
+            graffiti: {
+                title: '✍️ Graffitiler',
+                body: 'Bazilika bodrum katı duvar ve kemer ayaklarındaki sıvalar üzerine yapılmış olan bu graffitiler Roma dönemine aittir. Demir ve meşe kökü karışımı mürekkeple çizilenler ile kazıma yöntemiyle yapılanlar olmak üzere iki farklı teknik kullanılmıştır.\n\nAşk oyunlarından gladyatör mücadelelerine, cinsellikten yelkenli resimlerine, sevgili adlarından kuşlara ve gemilere kadar günlük yaşamın her rengini yansıtan bu graffitiler, dönemin sosyal hayatına dair eşsiz belgelerdir. Pergamon, Ephesos ve Smyrna arasındaki rekabet bile halk arasında kent sloganlarıyla graffitilere yansımıştır.\n\nDünya\'nın demir-meşe kökü malzemeyle yapılmış en eski graffitileri olan bu eserler, tasvir zenginliği açısından da dünya arkeoloji literatüründe eşsiz bir yere sahiptir. Hıristiyanlığın ilk dönemlerine ait önemli ipuçları da içermektedirler.'
+            },
+            bazilika: {
+                title: '⚖️ Bazilika',
+                body: 'Agoranın kuzey kanadında yer alan bazilika, dıştan dışa 165 x 28 metre ölçüleriyle bilinen en büyük Roma dönemi bazilikasıdır.\n\nOrtada geniş ve yüksek, yanlarda dar ve alçak koridorlardan oluşan plan, Hristiyan kiliselerinin öncüsüdür. Roma döneminde kentin hukuk işlerinin görüldüğü bir adliye sarayı işlevi üstlenen yapıda tüccar ve bankerler de faaliyet gösteriyordu.\n\nGünümüze ulaşan görkemli bodrum katının doğu ve batı uçlarındaki çapraz tonozlar Roma dönemi mimarlığının şaheserlerindendir. Roma dönemi sonlarında bazilikanın kuzey cephesine eklenen tonozlu dükkan sıraları, agoranın giderek ticari bir merkeze dönüştüğünü gözler önüne sermektedir.'
+            },
             stela: {
                 title: '📜 Onur Yazıtı (Menekles)',
-                body: 'En tatlı vatanı (Smyrna), Asya Birliği Başkanı (Asiarkh) olarak onurlu ve cömert hizmetlerde bulunan Iulius Menekles Diophantos’u onurlandırdı.\n\nBu yazıt, antik Smyrna\'nın sosyal hiyerarşisini ve kente hizmet edenlerin nasıl ödüllendirildiğini gösteren önemli bir belgedir.'
+                body: 'En tatlı vatanı (Smyrna), Asya Birliği Başkanı (Asiarkh) olarak onurlu ve cömert hizmetlerde bulunan Iulius Menekles Diophantos\'u onurlandırdı.\n\nBu yazıt, antik Smyrna\'nın sosyal hiyerarşisini ve kente hizmet edenlerin nasıl ödüllendirildiğini gösteren önemli bir belgedir.'
             },
             nest: {
                 title: '🪺 Kuş Yuvası',
