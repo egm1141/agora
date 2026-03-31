@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 
@@ -914,6 +915,7 @@
         <!-- ALT KAT: GİZLİ SU TÜNELLERİ                              -->
         <!-- ========================================================= -->
 
+        <!-- ORTA YOL kemerlerinde torus merkezi Y=3'te (radius=3 → kemer Y=0'dan Y=6'ya kadar) -->
         <a-mixin id="arch-tunnel" geometry="primitive: torus; radius: 3; tube: 0.5; arc: 180"
             material="color: #45423a; roughness: 1; normalMap: https://raw.githubusercontent.com/aframevr/sample-assets/master/assets/textures/stone/stone_normal.jpg; normalTextureRepeat: 4 4"></a-mixin>
         <a-mixin id="pillar-tunnel" geometry="primitive: box; width: 1; height: 7.5; depth: 1.5"
@@ -981,7 +983,6 @@
             </a-entity>
 
         </a-entity>
-                transparent="true" rotation="-90 0 0"></a-plane></a-entity>
 
         <a-light type="point" color="#e8a864" intensity="1.2" distance="40" position="0 4 35"></a-light>
         <a-light type="point" color="#e8a864" intensity="1.2" distance="40" position="0 4 56"></a-light>
@@ -989,7 +990,9 @@
 
         <a-light type="point" color="#5ea8c9" intensity="0.5" distance="20" position="-8 3 56"></a-light>
 
-        <!-- Tünel Mimari Blokları - ORTA YOL -->
+        <!-- ============================================================ -->
+        <!-- Tünel Mimari Blokları - ORTA YOL (değiştirilmedi)           -->
+        <!-- ============================================================ -->
         <a-entity position="0 0 32"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity
                 mixin="pillar-center" position="-3 3 0"></a-entity><a-entity mixin="pillar-center"
                 position="3 3 0"></a-entity></a-entity>
@@ -1009,21 +1012,77 @@
                 mixin="pillar-center" position="-3 3 0"></a-entity><a-entity mixin="pillar-center"
                 position="3 3 0"></a-entity></a-entity>
 
-        <!-- SOL YOL X=-8 -->
-        <a-entity position="-8 0 32"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3 0"></a-entity></a-entity>
-        <a-entity position="-8 0 40"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3 0"></a-entity></a-entity>
-        <a-entity position="-8 0 48"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3 0"></a-entity></a-entity>
-        <a-entity position="-8 0 64"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3 0"></a-entity></a-entity>
-        <a-entity position="-8 0 72"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3 0"></a-entity></a-entity>
-        <a-entity position="-8 0 80"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3 0"></a-entity></a-entity>
+        <!-- ============================================================ -->
+        <!-- SOL YOL X=-8                                                 -->
+        <!-- DÜZELTİLDİ: kemer position="0 3 0" (torus radius=3 →        -->
+        <!-- kemer tabanı Y=0'da), pillar position="x 3.75 0"            -->
+        <!-- (height=7.5 → merkez Y=3.75, taban Y=0, tepe Y=7.5)        -->
+        <!-- ============================================================ -->
+        <a-entity position="-8 0 32">
+            <a-entity mixin="arch-tunnel" position="0 3 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="-3 3.75 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="3 3.75 0"></a-entity>
+        </a-entity>
+        <a-entity position="-8 0 40">
+            <a-entity mixin="arch-tunnel" position="0 3 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="-3 3.75 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="3 3.75 0"></a-entity>
+        </a-entity>
+        <a-entity position="-8 0 48">
+            <a-entity mixin="arch-tunnel" position="0 3 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="-3 3.75 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="3 3.75 0"></a-entity>
+        </a-entity>
+        <a-entity position="-8 0 64">
+            <a-entity mixin="arch-tunnel" position="0 3 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="-3 3.75 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="3 3.75 0"></a-entity>
+        </a-entity>
+        <a-entity position="-8 0 72">
+            <a-entity mixin="arch-tunnel" position="0 3 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="-3 3.75 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="3 3.75 0"></a-entity>
+        </a-entity>
+        <a-entity position="-8 0 80">
+            <a-entity mixin="arch-tunnel" position="0 3 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="-3 3.75 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="3 3.75 0"></a-entity>
+        </a-entity>
 
-        <!-- SAĞ YOL X=8 (Su Kanalı + Graffiti Duvarları) -->
-        <a-entity position="8 0 32"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3 0"></a-entity></a-entity>
-        <a-entity position="8 0 40"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3 0"></a-entity></a-entity>
-        <a-entity position="8 0 48"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3 0"></a-entity></a-entity>
-        <a-entity position="8 0 64"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3 0"></a-entity></a-entity>
-        <a-entity position="8 0 72"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3 0"></a-entity></a-entity>
-        <a-entity position="8 0 80"><a-entity mixin="arch-tunnel" position="0 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="-3 3 0"></a-entity><a-entity mixin="pillar-tunnel" position="3 3 0"></a-entity></a-entity>
+        <!-- ============================================================ -->
+        <!-- SAĞ YOL X=8 (Su Kanalı + Graffiti Duvarları)               -->
+        <!-- DÜZELTİLDİ: aynı şekilde pillar zeminden başlıyor          -->
+        <!-- ============================================================ -->
+        <a-entity position="8 0 32">
+            <a-entity mixin="arch-tunnel" position="0 3 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="-3 3.75 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="3 3.75 0"></a-entity>
+        </a-entity>
+        <a-entity position="8 0 40">
+            <a-entity mixin="arch-tunnel" position="0 3 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="-3 3.75 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="3 3.75 0"></a-entity>
+        </a-entity>
+        <a-entity position="8 0 48">
+            <a-entity mixin="arch-tunnel" position="0 3 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="-3 3.75 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="3 3.75 0"></a-entity>
+        </a-entity>
+        <a-entity position="8 0 64">
+            <a-entity mixin="arch-tunnel" position="0 3 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="-3 3.75 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="3 3.75 0"></a-entity>
+        </a-entity>
+        <a-entity position="8 0 72">
+            <a-entity mixin="arch-tunnel" position="0 3 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="-3 3.75 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="3 3.75 0"></a-entity>
+        </a-entity>
+        <a-entity position="8 0 80">
+            <a-entity mixin="arch-tunnel" position="0 3 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="-3 3.75 0"></a-entity>
+            <a-entity mixin="pillar-tunnel" position="3 3.75 0"></a-entity>
+        </a-entity>
 
         <!-- SAĞ YOL SU KANALI -->
         <a-plane position="8 0.08 58" width="4.5" height="58" color="#17546e" opacity="0.88" transparent="true" rotation="-90 0 0"></a-plane>
