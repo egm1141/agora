@@ -270,6 +270,105 @@
             z-index: 1001; pointer-events: none; opacity: 0;
             transition: opacity 0.5s ease; backdrop-filter: blur(8px);
         }
+
+        /* ===================== TARİH ŞERİDİ ===================== */
+        #timeline-btn {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: rgba(15,12,8,0.88); border: 1px solid rgba(255,218,117,0.4);
+            color: #ffda75; padding: 10px 22px; border-radius: 20px;
+            font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px;
+            cursor: pointer; z-index: 1001; backdrop-filter: blur(10px);
+            transition: background 0.2s; letter-spacing: 1px;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.5); pointer-events: all;
+        }
+        #timeline-btn:hover { background: rgba(255,218,117,0.18); }
+
+        #timeline-panel {
+            display: none; position: fixed; bottom: 0; left: 0; right: 0;
+            height: 220px; background: linear-gradient(to top, rgba(8,6,3,0.97) 0%, rgba(15,11,5,0.95) 100%);
+            border-top: 1px solid rgba(255,218,117,0.3); z-index: 2000;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            backdrop-filter: blur(16px);
+            box-shadow: 0 -8px 40px rgba(0,0,0,0.7);
+        }
+        #timeline-panel.visible { display: flex; flex-direction: column; animation: slideUp 0.35s ease; }
+        @keyframes slideUp {
+            from { transform: translateY(100%); opacity: 0; }
+            to   { transform: translateY(0);    opacity: 1; }
+        }
+        .tl-header {
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 10px 20px 6px; border-bottom: 1px solid rgba(255,218,117,0.12);
+            flex-shrink: 0;
+        }
+        .tl-header-title { color: #ffda75; font-size: 13px; font-weight: bold; text-transform: uppercase; letter-spacing: 2px; }
+        .tl-close {
+            background: rgba(255,218,117,0.1); border: 1px solid rgba(255,218,117,0.3);
+            color: #ffda75; width: 28px; height: 28px; border-radius: 50%;
+            cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center;
+            transition: background 0.2s;
+        }
+        .tl-close:hover { background: rgba(255,218,117,0.25); }
+        .tl-scroll-area {
+            flex: 1; overflow-x: auto; overflow-y: hidden;
+            padding: 0 30px; display: flex; align-items: center;
+            scrollbar-width: thin; scrollbar-color: rgba(255,218,117,0.3) transparent;
+        }
+        .tl-scroll-area::-webkit-scrollbar { height: 4px; }
+        .tl-scroll-area::-webkit-scrollbar-thumb { background: rgba(255,218,117,0.3); border-radius: 2px; }
+        .tl-track {
+            display: flex; align-items: center; position: relative;
+            min-width: max-content; padding: 10px 0;
+        }
+        .tl-line {
+            position: absolute; top: 50%; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255,218,117,0.4) 5%, rgba(255,218,117,0.4) 95%, transparent);
+            transform: translateY(-50%); z-index: 0;
+        }
+        .tl-item {
+            display: flex; flex-direction: column; align-items: center;
+            width: 130px; flex-shrink: 0; position: relative; z-index: 1;
+            cursor: pointer;
+        }
+        .tl-item:hover .tl-dot { transform: scale(1.3); box-shadow: 0 0 18px rgba(255,218,117,0.7); }
+        .tl-item:hover .tl-card { opacity: 1; transform: translateY(-4px); }
+        .tl-dot {
+            width: 14px; height: 14px; border-radius: 50%;
+            border: 2px solid #ffda75; background: #1a1408;
+            transition: transform 0.2s, box-shadow 0.2s; flex-shrink: 0;
+            box-shadow: 0 0 8px rgba(255,218,117,0.3);
+        }
+        .tl-dot.major { background: #ffda75; width: 18px; height: 18px; }
+        .tl-date {
+            font-size: 11px; color: rgba(255,218,117,0.8); font-weight: bold;
+            margin-top: 6px; white-space: nowrap; letter-spacing: 0.5px;
+        }
+        .tl-card {
+            margin-top: 6px; background: rgba(255,218,117,0.07);
+            border: 1px solid rgba(255,218,117,0.2); border-radius: 8px;
+            padding: 6px 8px; text-align: center; opacity: 0.75;
+            transition: opacity 0.2s, transform 0.2s; max-width: 118px;
+        }
+        .tl-card-icon { font-size: 16px; margin-bottom: 2px; }
+        .tl-card-title { font-size: 11px; color: #f0ead8; font-weight: bold; line-height: 1.3; }
+        .tl-card-sub { font-size: 10px; color: rgba(240,234,216,0.55); margin-top: 2px; line-height: 1.3; }
+
+        #tl-popup {
+            display: none; position: fixed; bottom: 228px; left: 50%; transform: translateX(-50%);
+            background: rgba(10,8,5,0.97); border: 1px solid rgba(255,218,117,0.4);
+            border-radius: 14px; padding: 16px 20px; max-width: 360px; width: 90vw;
+            z-index: 2001; pointer-events: all; backdrop-filter: blur(16px);
+            box-shadow: 0 -4px 30px rgba(0,0,0,0.7);
+        }
+        #tl-popup.visible { display: block; animation: fadeInPanel 0.2s ease; }
+        .tl-popup-title { color: #ffda75; font-size: 14px; font-weight: bold; margin-bottom: 6px; }
+        .tl-popup-body { color: #ddd8cc; font-size: 13px; line-height: 1.6; }
+        .tl-popup-close {
+            position: absolute; top: 10px; right: 12px;
+            background: none; border: none; color: rgba(255,218,117,0.5);
+            cursor: pointer; font-size: 16px; padding: 0;
+        }
+        .tl-popup-close:hover { color: #ffda75; }
     </style>
 </head>
 
@@ -408,6 +507,29 @@
                 <button class="atm-btn active" id="btn-clear" onclick="setWeather('clear')">☀️<br>Açık</button>
                 <button class="atm-btn" id="btn-fog" onclick="setWeather('fog')">🌫️<br>Sisli</button>
                 <button class="atm-btn" id="btn-rain" onclick="setWeather('rain')">🌧️<br>Yağmur</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TARİH ŞERİDİ BUTONU -->
+    <button id="timeline-btn" onclick="toggleTimeline()">📜 Tarih Şeridi</button>
+
+    <!-- TARİH ŞERİDİ POPUP -->
+    <div id="tl-popup">
+        <button class="tl-popup-close" onclick="closeTlPopup()">✕</button>
+        <div class="tl-popup-title" id="tl-popup-title"></div>
+        <div class="tl-popup-body" id="tl-popup-body"></div>
+    </div>
+
+    <!-- TARİH ŞERİDİ PANELİ -->
+    <div id="timeline-panel">
+        <div class="tl-header">
+            <div class="tl-header-title">📜 Smyrna Agorası — Tarih Şeridi</div>
+            <button class="tl-close" onclick="toggleTimeline()">✕</button>
+        </div>
+        <div class="tl-scroll-area">
+            <div class="tl-track" id="tl-track">
+                <div class="tl-line"></div>
             </div>
         </div>
     </div>
@@ -1162,6 +1284,73 @@
         requestAnimationFrame(updateCoords);
     }
     updateCoords();
+
+    // ============================================================
+    // TARİH ŞERİDİ
+    // ============================================================
+    const tlEvents = [
+        { date: "MÖ 11. yy", major: true, icon: "🏺", title: "İlk Yerleşim", sub: "Akropolis & liman", detail: "Smyrna'nın bilinen ilk yerleşimi MÖ 11. yüzyıla, Geometrik Dönem'e uzanır. İlk kent Bayraklı semtindeki tepede (eski akropolis) kurulmuştur. Küçük bir liman kenti olarak başlayan Smyrna, Ege ticaretine erken dönemde dahil olmuştur." },
+        { date: "MÖ 7. yy", major: false, icon: "⚔️", title: "Lidya İşgali", sub: "Kral Alyattes", detail: "MÖ 7. yüzyılda Lidya Kralı Alyattes Smyrna'yı işgal etti ve kenti tahrip etti. Yaklaşık 400 yıl boyunca şehir önemini yitirdi; halk köylerde yaşamaya devam etti. Bu dönemde agora alanı kullanılmıyordu." },
+        { date: "MÖ 334", major: true, icon: "🗡️", title: "Büyük İskender", sub: "Yeniden kuruluş", detail: "Büyük İskender'in Anadolu seferi sırasında Smyrna yeniden kuruldu. Efsaneye göre İskender, Pagos Dağı'nda (Kadifekale) uyuduğu sırada rüyasında Nemesis tanrıçası ona şehri yeniden inşa etmesini söyledi." },
+        { date: "MÖ 2. yy", major: false, icon: "🏛️", title: "Hellenistik Agora", sub: "İlk agora yapıları", detail: "MÖ 2. yüzyılda Smyrna'nın merkezi agorası Hellenistik dönem şehir planı çerçevesinde oluşturulmaya başlandı. Stoa'lar ve kamu binaları inşa edildi. Şehir Anadolu'nun en gelişmiş ticaret merkezlerinden biri haline geldi." },
+        { date: "MÖ 133", major: false, icon: "🦅", title: "Roma Dönemi Başlıyor", sub: "Pergamon mirası", detail: "Pergamon Krallığı'nın son hükümdarı III. Attalos, vasiyetinde ülkesini Roma'ya bıraktı. Smyrna da bu devrin ardından Roma İmparatorluğu'nun yönetimine girdi. Kent Roma'nın en sadık müttefiklerinden biri sayıldı." },
+        { date: "MS 2. yy", major: true, icon: "🏗️", title: "Büyük İnşaat Dönemi", sub: "Bazilika & su tünelleri", detail: "MS 2. yüzyıl Smyrna'nın en parlak dönemidir. Dıştan dışa 165x28 metrelik devasa bazilika, karmaşık su tüneli sistemi ve sütunlu caddeler bu dönemde inşa edildi. Sehir Asya'nın Taci olarak anildi." },
+        { date: "MS 178", major: true, icon: "🌍", title: "Büyük Deprem", sub: "Marcus Aurelius yeniden inşa etti", detail: "Şiddetli bir deprem Smyrna'yı büyük ölçüde yıktı. Ünlü hatip Aelius Aristides, İmparator Marcus Aurelius'a mektup yazarak yardım istedi. Marcus Aurelius ve eşi Faustina şehri yeniden kurdurdu; Anıtsal Kapı (Propylon) bu dönemde yapıldı." },
+        { date: "MS 4-6. yy", major: false, icon: "✝️", title: "Bizans Dönemi", sub: "Hristiyanlaşma & değişim", detail: "Roma'nın Hristiyanlaşmasıyla birlikte Smyrna da dönüşüme uğradı. Agora alanı yavaş yavaş terk edildi; bazı yapılar kiliseye dönüştürüldü. Şehir İzmir adıyla Bizans İmparatorluğu'na bağlı önemli bir liman kenti olmayı sürdürdü." },
+        { date: "MS 1000-1400", major: false, icon: "⚰️", title: "Mezarlık Dönemi", sub: "Agora terk edildi", detail: "Ortaçağ boyunca agora alanı mezarlık olarak kullanıldı. Hem Bizans hem de Osmanlı dönemine ait mezar taşları alanda görülmektedir. Bu dönemde kentin kalbi liman çevresine taşınmıştı." },
+        { date: "1922", major: true, icon: "🔥", title: "Büyük İzmir Yangını", sub: "Kent yeniden şekillendi", detail: "1922 yılındaki büyük yangın İzmir'in önemli bir bölümünü yok etti. Bu felaketten sonra gerçekleştirilen imar çalışmaları sırasında antik agora alanının bir bölümü açığa çıktı." },
+        { date: "1932", major: true, icon: "🔍", title: "İlk Kazılar", sub: "Bilimsel araştırmalar başladı", detail: "1932 yılında Türk arkeologların öncülüğünde Smyrna Agorası'nda sistematik kazılar başladı. Bazilika, su tünelleri ve anıtsal kapı bu kazılar sırasında gün yüzüne çıktı." },
+        { date: "Günümüz", major: true, icon: "🌟", title: "Müze & Park", sub: "Ziyaretçilere açık", detail: "Smyrna Agorası bugün İzmir'in en önemli açık hava müzelerinden biridir. Kazılar hâlâ devam etmekte, her yıl yeni bulgular ortaya çıkmaktadır. Türk ve uluslararası arkeologların iş birliğiyle sürdürülen çalışmalar pek çok yapıyı gün ışığına çıkarmaktadır." }
+    ];
+
+    let tlOpen = false;
+
+    function toggleTimeline() {
+        tlOpen = !tlOpen;
+        const panel = document.getElementById('timeline-panel');
+        const btn = document.getElementById('timeline-btn');
+        if (tlOpen) {
+            panel.classList.add('visible');
+            btn.textContent = '✕ Kapat';
+            renderTimeline();
+        } else {
+            panel.classList.remove('visible');
+            btn.textContent = '📜 Tarih Şeridi';
+            closeTlPopup();
+        }
+    }
+
+    function renderTimeline() {
+        const track = document.getElementById('tl-track');
+        Array.from(track.children).forEach(c => { if (!c.classList.contains('tl-line')) c.remove(); });
+        tlEvents.forEach((ev, i) => {
+            const item = document.createElement('div');
+            item.className = 'tl-item';
+            item.innerHTML = `
+                <div class="tl-dot ${ev.major ? 'major' : ''}"></div>
+                <div class="tl-date">${ev.date}</div>
+                <div class="tl-card">
+                    <div class="tl-card-icon">${ev.icon}</div>
+                    <div class="tl-card-title">${ev.title}</div>
+                    <div class="tl-card-sub">${ev.sub}</div>
+                </div>
+            `;
+            item.addEventListener('click', () => showTlPopup(i));
+            track.appendChild(item);
+        });
+    }
+
+    function showTlPopup(i) {
+        const ev = tlEvents[i];
+        document.getElementById('tl-popup-title').textContent = ev.icon + ' ' + ev.date + ' — ' + ev.title;
+        document.getElementById('tl-popup-body').textContent = ev.detail;
+        document.getElementById('tl-popup').classList.add('visible');
+    }
+
+    function closeTlPopup() {
+        document.getElementById('tl-popup').classList.remove('visible');
+    }
+
     </script>
 </body>
 </html>
