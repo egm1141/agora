@@ -369,6 +369,37 @@
             cursor: pointer; font-size: 16px; padding: 0;
         }
         .tl-popup-close:hover { color: #ffda75; }
+
+        /* ===================== OTOMATİK TUR ===================== */
+        #tour-btn {
+            background: rgba(15,12,8,0.88); border: 1px solid rgba(99,202,183,0.5);
+            color: #63cab7; padding: 10px 18px; border-radius: 10px;
+            font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px;
+            cursor: pointer; backdrop-filter: blur(10px);
+            transition: background 0.2s; white-space: nowrap;
+            pointer-events: all; display: block; width: 100%;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.5); margin-top: 4px;
+        }
+        #tour-btn:hover { background: rgba(99,202,183,0.2); border-color: #63cab7; }
+        #tour-btn.active { background: rgba(234,67,53,0.2); border-color: #ea4335; color: #f28b82; }
+
+        #tour-hud {
+            display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(10,8,5,0.93); border: 1px solid rgba(99,202,183,0.4);
+            color: #f0ead8; padding: 12px 24px; border-radius: 14px;
+            font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px;
+            z-index: 1002; backdrop-filter: blur(12px); text-align: center;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.6); pointer-events: none;
+            max-width: 90vw; min-width: 260px;
+        }
+        #tour-hud.visible { display: block; }
+        .tour-hud-label { font-size: 10px; color: rgba(99,202,183,0.7); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; }
+        .tour-hud-stop { font-size: 16px; font-weight: bold; color: #63cab7; }
+        .tour-hud-desc { font-size: 12px; color: rgba(240,234,216,0.6); margin-top: 3px; }
+        .tour-hud-progress { display: flex; gap: 5px; justify-content: center; margin-top: 8px; }
+        .tour-pip { width: 8px; height: 8px; border-radius: 50%; background: rgba(99,202,183,0.25); border: 1px solid rgba(99,202,183,0.4); transition: background 0.3s; }
+        .tour-pip.active { background: #63cab7; }
+        .tour-pip.done { background: rgba(99,202,183,0.5); }
     </style>
 </head>
 
@@ -437,6 +468,16 @@
         <div style="height:1px;background:rgba(255,218,117,0.2);margin:4px 0;"></div>
         <button class="exhibit-btn" onclick="openQuiz()" style="border-color:rgba(99,202,183,0.6);color:#63cab7;">🎮 Bilgi Yarışması</button>
         <button class="exhibit-btn" onclick="startHunt()" style="border-color:rgba(249,168,37,0.6);color:#f9a825;">🔍 Eser Bulmacası</button>
+        <div style="height:1px;background:rgba(255,218,117,0.2);margin:4px 0;"></div>
+        <button id="tour-btn" onclick="toggleTour()">🎒 Otomatik Tur</button>
+    </div>
+
+    <!-- TUR HUD -->
+    <div id="tour-hud">
+        <div class="tour-hud-label">🎒 Otomatik Tur</div>
+        <div class="tour-hud-stop" id="tour-stop-name">—</div>
+        <div class="tour-hud-desc" id="tour-stop-desc">—</div>
+        <div class="tour-hud-progress" id="tour-pips"></div>
     </div>
 
     <!-- Koordinat Göstergesi -->
@@ -778,7 +819,7 @@
         <a-plane position="8 0.08 58" width="4.5" height="58" color="#17546e" opacity="0.88" transparent="true" rotation="-90 0 0"></a-plane>
         <a-plane position="8 0.10 58" width="3.5" height="56" color="#2a8ab5" opacity="0.25" transparent="true" rotation="-90 0 0" animation="property: material.opacity; from: 0.15; to: 0.35; dur: 2000; dir: alternate; loop: true; easing: easeInOutSine"></a-plane>
 
-        <!-- GRAFFİTİ DUVARI -->
+        <!-- GRAFFİTİ DUVARI (tabelasız) -->
         <a-entity id="graffiti-right-wall">
             <a-box position="4.92 2.5 38" width="0.05" height="5" depth="8" color="#3a3730"></a-box>
             <a-box position="4.97 3.5 36" width="0.03" height="0.06" depth="1.4" color="#1a1208" rotation="0 0 8"></a-box>
@@ -786,10 +827,6 @@
             <a-box position="4.92 2.5 55" width="0.05" height="5" depth="8" color="#3d3a35"></a-box>
             <a-box position="4.97 3.3 53" width="0.03" height="0.06" depth="1.2" color="#1a1208" rotation="0 0 -6"></a-box>
             <a-box position="4.92 2.5 70" width="0.05" height="5" depth="8" color="#3a3730"></a-box>
-            <a-plane id="sign-graffiti" class="clickable" position="4.97 1.0 60" width="3" height="0.8" color="#111" rotation="0 90 0" onclick="showInfo('graffiti')"></a-plane>
-            <a-text position="4.98 1.0 60" value="GRAFFİTİLER&#10;(Roma Dönemi)" align="center" color="#ffda75" width="4" rotation="0 90 0"></a-text>
-            <a-plane position="4.97 1.0 60" width="3" height="0.8" color="#111" rotation="0 270 0"></a-plane>
-            <a-text position="4.96 1.0 60" value="GRAFFİTİLER&#10;(Roma Dönemi)" align="center" color="#ffda75" width="4" rotation="0 270 0"></a-text>
         </a-entity>
 
         <!-- ANTİK ÇEŞME -->
@@ -1349,6 +1386,107 @@
 
     function closeTlPopup() {
         document.getElementById('tl-popup').classList.remove('visible');
+    }
+
+
+    // ============================================================
+    // OTOMATİK TUR SİSTEMİ
+    // ============================================================
+    const tourStops = [
+        { name: "Kuş Yuvası", desc: "Martı ailesiyle tanışın", pos: { x: 18, y: 25, z: 57 }, infoKey: "nest" },
+        { name: "Batı Stoa (Kolonad)", desc: "Sütunlu yolu keşfedin", pos: { x: 14, y: 15, z: 72 }, infoKey: "kolonad" },
+        { name: "Anıtsal Kapı", desc: "MS 178 depreminden sonra inşa edildi", pos: { x: 44, y: 15, z: 41 }, infoKey: "gate" },
+        { name: "Kabristan", desc: "Osmanlı dönemi mezar taşları", pos: { x: 32, y: 15, z: 80 }, infoKey: "kabristan" },
+        { name: "Bazilika", desc: "Roma'nın en büyük bazilikası", pos: { x: 0, y: 15, z: 65 }, infoKey: "bazilika" },
+        { name: "Su Tünelleri Girişi", desc: "Alt kata inin", pos: { x: 0, y: 15, z: 18 }, infoKey: "tunel" },
+        { name: "Antik Çeşme", desc: "MS 2. yüzyıldan beri akıyor", pos: { x: 8, y: 4, z: 80 }, infoKey: "cesme" },
+    ];
+
+    let tourActive = false;
+    let tourIndex = 0;
+    let tourTimer = null;
+    const TOUR_STEP_DURATION = 6000; // ms per stop
+
+    function toggleTour() {
+        if (tourActive) {
+            stopTour();
+        } else {
+            startTour();
+        }
+    }
+
+    function startTour() {
+        tourActive = true;
+        tourIndex = 0;
+        document.getElementById('tour-btn').textContent = '⏹ Turu Durdur';
+        document.getElementById('tour-btn').classList.add('active');
+        document.getElementById('tour-hud').classList.add('visible');
+        buildTourPips();
+        closePanel();
+        closeQuiz();
+        closeHuntResult();
+        goToTourStop(0);
+    }
+
+    function stopTour() {
+        tourActive = false;
+        clearTimeout(tourTimer);
+        document.getElementById('tour-btn').textContent = '🎒 Otomatik Tur';
+        document.getElementById('tour-btn').classList.remove('active');
+        document.getElementById('tour-hud').classList.remove('visible');
+        closePanel();
+    }
+
+    function buildTourPips() {
+        const pips = document.getElementById('tour-pips');
+        pips.innerHTML = '';
+        tourStops.forEach((_, i) => {
+            const pip = document.createElement('div');
+            pip.className = 'tour-pip';
+            pip.id = 'tour-pip-' + i;
+            pips.appendChild(pip);
+        });
+    }
+
+    function updateTourPips(current) {
+        tourStops.forEach((_, i) => {
+            const pip = document.getElementById('tour-pip-' + i);
+            if (!pip) return;
+            pip.className = 'tour-pip' + (i < current ? ' done' : i === current ? ' active' : '');
+        });
+    }
+
+    function goToTourStop(idx) {
+        if (!tourActive || idx >= tourStops.length) {
+            if (tourActive) stopTour();
+            return;
+        }
+        tourIndex = idx;
+        const stop = tourStops[idx];
+
+        // Kamerayı konumlandır
+        const rig = document.getElementById('camera-rig');
+        if (rig) {
+            rig.setAttribute('position', { x: stop.pos.x, y: stop.pos.y, z: stop.pos.z });
+        }
+
+        // HUD güncelle
+        document.getElementById('tour-stop-name').textContent = (idx + 1) + ' / ' + tourStops.length + ' — ' + stop.name;
+        document.getElementById('tour-stop-desc').textContent = stop.desc;
+        updateTourPips(idx);
+
+        // Bilgi panelini aç
+        setTimeout(() => {
+            if (tourActive) showInfo(stop.infoKey);
+        }, 800);
+
+        // Sonraki durağa geç
+        tourTimer = setTimeout(() => {
+            closePanel();
+            setTimeout(() => {
+                if (tourActive) goToTourStop(idx + 1);
+            }, 600);
+        }, TOUR_STEP_DURATION);
     }
 
     </script>
