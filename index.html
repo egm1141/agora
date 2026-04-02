@@ -97,6 +97,7 @@
         .map-body { position: relative; flex: 1; width: 100%; background: radial-gradient(circle, rgba(255,218,117,0.05) 0%, transparent 70%); }
         .map-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,218,117,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,218,117,0.05) 1px, transparent 1px); background-size: 20px 20px; }
         #map-player { position: absolute; width: 12px; height: 12px; background: #ffda75; border: 2px solid #fff; border-radius: 50%; transform: translate(-50%,-50%); z-index: 100; box-shadow: 0 0 10px #ffda75, 0 0 20px rgba(255,218,117,0.5); transition: left 0.1s linear, top 0.1s linear; }
+        #map-walker { position: absolute; width: 9px; height: 9px; background: #63cab7; border: 2px solid #fff; border-radius: 50%; transform: translate(-50%,-50%); z-index: 99; box-shadow: 0 0 8px #63cab7; transition: left 0.3s linear, top 0.3s linear; }
         .map-dot { position: absolute; width: 6px; height: 6px; background: rgba(255,255,255,0.6); border-radius: 50%; transform: translate(-50%,-50%); }
         .map-dot::after { content: attr(data-label); position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); font-size: 7px; color: rgba(255,255,255,0.8); white-space: nowrap; font-family: Arial, sans-serif; text-transform: uppercase; letter-spacing: 0.5px; }
 
@@ -195,13 +196,6 @@
         }
         .hunt-close-btn:hover { background: rgba(255,255,255,0.1); }
 
-        /* Parlayan eser efekti */
-        @keyframes glowPulse {
-            0% { box-shadow: 0 0 0 0 rgba(255,218,117,0); }
-            50% { box-shadow: 0 0 30px 10px rgba(255,218,117,0.6); }
-            100% { box-shadow: 0 0 0 0 rgba(255,218,117,0); }
-        }
-
         /* ===================== ATMOSFER KONTROL PANELİ ===================== */
         #atmosphere-panel {
             position: fixed; top: 188px; left: 20px;
@@ -228,40 +222,34 @@
         .atm-btn:hover { background: rgba(255,218,117,0.15); border-color: rgba(255,218,117,0.5); color: #ffda75; }
         .atm-btn.active { background: rgba(255,218,117,0.2); border-color: #ffda75; color: #ffda75; box-shadow: 0 0 10px rgba(255,218,117,0.2); }
 
-        /* Yağmur overlay */
         #rain-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 500; opacity: 0;
             transition: opacity 1.5s ease;
         }
-        /* Sis overlay */
         #fog-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 499; opacity: 0;
             background: radial-gradient(ellipse at center, transparent 20%, rgba(180,195,210,0.25) 60%, rgba(160,175,195,0.55) 100%);
             transition: opacity 2s ease;
         }
-        /* Gece overlay */
         #night-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 498; opacity: 0;
             background: rgba(5,8,25,0.62);
             transition: opacity 2.5s ease;
         }
-        /* Gün batımı overlay */
         #sunset-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 497; opacity: 0;
             background: linear-gradient(to bottom, rgba(255,100,30,0.18) 0%, rgba(255,160,60,0.10) 40%, transparent 100%);
             transition: opacity 2s ease;
         }
-        /* Yıldızlar */
         #stars-canvas {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 496; opacity: 0;
             transition: opacity 2.5s ease;
         }
-        /* Hava durumu bilgi etiketi */
         #weather-label {
             position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
             background: rgba(15,12,8,0.82); border: 1px solid rgba(255,218,117,0.3);
@@ -400,6 +388,22 @@
         .tour-pip { width: 8px; height: 8px; border-radius: 50%; background: rgba(99,202,183,0.25); border: 1px solid rgba(99,202,183,0.4); transition: background 0.3s; }
         .tour-pip.active { background: #63cab7; }
         .tour-pip.done { background: rgba(99,202,183,0.5); }
+
+        /* ===================== YÜRÜYEN ADAM ===================== */
+        #walker-label {
+            display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
+            background: rgba(10,8,5,0.95); color: #f0ead8; padding: 20px 26px;
+            border-radius: 16px; font-family: 'Segoe UI', Arial, sans-serif;
+            max-width: 340px; width: 88vw; z-index: 9998; backdrop-filter: blur(16px);
+            border: 1px solid rgba(99,202,183,0.5); box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+            pointer-events: all;
+        }
+        #walker-label.visible { display: block; animation: fadeInPanel 0.25s ease; }
+        #walker-label .wl-title { font-size: 16px; font-weight: bold; color: #63cab7; margin-bottom: 10px; border-bottom: 1px solid rgba(99,202,183,0.2); padding-bottom: 8px; }
+        #walker-label .wl-body { font-size: 13px; line-height: 1.7; color: #ddd8cc; }
+        #walker-label .wl-close { margin-top: 14px; display: block; text-align: center; background: rgba(99,202,183,0.12); border: 1px solid rgba(99,202,183,0.4); color: #63cab7; padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: background 0.2s; }
+        #walker-label .wl-close:hover { background: rgba(99,202,183,0.28); }
+        #walker-label .wl-msg { font-size: 12px; color: rgba(99,202,183,0.7); margin-top: 10px; font-style: italic; }
     </style>
 </head>
 
@@ -411,7 +415,7 @@
         <div class="instruction">Mouse'a basılı tutarak etrafa bakın.</div>
         <div class="instruction highlight">🖱️ Tabelaların YANINA GİDİP tıklayın — bilgi paneli açılır.</div>
         <div class="instruction highlight">⬇️ ARKANIZDAKİ MERDİVENLERİ kullanarak alt kata (su tünellerine) inebilirsiniz.</div>
-        <div class="instruction highlight">🎮 <strong>OYUN TABELASİ</strong>nı bulun — Quiz & Bulmaca!</div>
+        <div class="instruction highlight">🚶 <strong>YÜRÜYEN REHBER</strong>'e yaklaşıp tıklayın — ipuçları alın!</div>
     </div>
 
     <!-- Mini Map -->
@@ -433,6 +437,7 @@
                 <div class="map-dot" style="left:35%;top:60%;" data-label="Graffiti"></div>
             </div>
             <div id="map-player"></div>
+            <div id="map-walker" title="Rehber"></div>
         </div>
     </div>
 
@@ -523,6 +528,17 @@
         </div>
     </div>
 
+    <!-- ==================== YÜRÜYEN ADAM BİLGİ KARTI ==================== -->
+    <div id="walker-label">
+        <div class="wl-title">🚶 Müze Rehberi — Hermes</div>
+        <div class="wl-body" id="walker-text">Merhaba! Ben Hermes, Smyrna Agorası'nın dijital rehberiyim.<br><br>
+        Roma döneminde bu meydanda tüccarlar, hakimler ve vatandaşlar bir arada yaşardı.
+        Bazilika ile su tünellerini mutlaka görün — ikisi de dönemin mühendislik harikası!<br><br>
+        Tüm eserleri gezip quiz'i de dene!</div>
+        <div class="wl-msg" id="walker-tip"></div>
+        <span class="wl-close" onclick="closeWalkerLabel()">✕ Kapat</span>
+    </div>
+
     <!-- ATMOSFER OVERLAY'LERİ -->
     <canvas id="rain-canvas"></canvas>
     <canvas id="stars-canvas"></canvas>
@@ -581,12 +597,10 @@
         <a-assets timeout="2000">
             <audio id="wind-sound" src="https://cdn.aframe.io/basic-guide/audio/backgroundnoise.wav" preload="metadata"></audio>
             <audio id="water-sound" src="https://actions.google.com/sounds/v1/water/dripping_water.ogg" preload="metadata"></audio>
-            <audio id="bazilika-sound" src="bazilika.mp3" preload="auto"></audio>
         </a-assets>
 
         <a-sound src="#wind-sound" autoplay="true" loop="true" volume="0.3" position="0 10 0"></a-sound>
         <a-entity id="tunnel-sound" sound="src: #water-sound; autoplay: true; loop: true; volume: 0.5" position="0 0 50"></a-entity>
-        <a-sound id="bazilika-sound-entity" src="#bazilika-sound" autoplay="false" loop="true" volume="0.6" position="7 1.5 20"></a-sound>
 
         <!-- ÇEVRE -->
         <a-sky color="#74a5e3"></a-sky>
@@ -675,8 +689,6 @@
         <!-- ÜST KAT TARİHİ ESERLER -->
         <a-entity id="upper-level" position="0 6.8 0">
 
-
-
             <!-- ANITsal KAPI -->
             <a-entity id="monumental-gate" position="48 0 41" rotation="0 0 0">
                 <a-box position="-4 3 0" width="2" height="6" depth="2" color="#9a9587"></a-box>
@@ -756,6 +768,103 @@
 
         </a-entity>
 
+        <!-- =================== YÜRÜYEN ADAM =================== -->
+        <!-- Tüm entity üst katta yürür (Y=7.8) -->
+        <a-entity id="walker-entity" position="10 7.8 30">
+
+            <!-- Gövde üzerindeki isim etiketi (tıklanabilir) -->
+            <a-plane class="clickable" position="0 2.35 0" width="1.3" height="0.30"
+                color="#0a3d30" opacity="0.9" onclick="showWalkerLabel()"></a-plane>
+            <a-text position="0 2.35 0.01" value="Rehber (Tikla)" align="center"
+                color="#63cab7" width="2.8"></a-text>
+
+            <!-- Kafa -->
+            <a-sphere position="0 1.72 0" radius="0.23" color="#f5c896"
+                segments-width="8" segments-height="6"></a-sphere>
+            <!-- Saç -->
+            <a-sphere position="0 1.90 -0.02" radius="0.19" color="#3d2a14"
+                segments-width="6" segments-height="4" scale="1 0.55 1"></a-sphere>
+            <!-- Sol göz -->
+            <a-sphere position="-0.09 1.74 0.20" radius="0.034" color="#1a1a1a"
+                segments-width="4" segments-height="4"></a-sphere>
+            <!-- Sağ göz -->
+            <a-sphere position="0.09 1.74 0.20" radius="0.034" color="#1a1a1a"
+                segments-width="4" segments-height="4"></a-sphere>
+            <!-- Ağız -->
+            <a-box position="0 1.62 0.21" width="0.09" height="0.025" depth="0.01"
+                color="#b05040"></a-box>
+
+            <!-- Üst gövde (mavi ceket) -->
+            <a-box position="0 1.12 0" width="0.40" height="0.50" depth="0.24"
+                color="#2466b0"></a-box>
+            <!-- Yaka beyaz detay -->
+            <a-box position="0 1.36 0.12" width="0.14" height="0.09" depth="0.04"
+                color="#f0f0f0"></a-box>
+
+            <!-- SOL KOL ÜST — animasyon: öne-arkaya sallanma -->
+            <a-entity id="walker-shoulder-l" position="-0.28 1.32 0"
+                animation="property: rotation; from: 35 0 0; to: -35 0 0; dur: 520; dir: alternate; loop: true; easing: easeInOutSine">
+                <a-box position="0 -0.22 0" width="0.13" height="0.44" depth="0.13"
+                    color="#2466b0"></a-box>
+                <!-- Sol ön kol -->
+                <a-entity position="0 -0.44 0"
+                    animation="property: rotation; from: 0 0 0; to: 40 0 0; dur: 520; dir: alternate; loop: true; easing: easeInOutSine">
+                    <a-box position="0 -0.19 0" width="0.11" height="0.38" depth="0.11"
+                        color="#f5c896"></a-box>
+                </a-entity>
+            </a-entity>
+
+            <!-- SAĞ KOL ÜST — ters faz -->
+            <a-entity id="walker-shoulder-r" position="0.28 1.32 0"
+                animation="property: rotation; from: -35 0 0; to: 35 0 0; dur: 520; dir: alternate; loop: true; easing: easeInOutSine">
+                <a-box position="0 -0.22 0" width="0.13" height="0.44" depth="0.13"
+                    color="#2466b0"></a-box>
+                <a-entity position="0 -0.44 0"
+                    animation="property: rotation; from: 40 0 0; to: 0 0 0; dur: 520; dir: alternate; loop: true; easing: easeInOutSine">
+                    <a-box position="0 -0.19 0" width="0.11" height="0.38" depth="0.11"
+                        color="#f5c896"></a-box>
+                </a-entity>
+            </a-entity>
+
+            <!-- Bel kemeri -->
+            <a-box position="0 0.84 0" width="0.36" height="0.10" depth="0.22"
+                color="#1a1208"></a-box>
+
+            <!-- SOL BACAK ÜST — öne-arkaya -->
+            <a-entity id="walker-hip-l" position="-0.12 0.78 0"
+                animation="property: rotation; from: -30 0 0; to: 30 0 0; dur: 520; dir: alternate; loop: true; easing: easeInOutSine">
+                <a-box position="0 -0.26 0" width="0.16" height="0.52" depth="0.16"
+                    color="#2e2845"></a-box>
+                <!-- Sol baldır — diz bükülmesi -->
+                <a-entity position="0 -0.52 0"
+                    animation="property: rotation; from: 5 0 0; to: 42 0 0; dur: 520; dir: alternate; loop: true; easing: easeInOutSine">
+                    <a-box position="0 -0.23 0" width="0.14" height="0.46" depth="0.14"
+                        color="#2e2845"></a-box>
+                    <!-- Sol ayak -->
+                    <a-box position="0 -0.48 0.08" width="0.15" height="0.07" depth="0.26"
+                        color="#111008"></a-box>
+                </a-entity>
+            </a-entity>
+
+            <!-- SAĞ BACAK ÜST — ters faz -->
+            <a-entity id="walker-hip-r" position="0.12 0.78 0"
+                animation="property: rotation; from: 30 0 0; to: -30 0 0; dur: 520; dir: alternate; loop: true; easing: easeInOutSine">
+                <a-box position="0 -0.26 0" width="0.16" height="0.52" depth="0.16"
+                    color="#2e2845"></a-box>
+                <a-entity position="0 -0.52 0"
+                    animation="property: rotation; from: 42 0 0; to: 5 0 0; dur: 520; dir: alternate; loop: true; easing: easeInOutSine">
+                    <a-box position="0 -0.23 0" width="0.14" height="0.46" depth="0.14"
+                        color="#2e2845"></a-box>
+                    <a-box position="0 -0.48 0.08" width="0.15" height="0.07" depth="0.26"
+                        color="#111008"></a-box>
+                </a-entity>
+            </a-entity>
+
+            <!-- Vücut "bob" animasyonu — hafif yukarı-aşağı -->
+            <a-entity animation="property: position; from: 0 0 0; to: 0 0.06 0; dur: 260; dir: alternate; loop: true; easing: easeInOutSine"></a-entity>
+        </a-entity>
+        <!-- =================== YÜRÜYEN ADAM SONU =================== -->
+
         <!-- ALT KAT -->
         <a-mixin id="arch-tunnel" geometry="primitive: torus; radius: 3; tube: 0.5; arc: 180" material="color: #45423a; roughness: 1"></a-mixin>
         <a-mixin id="arch-tunnel-side" geometry="primitive: torus; radius: 3.75; tube: 0.5; arc: 180" material="color: #45423a; roughness: 1"></a-mixin>
@@ -819,7 +928,7 @@
         <a-plane position="8 0.08 58" width="4.5" height="58" color="#17546e" opacity="0.88" transparent="true" rotation="-90 0 0"></a-plane>
         <a-plane position="8 0.10 58" width="3.5" height="56" color="#2a8ab5" opacity="0.25" transparent="true" rotation="-90 0 0" animation="property: material.opacity; from: 0.15; to: 0.35; dur: 2000; dir: alternate; loop: true; easing: easeInOutSine"></a-plane>
 
-        <!-- GRAFFİTİ DUVARI (tabelasız) -->
+        <!-- GRAFFİTİ DUVARI -->
         <a-entity id="graffiti-right-wall">
             <a-box position="4.92 2.5 38" width="0.05" height="5" depth="8" color="#3a3730"></a-box>
             <a-box position="4.97 3.5 36" width="0.03" height="0.06" depth="1.4" color="#1a1208" rotation="0 0 8"></a-box>
@@ -850,8 +959,7 @@
         <a-plane id="sign-tunel" class="clickable" position="0 1.5 31" width="3" height="1" color="#111" rotation="0 0 0" onclick="showInfo('tunel')"></a-plane>
         <a-text position="0 1.5 31.1" value="GIZLI SU TUNELLERI" align="center" color="#FFF" width="4" rotation="0 0 0"></a-text>
 
-        <!-- BULMACA ESERLERİ (başlangıçta gizli) -->
-        <!-- Üst katta: parlayan altın küre (görünmez başlangıçta) -->
+        <!-- BULMACA ESERLERİ -->
         <a-sphere id="hunt-target-upper" class="clickable hunt-target"
             position="48 8.3 41" radius="0.5" color="#ffda75" opacity="0"
             animation__pulse="property: material.opacity; from: 0.2; to: 0.9; dur: 800; dir: alternate; loop: true; easing: easeInOutSine; startEvents: startpulse"
@@ -860,7 +968,6 @@
             visible="false">
         </a-sphere>
 
-        <!-- Alt katta: parlayan altın küre -->
         <a-sphere id="hunt-target-lower" class="clickable hunt-target"
             position="-8 2.5 65" radius="0.5" color="#ffda75" opacity="0"
             animation__pulse="property: material.opacity; from: 0.2; to: 0.9; dur: 800; dir: alternate; loop: true; easing: easeInOutSine; startEvents: startpulse"
@@ -896,23 +1003,18 @@
         document.getElementById('panel-title').textContent = data.title;
         document.getElementById('panel-body').textContent = data.body;
         const soundToggle = document.getElementById('bazilika-sound-toggle');
-        soundToggle.style.display = key === 'bazilika' ? 'block' : 'none';
-        if (key === 'bazilika') soundToggle.textContent = isBazilikaSoundOn ? '🔊 Ses: Açık (Kapat)' : '🔈 Ses: Kapalı (Aç)';
+        soundToggle.style.display = 'none';
         document.getElementById('info-panel').classList.add('visible');
     }
 
     function closePanel() { document.getElementById('info-panel').classList.remove('visible'); }
 
     function toggleBazilikaSound() {
-        const soundEnt = document.getElementById('bazilika-sound-entity');
-        if (!soundEnt || !soundEnt.components || !soundEnt.components.sound) return;
-        const sound = soundEnt.components.sound;
-        if (isBazilikaSoundOn) { sound.pauseSound(); isBazilikaSoundOn = false; document.getElementById('bazilika-sound-toggle').textContent = '🔈 Ses: Kapalı (Aç)'; }
-        else { sound.playSound(); isBazilikaSoundOn = true; document.getElementById('bazilika-sound-toggle').textContent = '🔊 Ses: Açık (Kapat)'; }
+        // ses kaynağı mevcut değilse yoksay
     }
 
     // ============================================================
-    // DOĞRU / YANLIŞ QUIZ SİSTEMİ
+    // QUIZ SİSTEMİ
     // ============================================================
     const quizQuestions = [
         { q: "Smyrna Agorası'ndaki bazilika, bilinen en büyük Roma dönemi bazilikasıdır.", a: true, exp: "Doğru! Bazilika dıştan dışa 165 x 28 metre ölçüleriyle gerçekten bilinen en büyük Roma bazilikasıdır." },
@@ -927,9 +1029,7 @@
     let quizAnswered = false;
 
     function openQuiz() {
-        quizIndex = 0;
-        quizScore = 0;
-        quizAnswered = false;
+        quizIndex = 0; quizScore = 0; quizAnswered = false;
         document.getElementById('quiz-result-area').style.display = 'none';
         document.getElementById('quiz-buttons').style.display = 'flex';
         document.getElementById('quiz-next').style.display = 'none';
@@ -948,7 +1048,6 @@
         document.getElementById('quiz-next').style.display = 'none';
         document.getElementById('quiz-buttons').style.display = 'flex';
         quizAnswered = false;
-        // Butonları sıfırla
         document.querySelectorAll('.quiz-btn').forEach(b => { b.style.opacity = '1'; b.style.pointerEvents = 'all'; });
     }
 
@@ -958,36 +1057,25 @@
         const q = quizQuestions[quizIndex];
         const correct = userAnswer === q.a;
         if (correct) quizScore++;
-
         const fb = document.getElementById('quiz-feedback');
         fb.textContent = (correct ? '✅ Doğru! ' : '❌ Yanlış! ') + q.exp;
         fb.className = 'quiz-feedback ' + (correct ? 'correct' : 'wrong');
         fb.style.display = 'block';
-
-        // Yanlış cevaba göre buton soluklaştır
         const dogru = document.querySelector('.quiz-btn-dogru');
         const yanlis = document.querySelector('.quiz-btn-yanlis');
         dogru.style.opacity = userAnswer === true ? '1' : '0.3';
         yanlis.style.opacity = userAnswer === false ? '1' : '0.3';
         dogru.style.pointerEvents = 'none';
         yanlis.style.pointerEvents = 'none';
-
         const nextBtn = document.getElementById('quiz-next');
-        if (quizIndex < quizQuestions.length - 1) {
-            nextBtn.textContent = 'Sonraki Soru →';
-        } else {
-            nextBtn.textContent = '🏆 Sonuçları Gör';
-        }
+        nextBtn.textContent = quizIndex < quizQuestions.length - 1 ? 'Sonraki Soru →' : '🏆 Sonuçları Gör';
         nextBtn.style.display = 'block';
     }
 
     function nextQuestion() {
         quizIndex++;
-        if (quizIndex < quizQuestions.length) {
-            loadQuestion();
-        } else {
-            showQuizResult();
-        }
+        if (quizIndex < quizQuestions.length) loadQuestion();
+        else showQuizResult();
     }
 
     function showQuizResult() {
@@ -995,13 +1083,12 @@
         document.getElementById('quiz-next').style.display = 'none';
         document.getElementById('quiz-feedback').style.display = 'none';
         document.getElementById('quiz-result-area').style.display = 'block';
-
         const pct = Math.round((quizScore / quizQuestions.length) * 100);
         const icons = ['😟', '🤔', '👍', '🌟', '🏆'];
         const texts = ['Biraz daha çalış!', 'Fena değil!', 'İyi iş!', 'Harika!', 'Mükemmel!'];
-        const idx = Math.floor(pct / 25);
-        document.getElementById('result-icon').textContent = icons[Math.min(idx, 4)];
-        document.getElementById('result-text').textContent = `${quizScore} / ${quizQuestions.length} doğru — ${texts[Math.min(idx, 4)]}`;
+        const idx = Math.min(Math.floor(pct / 25), 4);
+        document.getElementById('result-icon').textContent = icons[idx];
+        document.getElementById('result-text').textContent = `${quizScore} / ${quizQuestions.length} doğru — ${texts[idx]}`;
         document.getElementById('result-sub').textContent = `Başarı oranın: %${pct}`;
         setTimeout(() => { document.getElementById('score-fill').style.width = pct + '%'; }, 100);
         document.getElementById('quiz-progress').textContent = '✓ Tamamlandı';
@@ -1032,32 +1119,16 @@
     let currentHuntTarget = null;
 
     function startHunt() {
-        closeHuntResult();
-        closeQuiz();
-        closePanel();
-
-        // Önceki hedefi gizle
+        closeHuntResult(); closeQuiz(); closePanel();
         hideHuntTargets();
-
-        // Rastgele kat seç
         const floors = ['upper', 'lower'];
         currentHuntTarget = floors[Math.floor(Math.random() * floors.length)];
         const target = huntTargets[currentHuntTarget];
-
-        // HUD göster
         document.getElementById('hunt-clue').textContent = target.clue;
         document.getElementById('hunt-hint').textContent = target.hint;
         document.getElementById('hunt-hud').style.display = 'block';
-
-        // A-Frame nesnesini göster ve parıldatmayı başlat
-        const targetId = `hunt-target-${currentHuntTarget}`;
-        const el = document.getElementById(targetId);
-        if (el) {
-            el.setAttribute('visible', 'true');
-            el.setAttribute('opacity', '0.9');
-            el.emit('startpulse');
-        }
-
+        const el = document.getElementById(`hunt-target-${currentHuntTarget}`);
+        if (el) { el.setAttribute('visible', 'true'); el.setAttribute('opacity', '0.9'); el.emit('startpulse'); }
         huntActive = true;
     }
 
@@ -1073,7 +1144,6 @@
         huntActive = false;
         hideHuntTargets();
         document.getElementById('hunt-hud').style.display = 'none';
-
         const target = huntTargets[which];
         document.getElementById('hunt-win-text').textContent = `"${target.name}" konumundaki eseri buldunuz!\n\n${target.info}`;
         document.getElementById('hunt-result').classList.add('visible');
@@ -1087,120 +1157,74 @@
     }
 
     // ============================================================
-    // ATMOSFER SİSTEMİ — Gün/Gece & Hava Durumu
+    // ATMOSFER SİSTEMİ
     // ============================================================
     let currentTime = 'day';
     let currentWeather = 'clear';
     let rainAnimFrame = null;
     let rainDrops = [];
 
-    const SKY_COLORS = {
-        day:    '#74a5e3',
-        sunset: '#e87830',
-        night:  '#0a0e1f'
-    };
+    const SKY_COLORS = { day: '#74a5e3', sunset: '#e87830', night: '#0a0e1f' };
     const AMBIENT_INTENSITY = { day: 0.55, sunset: 0.35, night: 0.10 };
-    const DIR_INTENSITY     = { day: 0.9,  sunset: 0.5,  night: 0.05 };
-    const DIR_COLOR         = { day: '#ffffff', sunset: '#ff9955', night: '#4466bb' };
+    const DIR_INTENSITY = { day: 0.9, sunset: 0.5, night: 0.05 };
+    const DIR_COLOR = { day: '#ffffff', sunset: '#ff9955', night: '#4466bb' };
 
     function setTimeOfDay(mode) {
         currentTime = mode;
-        // Buton durumları
-        ['day','sunset','night'].forEach(m => {
-            document.getElementById('btn-' + m).classList.toggle('active', m === mode);
-        });
-
-        // Sky rengi
+        ['day','sunset','night'].forEach(m => { document.getElementById('btn-' + m).classList.toggle('active', m === mode); });
         const sky = document.querySelector('a-sky');
         if (sky) sky.setAttribute('color', SKY_COLORS[mode]);
-
-        // Işıklar
         const ambient = document.querySelector('a-light[type="ambient"]');
         const dir = document.querySelector('a-light[type="directional"]');
         if (ambient) ambient.setAttribute('intensity', AMBIENT_INTENSITY[mode]);
-        if (dir) {
-            dir.setAttribute('intensity', DIR_INTENSITY[mode]);
-            dir.setAttribute('color', DIR_COLOR[mode]);
-        }
-
-        // Overlay'ler
-        document.getElementById('night-overlay').style.opacity   = mode === 'night'  ? '1' : '0';
-        document.getElementById('sunset-overlay').style.opacity  = mode === 'sunset' ? '1' : '0';
-
-        // Yıldızlar (sadece gece)
+        if (dir) { dir.setAttribute('intensity', DIR_INTENSITY[mode]); dir.setAttribute('color', DIR_COLOR[mode]); }
+        document.getElementById('night-overlay').style.opacity = mode === 'night' ? '1' : '0';
+        document.getElementById('sunset-overlay').style.opacity = mode === 'sunset' ? '1' : '0';
         const starsCanvas = document.getElementById('stars-canvas');
-        if (mode === 'night') {
-            starsCanvas.style.opacity = '1';
-            drawStars();
-        } else {
-            starsCanvas.style.opacity = '0';
-        }
-
+        if (mode === 'night') { starsCanvas.style.opacity = '1'; drawStars(); }
+        else starsCanvas.style.opacity = '0';
         showWeatherLabel(getLabelText());
     }
 
     function setWeather(mode) {
         currentWeather = mode;
-        ['clear','fog','rain'].forEach(m => {
-            document.getElementById('btn-' + m).classList.toggle('active', m === mode);
-        });
-
-        // Sis
+        ['clear','fog','rain'].forEach(m => { document.getElementById('btn-' + m).classList.toggle('active', m === mode); });
         document.getElementById('fog-overlay').style.opacity = mode === 'fog' ? '1' : '0';
-
-        // Yağmur canvas
         const rainCanvas = document.getElementById('rain-canvas');
-        if (mode === 'rain') {
-            rainCanvas.style.opacity = '1';
-            startRain();
-        } else {
-            rainCanvas.style.opacity = '0';
-            stopRain();
-        }
-
+        if (mode === 'rain') { rainCanvas.style.opacity = '1'; startRain(); }
+        else { rainCanvas.style.opacity = '0'; stopRain(); }
         showWeatherLabel(getLabelText());
     }
 
     function getLabelText() {
-        const timeLabels = { day: '🌤️ Gündüz', sunset: '🌅 Gün Batımı', night: '🌙 Gece' };
-        const weatherLabels = { clear: '', fog: ' · 🌫️ Sisli', rain: ' · 🌧️ Yağmurlu' };
-        return timeLabels[currentTime] + weatherLabels[currentWeather];
+        const tl = { day: '🌤️ Gündüz', sunset: '🌅 Gün Batımı', night: '🌙 Gece' };
+        const wl = { clear: '', fog: ' · 🌫️ Sisli', rain: ' · 🌧️ Yağmurlu' };
+        return tl[currentTime] + wl[currentWeather];
     }
 
     function showWeatherLabel(text) {
         const lbl = document.getElementById('weather-label');
-        lbl.textContent = text;
-        lbl.style.opacity = '1';
+        lbl.textContent = text; lbl.style.opacity = '1';
         clearTimeout(lbl._hideTimer);
         lbl._hideTimer = setTimeout(() => { lbl.style.opacity = '0'; }, 2800);
     }
 
-    // ---- YAĞMUR ----
     function startRain() {
         stopRain();
         const canvas = document.getElementById('rain-canvas');
-        canvas.width  = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const ctx = canvas.getContext('2d');
         rainDrops = Array.from({ length: 180 }, () => ({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            len: Math.random() * 18 + 8,
-            speed: Math.random() * 4 + 4,
-            opacity: Math.random() * 0.35 + 0.15
+            x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+            len: Math.random() * 18 + 8, speed: Math.random() * 4 + 4, opacity: Math.random() * 0.35 + 0.15
         }));
         function loop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = 'rgba(180,210,240,0.55)';
-            ctx.lineWidth = 1;
+            ctx.strokeStyle = 'rgba(180,210,240,0.55)'; ctx.lineWidth = 1;
             for (const d of rainDrops) {
-                ctx.globalAlpha = d.opacity;
-                ctx.beginPath();
-                ctx.moveTo(d.x, d.y);
-                ctx.lineTo(d.x - 1, d.y + d.len);
-                ctx.stroke();
-                d.y += d.speed;
-                d.x -= 0.5;
+                ctx.globalAlpha = d.opacity; ctx.beginPath();
+                ctx.moveTo(d.x, d.y); ctx.lineTo(d.x - 1, d.y + d.len); ctx.stroke();
+                d.y += d.speed; d.x -= 0.5;
                 if (d.y > canvas.height) { d.y = -d.len; d.x = Math.random() * canvas.width; }
             }
             ctx.globalAlpha = 1;
@@ -1217,28 +1241,21 @@
         rainDrops = [];
     }
 
-    // ---- YILDIZLAR ----
     function drawStars() {
         const canvas = document.getElementById('stars-canvas');
-        canvas.width  = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < 220; i++) {
             const x = Math.random() * canvas.width;
-            const y = Math.random() * canvas.height * 0.65; // sadece üst yarı
+            const y = Math.random() * canvas.height * 0.65;
             const r = Math.random() * 1.4 + 0.3;
-            const op = Math.random() * 0.7 + 0.3;
-            ctx.globalAlpha = op;
-            ctx.fillStyle = '#ffffff';
-            ctx.beginPath();
-            ctx.arc(x, y, r, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.globalAlpha = Math.random() * 0.7 + 0.3;
+            ctx.fillStyle = '#ffffff'; ctx.beginPath(); ctx.arc(x, y, r, 0, Math.PI * 2); ctx.fill();
         }
         ctx.globalAlpha = 1;
     }
 
-    // Pencere boyutu değişince canvas'ı yeniden boyutlandır
     window.addEventListener('resize', () => {
         if (currentWeather === 'rain') { stopRain(); startRain(); }
         if (currentTime === 'night') drawStars();
@@ -1289,34 +1306,23 @@
             cameraEntity.object3D.getWorldPosition(worldPos);
             const floor = worldPos.y > 4 ? "Üst Kat" : "Alt Kat (Tüneller)";
             coordsDisplay.textContent = `Kat: ${floor} | X: ${worldPos.x.toFixed(1)}, Y: ${worldPos.y.toFixed(1)}, Z: ${worldPos.z.toFixed(1)}`;
-
             const playerDot = document.getElementById('map-player');
             const mapTitle = document.getElementById('map-title');
             const marksUpper = document.getElementById('marks-upper');
             const marksLower = document.getElementById('marks-lower');
             const isUpper = worldPos.y > 4;
-
             mapTitle.textContent = isUpper ? "Üst Kat" : "Alt Kat";
             marksUpper.style.display = isUpper ? 'block' : 'none';
             marksLower.style.display = isUpper ? 'none' : 'block';
-
             if (isUpper) {
-                const x = ((worldPos.x + 150) / 300) * 100;
-                const z = ((worldPos.z + 150) / 300) * 100;
-                playerDot.style.left = x + '%';
-                playerDot.style.top = z + '%';
+                playerDot.style.left = ((worldPos.x + 150) / 300) * 100 + '%';
+                playerDot.style.top = ((worldPos.z + 150) / 300) * 100 + '%';
             } else {
-                const x = ((worldPos.x + 12) / 24) * 100;
-                const z = ((worldPos.z - 8) / 80) * 100;
-                playerDot.style.left = x + '%';
-                playerDot.style.top = z + '%';
+                playerDot.style.left = ((worldPos.x + 12) / 24) * 100 + '%';
+                playerDot.style.top = ((worldPos.z - 8) / 80) * 100 + '%';
             }
-
             const tunnelSound = document.getElementById('tunnel-sound');
-            if (tunnelSound) {
-                const volume = worldPos.y < 4 ? 0.6 : 0.05;
-                tunnelSound.setAttribute('sound', 'volume', volume);
-            }
+            if (tunnelSound) tunnelSound.setAttribute('sound', 'volume', worldPos.y < 4 ? 0.6 : 0.05);
         }
         requestAnimationFrame(updateCoords);
     }
@@ -1326,18 +1332,18 @@
     // TARİH ŞERİDİ
     // ============================================================
     const tlEvents = [
-        { date: "MÖ 11. yy", major: true, icon: "🏺", title: "İlk Yerleşim", sub: "Akropolis & liman", detail: "Smyrna'nın bilinen ilk yerleşimi MÖ 11. yüzyıla, Geometrik Dönem'e uzanır. İlk kent Bayraklı semtindeki tepede (eski akropolis) kurulmuştur. Küçük bir liman kenti olarak başlayan Smyrna, Ege ticaretine erken dönemde dahil olmuştur." },
-        { date: "MÖ 7. yy", major: false, icon: "⚔️", title: "Lidya İşgali", sub: "Kral Alyattes", detail: "MÖ 7. yüzyılda Lidya Kralı Alyattes Smyrna'yı işgal etti ve kenti tahrip etti. Yaklaşık 400 yıl boyunca şehir önemini yitirdi; halk köylerde yaşamaya devam etti. Bu dönemde agora alanı kullanılmıyordu." },
-        { date: "MÖ 334", major: true, icon: "🗡️", title: "Büyük İskender", sub: "Yeniden kuruluş", detail: "Büyük İskender'in Anadolu seferi sırasında Smyrna yeniden kuruldu. Efsaneye göre İskender, Pagos Dağı'nda (Kadifekale) uyuduğu sırada rüyasında Nemesis tanrıçası ona şehri yeniden inşa etmesini söyledi." },
-        { date: "MÖ 2. yy", major: false, icon: "🏛️", title: "Hellenistik Agora", sub: "İlk agora yapıları", detail: "MÖ 2. yüzyılda Smyrna'nın merkezi agorası Hellenistik dönem şehir planı çerçevesinde oluşturulmaya başlandı. Stoa'lar ve kamu binaları inşa edildi. Şehir Anadolu'nun en gelişmiş ticaret merkezlerinden biri haline geldi." },
-        { date: "MÖ 133", major: false, icon: "🦅", title: "Roma Dönemi Başlıyor", sub: "Pergamon mirası", detail: "Pergamon Krallığı'nın son hükümdarı III. Attalos, vasiyetinde ülkesini Roma'ya bıraktı. Smyrna da bu devrin ardından Roma İmparatorluğu'nun yönetimine girdi. Kent Roma'nın en sadık müttefiklerinden biri sayıldı." },
-        { date: "MS 2. yy", major: true, icon: "🏗️", title: "Büyük İnşaat Dönemi", sub: "Bazilika & su tünelleri", detail: "MS 2. yüzyıl Smyrna'nın en parlak dönemidir. Dıştan dışa 165x28 metrelik devasa bazilika, karmaşık su tüneli sistemi ve sütunlu caddeler bu dönemde inşa edildi. Sehir Asya'nın Taci olarak anildi." },
-        { date: "MS 178", major: true, icon: "🌍", title: "Büyük Deprem", sub: "Marcus Aurelius yeniden inşa etti", detail: "Şiddetli bir deprem Smyrna'yı büyük ölçüde yıktı. Ünlü hatip Aelius Aristides, İmparator Marcus Aurelius'a mektup yazarak yardım istedi. Marcus Aurelius ve eşi Faustina şehri yeniden kurdurdu; Anıtsal Kapı (Propylon) bu dönemde yapıldı." },
-        { date: "MS 4-6. yy", major: false, icon: "✝️", title: "Bizans Dönemi", sub: "Hristiyanlaşma & değişim", detail: "Roma'nın Hristiyanlaşmasıyla birlikte Smyrna da dönüşüme uğradı. Agora alanı yavaş yavaş terk edildi; bazı yapılar kiliseye dönüştürüldü. Şehir İzmir adıyla Bizans İmparatorluğu'na bağlı önemli bir liman kenti olmayı sürdürdü." },
-        { date: "MS 1000-1400", major: false, icon: "⚰️", title: "Mezarlık Dönemi", sub: "Agora terk edildi", detail: "Ortaçağ boyunca agora alanı mezarlık olarak kullanıldı. Hem Bizans hem de Osmanlı dönemine ait mezar taşları alanda görülmektedir. Bu dönemde kentin kalbi liman çevresine taşınmıştı." },
-        { date: "1922", major: true, icon: "🔥", title: "Büyük İzmir Yangını", sub: "Kent yeniden şekillendi", detail: "1922 yılındaki büyük yangın İzmir'in önemli bir bölümünü yok etti. Bu felaketten sonra gerçekleştirilen imar çalışmaları sırasında antik agora alanının bir bölümü açığa çıktı." },
-        { date: "1932", major: true, icon: "🔍", title: "İlk Kazılar", sub: "Bilimsel araştırmalar başladı", detail: "1932 yılında Türk arkeologların öncülüğünde Smyrna Agorası'nda sistematik kazılar başladı. Bazilika, su tünelleri ve anıtsal kapı bu kazılar sırasında gün yüzüne çıktı." },
-        { date: "Günümüz", major: true, icon: "🌟", title: "Müze & Park", sub: "Ziyaretçilere açık", detail: "Smyrna Agorası bugün İzmir'in en önemli açık hava müzelerinden biridir. Kazılar hâlâ devam etmekte, her yıl yeni bulgular ortaya çıkmaktadır. Türk ve uluslararası arkeologların iş birliğiyle sürdürülen çalışmalar pek çok yapıyı gün ışığına çıkarmaktadır." }
+        { date: "MÖ 11. yy", major: true, icon: "🏺", title: "İlk Yerleşim", sub: "Akropolis & liman", detail: "Smyrna'nın bilinen ilk yerleşimi MÖ 11. yüzyıla, Geometrik Dönem'e uzanır. İlk kent Bayraklı semtindeki tepede (eski akropolis) kurulmuştur." },
+        { date: "MÖ 7. yy", major: false, icon: "⚔️", title: "Lidya İşgali", sub: "Kral Alyattes", detail: "MÖ 7. yüzyılda Lidya Kralı Alyattes Smyrna'yı işgal etti ve kenti tahrip etti. Yaklaşık 400 yıl boyunca şehir önemini yitirdi." },
+        { date: "MÖ 334", major: true, icon: "🗡️", title: "Büyük İskender", sub: "Yeniden kuruluş", detail: "Büyük İskender'in Anadolu seferi sırasında Smyrna yeniden kuruldu. Efsaneye göre İskender rüyasında Nemesis tanrıçasından şehri yeniden inşa etmesini öğrendi." },
+        { date: "MÖ 2. yy", major: false, icon: "🏛️", title: "Hellenistik Agora", sub: "İlk agora yapıları", detail: "MÖ 2. yüzyılda Smyrna'nın merkezi agorası oluşturulmaya başlandı. Stoa'lar ve kamu binaları inşa edildi." },
+        { date: "MÖ 133", major: false, icon: "🦅", title: "Roma Dönemi", sub: "Pergamon mirası", detail: "Pergamon Krallığı vasiyetiyle Roma'ya geçti. Smyrna Roma'nın en sadık müttefiklerinden biri sayıldı." },
+        { date: "MS 2. yy", major: true, icon: "🏗️", title: "Büyük İnşaat", sub: "Bazilika & su tünelleri", detail: "MS 2. yüzyıl Smyrna'nın en parlak dönemidir. 165x28m bazilika, su tünelleri ve sütunlu caddeler yapıldı." },
+        { date: "MS 178", major: true, icon: "🌍", title: "Büyük Deprem", sub: "Marcus Aurelius yeniden inşa etti", detail: "Şiddetli deprem Smyrna'yı yıktı. Marcus Aurelius ve eşi Faustina şehri yeniden kurdurdu; Anıtsal Kapı bu dönemde yapıldı." },
+        { date: "MS 4-6. yy", major: false, icon: "✝️", title: "Bizans Dönemi", sub: "Hristiyanlaşma", detail: "Roma'nın Hristiyanlaşmasıyla birlikte Smyrna da dönüşüme uğradı. Agora yavaş yavaş terk edildi." },
+        { date: "MS 1000-1400", major: false, icon: "⚰️", title: "Mezarlık Dönemi", sub: "Agora terk edildi", detail: "Ortaçağ boyunca agora mezarlık olarak kullanıldı. Hem Bizans hem de Osmanlı dönemi mezar taşları alanda görülmektedir." },
+        { date: "1922", major: true, icon: "🔥", title: "Büyük İzmir Yangını", sub: "Kent yeniden şekillendi", detail: "1922 yılındaki yangından sonra imar çalışmaları sırasında antik agora alanının bir bölümü açığa çıktı." },
+        { date: "1932", major: true, icon: "🔍", title: "İlk Kazılar", sub: "Bilimsel araştırmalar", detail: "1932'de Türk arkeologlar öncülüğünde Smyrna Agorası'nda sistematik kazılar başladı." },
+        { date: "Günümüz", major: true, icon: "🌟", title: "Müze & Park", sub: "Ziyaretçilere açık", detail: "Smyrna Agorası bugün İzmir'in en önemli açık hava müzelerinden biridir. Kazılar hâlâ devam etmektedir." }
     ];
 
     let tlOpen = false;
@@ -1346,15 +1352,8 @@
         tlOpen = !tlOpen;
         const panel = document.getElementById('timeline-panel');
         const btn = document.getElementById('timeline-btn');
-        if (tlOpen) {
-            panel.classList.add('visible');
-            btn.textContent = '✕ Kapat';
-            renderTimeline();
-        } else {
-            panel.classList.remove('visible');
-            btn.textContent = '📜 Tarih Şeridi';
-            closeTlPopup();
-        }
+        if (tlOpen) { panel.classList.add('visible'); btn.textContent = '✕ Kapat'; renderTimeline(); }
+        else { panel.classList.remove('visible'); btn.textContent = '📜 Tarih Şeridi'; closeTlPopup(); }
     }
 
     function renderTimeline() {
@@ -1363,15 +1362,7 @@
         tlEvents.forEach((ev, i) => {
             const item = document.createElement('div');
             item.className = 'tl-item';
-            item.innerHTML = `
-                <div class="tl-dot ${ev.major ? 'major' : ''}"></div>
-                <div class="tl-date">${ev.date}</div>
-                <div class="tl-card">
-                    <div class="tl-card-icon">${ev.icon}</div>
-                    <div class="tl-card-title">${ev.title}</div>
-                    <div class="tl-card-sub">${ev.sub}</div>
-                </div>
-            `;
+            item.innerHTML = `<div class="tl-dot ${ev.major ? 'major' : ''}"></div><div class="tl-date">${ev.date}</div><div class="tl-card"><div class="tl-card-icon">${ev.icon}</div><div class="tl-card-title">${ev.title}</div><div class="tl-card-sub">${ev.sub}</div></div>`;
             item.addEventListener('click', () => showTlPopup(i));
             track.appendChild(item);
         });
@@ -1384,10 +1375,7 @@
         document.getElementById('tl-popup').classList.add('visible');
     }
 
-    function closeTlPopup() {
-        document.getElementById('tl-popup').classList.remove('visible');
-    }
-
+    function closeTlPopup() { document.getElementById('tl-popup').classList.remove('visible'); }
 
     // ============================================================
     // OTOMATİK TUR SİSTEMİ
@@ -1405,32 +1393,21 @@
     let tourActive = false;
     let tourIndex = 0;
     let tourTimer = null;
-    const TOUR_STEP_DURATION = 6000; // ms per stop
+    const TOUR_STEP_DURATION = 6000;
 
-    function toggleTour() {
-        if (tourActive) {
-            stopTour();
-        } else {
-            startTour();
-        }
-    }
+    function toggleTour() { if (tourActive) stopTour(); else startTour(); }
 
     function startTour() {
-        tourActive = true;
-        tourIndex = 0;
+        tourActive = true; tourIndex = 0;
         document.getElementById('tour-btn').textContent = '⏹ Turu Durdur';
         document.getElementById('tour-btn').classList.add('active');
         document.getElementById('tour-hud').classList.add('visible');
-        buildTourPips();
-        closePanel();
-        closeQuiz();
-        closeHuntResult();
+        buildTourPips(); closePanel(); closeQuiz(); closeHuntResult();
         goToTourStop(0);
     }
 
     function stopTour() {
-        tourActive = false;
-        clearTimeout(tourTimer);
+        tourActive = false; clearTimeout(tourTimer);
         document.getElementById('tour-btn').textContent = '🎒 Otomatik Tur';
         document.getElementById('tour-btn').classList.remove('active');
         document.getElementById('tour-hud').classList.remove('visible');
@@ -1438,12 +1415,10 @@
     }
 
     function buildTourPips() {
-        const pips = document.getElementById('tour-pips');
-        pips.innerHTML = '';
+        const pips = document.getElementById('tour-pips'); pips.innerHTML = '';
         tourStops.forEach((_, i) => {
             const pip = document.createElement('div');
-            pip.className = 'tour-pip';
-            pip.id = 'tour-pip-' + i;
+            pip.className = 'tour-pip'; pip.id = 'tour-pip-' + i;
             pips.appendChild(pip);
         });
     }
@@ -1457,37 +1432,114 @@
     }
 
     function goToTourStop(idx) {
-        if (!tourActive || idx >= tourStops.length) {
-            if (tourActive) stopTour();
-            return;
-        }
+        if (!tourActive || idx >= tourStops.length) { if (tourActive) stopTour(); return; }
         tourIndex = idx;
         const stop = tourStops[idx];
-
-        // Kamerayı konumlandır
         const rig = document.getElementById('camera-rig');
-        if (rig) {
-            rig.setAttribute('position', { x: stop.pos.x, y: stop.pos.y, z: stop.pos.z });
-        }
-
-        // HUD güncelle
+        if (rig) rig.setAttribute('position', { x: stop.pos.x, y: stop.pos.y, z: stop.pos.z });
         document.getElementById('tour-stop-name').textContent = (idx + 1) + ' / ' + tourStops.length + ' — ' + stop.name;
         document.getElementById('tour-stop-desc').textContent = stop.desc;
         updateTourPips(idx);
-
-        // Bilgi panelini aç
-        setTimeout(() => {
-            if (tourActive) showInfo(stop.infoKey);
-        }, 800);
-
-        // Sonraki durağa geç
+        setTimeout(() => { if (tourActive) showInfo(stop.infoKey); }, 800);
         tourTimer = setTimeout(() => {
             closePanel();
-            setTimeout(() => {
-                if (tourActive) goToTourStop(idx + 1);
-            }, 600);
+            setTimeout(() => { if (tourActive) goToTourStop(idx + 1); }, 600);
         }, TOUR_STEP_DURATION);
     }
+
+    // ============================================================
+    // YÜRÜYEN ADAM — DOLAŞMA & ETKİLEŞİM SİSTEMİ
+    // ============================================================
+    const walkerWaypoints = [
+        { x: 10,  z: 30 },
+        { x: 5,   z: 42 },
+        { x: 18,  z: 50 },
+        { x: 18,  z: 62 },
+        { x: 14,  z: 72 },
+        { x: 5,   z: 62 },
+        { x: 0,   z: 50 },
+        { x: -3,  z: 38 },
+        { x: 0,   z: 28 },
+        { x: 8,   z: 22 },
+        { x: 20,  z: 38 },
+        { x: 30,  z: 50 },
+        { x: 40,  z: 42 },
+        { x: 46,  z: 38 },
+        { x: 35,  z: 52 },
+        { x: 32,  z: 68 },
+        { x: 20,  z: 60 },
+        { x: 10,  z: 50 },
+    ];
+
+    // Rehberin farklı mesajları
+    const walkerMessages = [
+        { text: "Merhaba! Ben Hermes, Smyrna Agorası'nın dijital rehberiyim. Roma döneminde bu meydan kentin kalbi sayılırdı — tüccarlar, hakimler ve vatandaşlar bir arada yaşardı.", tip: "💡 Sağdaki menüden tüm eserlere ulaşabilirsin!" },
+        { text: "Bazilika'yı gördün mü? 165 x 28 metre boyutlarıyla bilinen en büyük Roma bazilikasıdır! MS 2. yüzyılda inşa edilmiş, kentin adliye sarayı olarak kullanılmıştır.", tip: "🏛️ Bazilika tabelasına gidip tıkla!" },
+        { text: "Su tünellerine indi mi? Arkandaki merdivenlerden aşağı inebilirsin. MS 2. yüzyıldan kalma bu tüneller antik Smyrna'nın su sisteminin parçasıydı.", tip: "⬇️ Merdivenleri bul ve tünellere in!" },
+        { text: "Anıtsal Kapı'nın hikayesini biliyor musun? MS 178 depremi sonrası İmparatoriçe Faustina şehrin yeniden kurulmasına destek verdi. Kapının üstünde onun portresi var!", tip: "🚪 Anıtsal Kapı'ya git ve tabelayı tıkla!" },
+        { text: "Bu meydanda Osmanlı döneminde mezarlık vardı. Kabristan bölgesindeki mermer steller 18-19. yüzyıllara ait. Mezar taşlarındaki kabartmalar muhteşem!", tip: "⚰️ Kabristan bölgesini keşfet!" },
+    ];
+    let walkerMsgIndex = 0;
+    let walkerMoving = true;
+    let walkerWPIndex = 0;
+    const WALKER_SPEED = 0.048;
+    const WALKER_Y = 7.8;
+
+    function walkerTick() {
+        const walkerEl = document.getElementById('walker-entity');
+        if (!walkerEl || !walkerEl.object3D) { requestAnimationFrame(walkerTick); return; }
+        if (!walkerMoving) { requestAnimationFrame(walkerTick); return; }
+
+        const target = walkerWaypoints[walkerWPIndex];
+        const pos = walkerEl.object3D.position;
+        const dx = target.x - pos.x;
+        const dz = target.z - pos.z;
+        const dist = Math.sqrt(dx * dx + dz * dz);
+
+        if (dist < 0.45) {
+            walkerWPIndex = (walkerWPIndex + 1) % walkerWaypoints.length;
+        } else {
+            const nx = dx / dist;
+            const nz = dz / dist;
+            pos.x += nx * WALKER_SPEED;
+            pos.z += nz * WALKER_SPEED;
+            pos.y = WALKER_Y;
+            if (typeof THREE !== 'undefined') {
+                walkerEl.object3D.rotation.y = THREE.MathUtils.degToRad(Math.atan2(nx, nz) * (180 / Math.PI));
+            }
+        }
+
+        // Mini haritada walker konumunu güncelle
+        const mapWalker = document.getElementById('map-walker');
+        if (mapWalker) {
+            mapWalker.style.left = ((pos.x + 150) / 300) * 100 + '%';
+            mapWalker.style.top = ((pos.z + 150) / 300) * 100 + '%';
+        }
+
+        requestAnimationFrame(walkerTick);
+    }
+
+    function showWalkerLabel() {
+        const msg = walkerMessages[walkerMsgIndex % walkerMessages.length];
+        walkerMsgIndex++;
+        document.getElementById('walker-text').innerHTML = msg.text;
+        document.getElementById('walker-tip').textContent = msg.tip;
+        document.getElementById('walker-label').classList.add('visible');
+        walkerMoving = false;
+        setTimeout(() => { walkerMoving = true; }, 10000);
+    }
+
+    function closeWalkerLabel() {
+        document.getElementById('walker-label').classList.remove('visible');
+        walkerMoving = true;
+    }
+
+    // Sahne yüklenince walker tick başlat
+    const sceneEl = document.querySelector('a-scene');
+    if (sceneEl) {
+        sceneEl.addEventListener('loaded', () => { setTimeout(walkerTick, 1200); });
+    }
+    window.addEventListener('load', () => { setTimeout(walkerTick, 2500); });
 
     </script>
 </body>
