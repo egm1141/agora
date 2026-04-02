@@ -389,21 +389,57 @@
         .tour-pip.active { background: #63cab7; }
         .tour-pip.done { background: rgba(99,202,183,0.5); }
 
-        /* ===================== YÜRÜYEN ADAM ===================== */
+        /* ===================== YÜRÜYEN ADAM PANELİ ===================== */
         #walker-label {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
             background: rgba(10,8,5,0.95); color: #f0ead8; padding: 20px 26px;
             border-radius: 16px; font-family: 'Segoe UI', Arial, sans-serif;
-            max-width: 340px; width: 88vw; z-index: 9998; backdrop-filter: blur(16px);
+            max-width: 380px; width: 88vw; z-index: 9998; backdrop-filter: blur(16px);
             border: 1px solid rgba(99,202,183,0.5); box-shadow: 0 20px 60px rgba(0,0,0,0.8);
             pointer-events: all;
         }
         #walker-label.visible { display: block; animation: fadeInPanel 0.25s ease; }
         #walker-label .wl-title { font-size: 16px; font-weight: bold; color: #63cab7; margin-bottom: 10px; border-bottom: 1px solid rgba(99,202,183,0.2); padding-bottom: 8px; }
         #walker-label .wl-body { font-size: 13px; line-height: 1.7; color: #ddd8cc; }
-        #walker-label .wl-close { margin-top: 14px; display: block; text-align: center; background: rgba(99,202,183,0.12); border: 1px solid rgba(99,202,183,0.4); color: #63cab7; padding: 8px 20px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: background 0.2s; }
-        #walker-label .wl-close:hover { background: rgba(99,202,183,0.28); }
         #walker-label .wl-msg { font-size: 12px; color: rgba(99,202,183,0.7); margin-top: 10px; font-style: italic; }
+        #walker-label .wl-actions { display: flex; gap: 8px; margin-top: 14px; }
+        #walker-label .wl-close { flex: 1; text-align: center; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.2); color: rgba(240,234,216,0.6); padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 12px; transition: background 0.2s; }
+        #walker-label .wl-close:hover { background: rgba(255,255,255,0.12); }
+        #walker-label .wl-follow { flex: 2; text-align: center; background: rgba(99,202,183,0.15); border: 1px solid rgba(99,202,183,0.5); color: #63cab7; padding: 8px 14px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: bold; transition: background 0.2s; }
+        #walker-label .wl-follow:hover { background: rgba(99,202,183,0.3); }
+        #walker-label .wl-follow.stop { background: rgba(234,67,53,0.15); border-color: #ea4335; color: #f28b82; }
+        #walker-label .wl-follow.stop:hover { background: rgba(234,67,53,0.3); }
+
+        /* ===================== REHBER TAKİP HUD ===================== */
+        #follow-hud {
+            display: none; position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(5,20,15,0.93); border: 1px solid rgba(99,202,183,0.5);
+            color: #63cab7; padding: 10px 22px; border-radius: 30px;
+            font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; font-weight: bold;
+            z-index: 1003; backdrop-filter: blur(12px); text-align: center;
+            pointer-events: all; letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(99,202,183,0.3);
+            cursor: pointer;
+        }
+        #follow-hud.visible { display: block; animation: fadeInPanel 0.3s ease; }
+        #follow-hud:hover { background: rgba(234,67,53,0.2); border-color: #ea4335; color: #f28b82; }
+
+        /* ===================== REHBER YÜZEN KONUŞMA BALONU ===================== */
+        #walker-bubble {
+            display: none; position: fixed;
+            background: rgba(5,20,15,0.95); color: #a8efe3;
+            padding: 10px 16px; border-radius: 14px; border: 1px solid rgba(99,202,183,0.6);
+            font-family: 'Segoe UI', Arial, sans-serif; font-size: 13px; line-height: 1.5;
+            max-width: 280px; z-index: 9000; pointer-events: none;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.7); backdrop-filter: blur(10px);
+            transition: opacity 0.4s ease;
+        }
+        #walker-bubble::after {
+            content: ''; position: absolute; bottom: -8px; left: 24px;
+            border-left: 8px solid transparent; border-right: 8px solid transparent;
+            border-top: 8px solid rgba(99,202,183,0.6);
+        }
+        #walker-bubble .bubble-name { font-size: 11px; color: rgba(99,202,183,0.6); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 
@@ -414,8 +450,8 @@
         <div class="instruction"><span class="key">W</span><span class="key">A</span><span class="key">S</span><span class="key">D</span> ile hareket edin.</div>
         <div class="instruction">Mouse'a basılı tutarak etrafa bakın.</div>
         <div class="instruction highlight">🖱️ Tabelaların YANINA GİDİP tıklayın — bilgi paneli açılır.</div>
-        <div class="instruction highlight">⬇️ ARKANIZDAKİ MERDİVENLERİ kullanarak alt kata (su tünellerine) inebilirsiniz.</div>
-        <div class="instruction highlight">🚶 <strong>YÜRÜYEN REHBER</strong>'e yaklaşıp tıklayın — ipuçları alın!</div>
+        <div class="instruction highlight">⬇️ ARKANIZDAKİ MERDİVENLERİ kullanarak alt kata inebilirsiniz.</div>
+        <div class="instruction highlight">🚶 <strong>HERMES'E</strong> tıklayın — rehberle birlikte gezin!</div>
     </div>
 
     <!-- Mini Map -->
@@ -488,6 +524,15 @@
     <!-- Koordinat Göstergesi -->
     <div id="coords-display">X: 0.0, Y: 0.0, Z: 0.0</div>
 
+    <!-- REHBER TAKİP HUD -->
+    <div id="follow-hud" onclick="stopFollowMode()">🚶 Hermes ile Geziyorsunuz — Durdurmak için tıklayın</div>
+
+    <!-- REHBER KONUŞMA BALONU -->
+    <div id="walker-bubble">
+        <div class="bubble-name">🚶 Hermes</div>
+        <div id="bubble-text">Merhaba!</div>
+    </div>
+
     <!-- ==================== QUIZ PANELİ ==================== -->
     <div id="quiz-panel">
         <div class="quiz-header">
@@ -531,12 +576,12 @@
     <!-- ==================== YÜRÜYEN ADAM BİLGİ KARTI ==================== -->
     <div id="walker-label">
         <div class="wl-title">🚶 Müze Rehberi — Hermes</div>
-        <div class="wl-body" id="walker-text">Merhaba! Ben Hermes, Smyrna Agorası'nın dijital rehberiyim.<br><br>
-        Roma döneminde bu meydanda tüccarlar, hakimler ve vatandaşlar bir arada yaşardı.
-        Bazilika ile su tünellerini mutlaka görün — ikisi de dönemin mühendislik harikası!<br><br>
-        Tüm eserleri gezip quiz'i de dene!</div>
+        <div class="wl-body" id="walker-text">Merhaba!</div>
         <div class="wl-msg" id="walker-tip"></div>
-        <span class="wl-close" onclick="closeWalkerLabel()">✕ Kapat</span>
+        <div class="wl-actions">
+            <span class="wl-follow" id="follow-toggle-btn" onclick="toggleFollowMode()">🚶 Benimle Yürü!</span>
+            <span class="wl-close" onclick="closeWalkerLabel()">✕ Kapat</span>
+        </div>
     </div>
 
     <!-- ATMOSFER OVERLAY'LERİ -->
@@ -768,15 +813,23 @@
 
         </a-entity>
 
-        <!-- =================== YÜRÜYEN ADAM =================== -->
-        <!-- Tüm entity üst katta yürür (Y=7.8) -->
+        <!-- =================== YÜRÜYEN ADAM (HERMES) =================== -->
         <a-entity id="walker-entity" position="10 7.8 30">
 
-            <!-- Gövde üzerindeki isim etiketi (tıklanabilir) -->
-            <a-plane class="clickable" position="0 2.35 0" width="1.3" height="0.30"
-                color="#0a3d30" opacity="0.9" onclick="showWalkerLabel()"></a-plane>
-            <a-text position="0 2.35 0.01" value="Rehber (Tikla)" align="center"
-                color="#63cab7" width="2.8"></a-text>
+            <!-- *** BÜYÜK, GÖRÜNMEZ TIKLAMA ALANI — tüm vücudu kapsar *** -->
+            <a-box class="clickable walker-hitbox"
+                position="0 1.0 0"
+                width="1.2" height="2.6" depth="0.8"
+                color="#63cab7" opacity="0"
+                onclick="showWalkerLabel()">
+            </a-box>
+
+            <!-- Gövde üzerindeki isim etiketi -->
+            <a-plane position="0 2.6 0" width="1.5" height="0.32"
+                color="#062e22" opacity="0.92">
+            </a-plane>
+            <a-text position="0 2.6 0.01" value="🚶 Hermes — Tıkla!" align="center"
+                color="#63cab7" width="3.2"></a-text>
 
             <!-- Kafa -->
             <a-sphere position="0 1.72 0" radius="0.23" color="#f5c896"
@@ -801,12 +854,11 @@
             <a-box position="0 1.36 0.12" width="0.14" height="0.09" depth="0.04"
                 color="#f0f0f0"></a-box>
 
-            <!-- SOL KOL ÜST — animasyon: öne-arkaya sallanma -->
+            <!-- SOL KOL ÜST -->
             <a-entity id="walker-shoulder-l" position="-0.28 1.32 0"
                 animation="property: rotation; from: 35 0 0; to: -35 0 0; dur: 520; dir: alternate; loop: true; easing: easeInOutSine">
                 <a-box position="0 -0.22 0" width="0.13" height="0.44" depth="0.13"
                     color="#2466b0"></a-box>
-                <!-- Sol ön kol -->
                 <a-entity position="0 -0.44 0"
                     animation="property: rotation; from: 0 0 0; to: 40 0 0; dur: 520; dir: alternate; loop: true; easing: easeInOutSine">
                     <a-box position="0 -0.19 0" width="0.11" height="0.38" depth="0.11"
@@ -830,17 +882,15 @@
             <a-box position="0 0.84 0" width="0.36" height="0.10" depth="0.22"
                 color="#1a1208"></a-box>
 
-            <!-- SOL BACAK ÜST — öne-arkaya -->
+            <!-- SOL BACAK ÜST -->
             <a-entity id="walker-hip-l" position="-0.12 0.78 0"
                 animation="property: rotation; from: -30 0 0; to: 30 0 0; dur: 520; dir: alternate; loop: true; easing: easeInOutSine">
                 <a-box position="0 -0.26 0" width="0.16" height="0.52" depth="0.16"
                     color="#2e2845"></a-box>
-                <!-- Sol baldır — diz bükülmesi -->
                 <a-entity position="0 -0.52 0"
                     animation="property: rotation; from: 5 0 0; to: 42 0 0; dur: 520; dir: alternate; loop: true; easing: easeInOutSine">
                     <a-box position="0 -0.23 0" width="0.14" height="0.46" depth="0.14"
                         color="#2e2845"></a-box>
-                    <!-- Sol ayak -->
                     <a-box position="0 -0.48 0.08" width="0.15" height="0.07" depth="0.26"
                         color="#111008"></a-box>
                 </a-entity>
@@ -859,9 +909,6 @@
                         color="#111008"></a-box>
                 </a-entity>
             </a-entity>
-
-            <!-- Vücut "bob" animasyonu — hafif yukarı-aşağı -->
-            <a-entity animation="property: position; from: 0 0 0; to: 0 0.06 0; dur: 260; dir: alternate; loop: true; easing: easeInOutSine"></a-entity>
         </a-entity>
         <!-- =================== YÜRÜYEN ADAM SONU =================== -->
 
@@ -995,23 +1042,16 @@
         nest: { title: '🪺 Kuş Yuvası', body: 'Agora\'nın taş sütunları arasına kurulmuş bu martı yuvası, antik yapıların doğayla iç içe geçtiğinin güzel bir örneğidir.\n\nAnne martı üç yumurtasını korumaktadır. Akdeniz martıları İzmir körfezinin vazgeçilmez sakinleridir.' }
     };
 
-    let isBazilikaSoundOn = false;
-
     function showInfo(key) {
         const data = infoData[key];
         if (!data) return;
         document.getElementById('panel-title').textContent = data.title;
         document.getElementById('panel-body').textContent = data.body;
-        const soundToggle = document.getElementById('bazilika-sound-toggle');
-        soundToggle.style.display = 'none';
+        document.getElementById('bazilika-sound-toggle').style.display = 'none';
         document.getElementById('info-panel').classList.add('visible');
     }
-
     function closePanel() { document.getElementById('info-panel').classList.remove('visible'); }
-
-    function toggleBazilikaSound() {
-        // ses kaynağı mevcut değilse yoksay
-    }
+    function toggleBazilikaSound() {}
 
     // ============================================================
     // QUIZ SİSTEMİ
@@ -1024,9 +1064,7 @@
         { q: "Smyrna Agorası'nın su kanalı sistemi MS 5. yüzyılda yapılmıştır.", a: false, exp: "Yanlış! Su tünelleri MS 2. yüzyılda, Roma döneminde inşa edilmiştir. Suyu depolamak ve dağıtmak için kullanılıyordu." }
     ];
 
-    let quizIndex = 0;
-    let quizScore = 0;
-    let quizAnswered = false;
+    let quizIndex = 0, quizScore = 0, quizAnswered = false;
 
     function openQuiz() {
         quizIndex = 0; quizScore = 0; quizAnswered = false;
@@ -1061,12 +1099,10 @@
         fb.textContent = (correct ? '✅ Doğru! ' : '❌ Yanlış! ') + q.exp;
         fb.className = 'quiz-feedback ' + (correct ? 'correct' : 'wrong');
         fb.style.display = 'block';
-        const dogru = document.querySelector('.quiz-btn-dogru');
-        const yanlis = document.querySelector('.quiz-btn-yanlis');
-        dogru.style.opacity = userAnswer === true ? '1' : '0.3';
-        yanlis.style.opacity = userAnswer === false ? '1' : '0.3';
-        dogru.style.pointerEvents = 'none';
-        yanlis.style.pointerEvents = 'none';
+        document.querySelector('.quiz-btn-dogru').style.opacity = userAnswer === true ? '1' : '0.3';
+        document.querySelector('.quiz-btn-yanlis').style.opacity = userAnswer === false ? '1' : '0.3';
+        document.querySelector('.quiz-btn-dogru').style.pointerEvents = 'none';
+        document.querySelector('.quiz-btn-yanlis').style.pointerEvents = 'none';
         const nextBtn = document.getElementById('quiz-next');
         nextBtn.textContent = quizIndex < quizQuestions.length - 1 ? 'Sonraki Soru →' : '🏆 Sonuçları Gör';
         nextBtn.style.display = 'block';
@@ -1115,8 +1151,7 @@
         }
     };
 
-    let huntActive = false;
-    let currentHuntTarget = null;
+    let huntActive = false, currentHuntTarget = null;
 
     function startHunt() {
         closeHuntResult(); closeQuiz(); closePanel();
@@ -1159,10 +1194,8 @@
     // ============================================================
     // ATMOSFER SİSTEMİ
     // ============================================================
-    let currentTime = 'day';
-    let currentWeather = 'clear';
-    let rainAnimFrame = null;
-    let rainDrops = [];
+    let currentTime = 'day', currentWeather = 'clear';
+    let rainAnimFrame = null, rainDrops = [];
 
     const SKY_COLORS = { day: '#74a5e3', sunset: '#e87830', night: '#0a0e1f' };
     const AMBIENT_INTENSITY = { day: 0.55, sunset: 0.35, night: 0.10 };
@@ -1171,7 +1204,7 @@
 
     function setTimeOfDay(mode) {
         currentTime = mode;
-        ['day','sunset','night'].forEach(m => { document.getElementById('btn-' + m).classList.toggle('active', m === mode); });
+        ['day','sunset','night'].forEach(m => document.getElementById('btn-'+m).classList.toggle('active', m===mode));
         const sky = document.querySelector('a-sky');
         if (sky) sky.setAttribute('color', SKY_COLORS[mode]);
         const ambient = document.querySelector('a-light[type="ambient"]');
@@ -1188,7 +1221,7 @@
 
     function setWeather(mode) {
         currentWeather = mode;
-        ['clear','fog','rain'].forEach(m => { document.getElementById('btn-' + m).classList.toggle('active', m === mode); });
+        ['clear','fog','rain'].forEach(m => document.getElementById('btn-'+m).classList.toggle('active', m===mode));
         document.getElementById('fog-overlay').style.opacity = mode === 'fog' ? '1' : '0';
         const rainCanvas = document.getElementById('rain-canvas');
         if (mode === 'rain') { rainCanvas.style.opacity = '1'; startRain(); }
@@ -1332,18 +1365,18 @@
     // TARİH ŞERİDİ
     // ============================================================
     const tlEvents = [
-        { date: "MÖ 11. yy", major: true, icon: "🏺", title: "İlk Yerleşim", sub: "Akropolis & liman", detail: "Smyrna'nın bilinen ilk yerleşimi MÖ 11. yüzyıla, Geometrik Dönem'e uzanır. İlk kent Bayraklı semtindeki tepede (eski akropolis) kurulmuştur." },
+        { date: "MÖ 11. yy", major: true, icon: "🏺", title: "İlk Yerleşim", sub: "Akropolis & liman", detail: "Smyrna'nın bilinen ilk yerleşimi MÖ 11. yüzyıla, Geometrik Dönem'e uzanır. İlk kent Bayraklı semtindeki tepede kurulmuştur." },
         { date: "MÖ 7. yy", major: false, icon: "⚔️", title: "Lidya İşgali", sub: "Kral Alyattes", detail: "MÖ 7. yüzyılda Lidya Kralı Alyattes Smyrna'yı işgal etti ve kenti tahrip etti. Yaklaşık 400 yıl boyunca şehir önemini yitirdi." },
-        { date: "MÖ 334", major: true, icon: "🗡️", title: "Büyük İskender", sub: "Yeniden kuruluş", detail: "Büyük İskender'in Anadolu seferi sırasında Smyrna yeniden kuruldu. Efsaneye göre İskender rüyasında Nemesis tanrıçasından şehri yeniden inşa etmesini öğrendi." },
-        { date: "MÖ 2. yy", major: false, icon: "🏛️", title: "Hellenistik Agora", sub: "İlk agora yapıları", detail: "MÖ 2. yüzyılda Smyrna'nın merkezi agorası oluşturulmaya başlandı. Stoa'lar ve kamu binaları inşa edildi." },
-        { date: "MÖ 133", major: false, icon: "🦅", title: "Roma Dönemi", sub: "Pergamon mirası", detail: "Pergamon Krallığı vasiyetiyle Roma'ya geçti. Smyrna Roma'nın en sadık müttefiklerinden biri sayıldı." },
-        { date: "MS 2. yy", major: true, icon: "🏗️", title: "Büyük İnşaat", sub: "Bazilika & su tünelleri", detail: "MS 2. yüzyıl Smyrna'nın en parlak dönemidir. 165x28m bazilika, su tünelleri ve sütunlu caddeler yapıldı." },
-        { date: "MS 178", major: true, icon: "🌍", title: "Büyük Deprem", sub: "Marcus Aurelius yeniden inşa etti", detail: "Şiddetli deprem Smyrna'yı yıktı. Marcus Aurelius ve eşi Faustina şehri yeniden kurdurdu; Anıtsal Kapı bu dönemde yapıldı." },
-        { date: "MS 4-6. yy", major: false, icon: "✝️", title: "Bizans Dönemi", sub: "Hristiyanlaşma", detail: "Roma'nın Hristiyanlaşmasıyla birlikte Smyrna da dönüşüme uğradı. Agora yavaş yavaş terk edildi." },
-        { date: "MS 1000-1400", major: false, icon: "⚰️", title: "Mezarlık Dönemi", sub: "Agora terk edildi", detail: "Ortaçağ boyunca agora mezarlık olarak kullanıldı. Hem Bizans hem de Osmanlı dönemi mezar taşları alanda görülmektedir." },
+        { date: "MÖ 334", major: true, icon: "🗡️", title: "Büyük İskender", sub: "Yeniden kuruluş", detail: "Büyük İskender'in Anadolu seferi sırasında Smyrna yeniden kuruldu." },
+        { date: "MÖ 2. yy", major: false, icon: "🏛️", title: "Hellenistik Agora", sub: "İlk agora yapıları", detail: "MÖ 2. yüzyılda Smyrna'nın merkezi agorası oluşturulmaya başlandı." },
+        { date: "MÖ 133", major: false, icon: "🦅", title: "Roma Dönemi", sub: "Pergamon mirası", detail: "Pergamon Krallığı vasiyetiyle Roma'ya geçti." },
+        { date: "MS 2. yy", major: true, icon: "🏗️", title: "Büyük İnşaat", sub: "Bazilika & su tünelleri", detail: "MS 2. yüzyıl Smyrna'nın en parlak dönemidir. 165x28m bazilika, su tünelleri yapıldı." },
+        { date: "MS 178", major: true, icon: "🌍", title: "Büyük Deprem", sub: "Marcus Aurelius yeniden inşa etti", detail: "Şiddetli deprem Smyrna'yı yıktı. Marcus Aurelius ve eşi Faustina şehri yeniden kurdurdu." },
+        { date: "MS 4-6. yy", major: false, icon: "✝️", title: "Bizans Dönemi", sub: "Hristiyanlaşma", detail: "Roma'nın Hristiyanlaşmasıyla birlikte Smyrna da dönüşüme uğradı." },
+        { date: "MS 1000-1400", major: false, icon: "⚰️", title: "Mezarlık Dönemi", sub: "Agora terk edildi", detail: "Ortaçağ boyunca agora mezarlık olarak kullanıldı." },
         { date: "1922", major: true, icon: "🔥", title: "Büyük İzmir Yangını", sub: "Kent yeniden şekillendi", detail: "1922 yılındaki yangından sonra imar çalışmaları sırasında antik agora alanının bir bölümü açığa çıktı." },
-        { date: "1932", major: true, icon: "🔍", title: "İlk Kazılar", sub: "Bilimsel araştırmalar", detail: "1932'de Türk arkeologlar öncülüğünde Smyrna Agorası'nda sistematik kazılar başladı." },
-        { date: "Günümüz", major: true, icon: "🌟", title: "Müze & Park", sub: "Ziyaretçilere açık", detail: "Smyrna Agorası bugün İzmir'in en önemli açık hava müzelerinden biridir. Kazılar hâlâ devam etmektedir." }
+        { date: "1932", major: true, icon: "🔍", title: "İlk Kazılar", sub: "Bilimsel araştırmalar", detail: "1932'de Türk arkeologlar öncülüğünde sistematik kazılar başladı." },
+        { date: "Günümüz", major: true, icon: "🌟", title: "Müze & Park", sub: "Ziyaretçilere açık", detail: "Smyrna Agorası bugün İzmir'in en önemli açık hava müzelerinden biridir." }
     ];
 
     let tlOpen = false;
@@ -1390,9 +1423,7 @@
         { name: "Antik Çeşme", desc: "MS 2. yüzyıldan beri akıyor", pos: { x: 8, y: 4, z: 80 }, infoKey: "cesme" },
     ];
 
-    let tourActive = false;
-    let tourIndex = 0;
-    let tourTimer = null;
+    let tourActive = false, tourIndex = 0, tourTimer = null;
     const TOUR_STEP_DURATION = 6000;
 
     function toggleTour() { if (tourActive) stopTour(); else startTour(); }
@@ -1448,7 +1479,7 @@
     }
 
     // ============================================================
-    // YÜRÜYEN ADAM — DOLAŞMA & ETKİLEŞİM SİSTEMİ
+    // YÜRÜYEN ADAM (HERMES) — DOLAŞMA SİSTEMİ
     // ============================================================
     const walkerWaypoints = [
         { x: 10,  z: 30 },
@@ -1471,19 +1502,117 @@
         { x: 10,  z: 50 },
     ];
 
-    // Rehberin farklı mesajları
+    // Rehberin mesajları — her konuma göre
     const walkerMessages = [
-        { text: "Merhaba! Ben Hermes, Smyrna Agorası'nın dijital rehberiyim. Roma döneminde bu meydan kentin kalbi sayılırdı — tüccarlar, hakimler ve vatandaşlar bir arada yaşardı.", tip: "💡 Sağdaki menüden tüm eserlere ulaşabilirsin!" },
-        { text: "Bazilika'yı gördün mü? 165 x 28 metre boyutlarıyla bilinen en büyük Roma bazilikasıdır! MS 2. yüzyılda inşa edilmiş, kentin adliye sarayı olarak kullanılmıştır.", tip: "🏛️ Bazilika tabelasına gidip tıkla!" },
-        { text: "Su tünellerine indi mi? Arkandaki merdivenlerden aşağı inebilirsin. MS 2. yüzyıldan kalma bu tüneller antik Smyrna'nın su sisteminin parçasıydı.", tip: "⬇️ Merdivenleri bul ve tünellere in!" },
-        { text: "Anıtsal Kapı'nın hikayesini biliyor musun? MS 178 depremi sonrası İmparatoriçe Faustina şehrin yeniden kurulmasına destek verdi. Kapının üstünde onun portresi var!", tip: "🚪 Anıtsal Kapı'ya git ve tabelayı tıkla!" },
-        { text: "Bu meydanda Osmanlı döneminde mezarlık vardı. Kabristan bölgesindeki mermer steller 18-19. yüzyıllara ait. Mezar taşlarındaki kabartmalar muhteşem!", tip: "⚰️ Kabristan bölgesini keşfet!" },
+        { text: "Merhaba! Ben Hermes, Smyrna Agorası'nın dijital rehberiyim.\n\nRoma döneminde bu meydan kentin kalbi sayılırdı — tüccarlar, hakimler ve vatandaşlar bir arada yaşardı.", tip: "💡 Sağdaki menüden tüm eserlere ulaşabilirsin!" },
+        { text: "Bazilika'yı gördün mü? 165 × 28 metre boyutlarıyla bilinen en büyük Roma bazilikasıdır!\n\nMS 2. yüzyılda inşa edilmiş, kentin adliye sarayı olarak kullanılmıştır.", tip: "🏛️ Bazilika tabelasına yaklaşıp tıkla!" },
+        { text: "Su tünellerine indi mi? Arkandaki merdivenlerden aşağı inebilirsin.\n\nMS 2. yüzyıldan kalma bu tüneller antik Smyrna'nın gelişmiş su sisteminin parçasıydı.", tip: "⬇️ Merdivenleri bul ve tünellere in!" },
+        { text: "Anıtsal Kapı'nın hikayesini biliyor musun? MS 178 depremi sonrası İmparatoriçe Faustina şehrin yeniden kurulmasına destek verdi.\n\nKapının üstünde onun portresi yer alır!", tip: "🚪 Anıtsal Kapı tabelasını tıkla!" },
+        { text: "Bu meydanda Osmanlı döneminde mezarlık vardı. Kabristan bölgesindeki mermer steller 18-19. yüzyıllara ait.\n\nMezar taşlarındaki kabartma desenler çok güzel!", tip: "⚰️ Kabristan bölgesini keşfet!" },
+        { text: "Kuş yuvasını gördün mü? Sütunların arasına yuvalanmış martı ailesi agora'nın kalıcı sakinleri.\n\nAkdeniz martıları İzmir körfezinin vazgeçilmez sembolüdür!", tip: "🪺 Yukarı bak — kuş yuvasına tıkla!" },
+        { text: "Alt kattaki graffitiler Roma döneminden kalma! Dünyanın demir-meşe kökü ile yapılmış en eski graffitileri burada.\n\nTüneldeki duvarlara dikkatli bak!", tip: "✍️ Tünelde graffiti duvarlarını ara!" },
     ];
     let walkerMsgIndex = 0;
     let walkerMoving = true;
     let walkerWPIndex = 0;
     const WALKER_SPEED = 0.048;
     const WALKER_Y = 7.8;
+
+    // ===================== TAKİP MODU =====================
+    let followMode = false;
+    const FOLLOW_DISTANCE = 4.0;  // Rehberden bu kadar arkada dur
+    const FOLLOW_SIDE_OFFSET = 2.0; // Yan yana offset
+
+    function toggleFollowMode() {
+        if (followMode) {
+            stopFollowMode();
+        } else {
+            startFollowMode();
+        }
+    }
+
+    function startFollowMode() {
+        followMode = true;
+        walkerMoving = true;
+        document.getElementById('follow-toggle-btn').textContent = '⏹ Takibi Durdur';
+        document.getElementById('follow-toggle-btn').classList.add('stop');
+        document.getElementById('follow-hud').classList.add('visible');
+        closeWalkerLabel();
+        showBubble("Harika! Gel seninle birlikte gezeyim. Rehberini takip et!", 4000);
+    }
+
+    function stopFollowMode() {
+        followMode = false;
+        document.getElementById('follow-toggle-btn').textContent = '🚶 Benimle Yürü!';
+        document.getElementById('follow-toggle-btn').classList.remove('stop');
+        document.getElementById('follow-hud').classList.remove('visible');
+        hideBubble();
+    }
+
+    // Konuşma balonu
+    let bubbleTimer = null;
+    function showBubble(text, duration = 5000) {
+        const bubble = document.getElementById('walker-bubble');
+        document.getElementById('bubble-text').textContent = text;
+        bubble.style.display = 'block';
+        bubble.style.opacity = '1';
+        clearTimeout(bubbleTimer);
+        bubbleTimer = setTimeout(hideBubble, duration);
+        positionBubble();
+    }
+
+    function hideBubble() {
+        const bubble = document.getElementById('walker-bubble');
+        bubble.style.opacity = '0';
+        setTimeout(() => { bubble.style.display = 'none'; }, 400);
+    }
+
+    function positionBubble() {
+        const walkerEl = document.getElementById('walker-entity');
+        const cameraEl = document.querySelector('a-camera');
+        if (!walkerEl || !cameraEl || typeof THREE === 'undefined') return;
+
+        try {
+            const walkerPos = new THREE.Vector3();
+            walkerEl.object3D.getWorldPosition(walkerPos);
+
+            const camPos = new THREE.Vector3();
+            cameraEl.object3D.getWorldPosition(camPos);
+
+            // Walker'ın kameraya olan yönü
+            const dir = new THREE.Vector3().subVectors(camPos, walkerPos).normalize();
+            const screenPos = walkerPos.clone().add(dir.multiplyScalar(0.5));
+            screenPos.y += 2.8;
+
+            // Three.js ile ekran koordinatlarına çevir
+            const renderer = document.querySelector('a-scene').renderer;
+            const camera3D = cameraEl.object3D.children[0] || cameraEl.object3D;
+            if (renderer && camera3D) {
+                screenPos.project(camera3D);
+                const x = (screenPos.x * 0.5 + 0.5) * window.innerWidth;
+                const y = (-screenPos.y * 0.5 + 0.5) * window.innerHeight;
+                const bubble = document.getElementById('walker-bubble');
+                if (screenPos.z < 1) {  // Kameranın önünde mi?
+                    bubble.style.left = Math.max(10, Math.min(x - 140, window.innerWidth - 300)) + 'px';
+                    bubble.style.top = Math.max(10, y - 120) + 'px';
+                }
+            }
+        } catch(e) {}
+    }
+
+    // Rehber'in yakınlarda söylediği şeyler
+    const walkerProximityQuotes = [
+        "Bu sütunlara bak! 2000 yıl öncesinden bugüne ulaştılar.",
+        "Dikkat et, Roma döneminde bu alan çok kalabalık olurdu!",
+        "Smyrna, antik dünyanın en önemli ticaret merkezlerinden biriydi.",
+        "Bu taşların her biri ayrı bir hikaye taşıyor...",
+        "Güneş ışığında mermer nasıl parlıyor değil mi? Roma'lılar bu etkiyi severdi.",
+        "MS 178 depremi bu yapıları yerle bir etti — ama insanlar yeniden inşa etti!",
+    ];
+
+    let proxQuoteIndex = 0;
+    let lastProxQuoteTime = 0;
+    const PROX_QUOTE_INTERVAL = 12000; // 12 saniyede bir
 
     function walkerTick() {
         const walkerEl = document.getElementById('walker-entity');
@@ -1505,28 +1634,79 @@
             pos.z += nz * WALKER_SPEED;
             pos.y = WALKER_Y;
             if (typeof THREE !== 'undefined') {
-                walkerEl.object3D.rotation.y = THREE.MathUtils.degToRad(Math.atan2(nx, nz) * (180 / Math.PI));
+                walkerEl.object3D.rotation.y = Math.atan2(nx, nz);
             }
         }
 
-        // Mini haritada walker konumunu güncelle
+        // Minimap güncelle
         const mapWalker = document.getElementById('map-walker');
         if (mapWalker) {
             mapWalker.style.left = ((pos.x + 150) / 300) * 100 + '%';
             mapWalker.style.top = ((pos.z + 150) / 300) * 100 + '%';
         }
 
+        // ====== TAKİP MODU: Kamerayı walker'ın peşinden sür ======
+        if (followMode && typeof THREE !== 'undefined') {
+            const rig = document.getElementById('camera-rig');
+            if (rig) {
+                const rigPos = rig.object3D.position;
+                // Walker'ın arkasında ve solunda konum hesapla
+                const walkerFwd = new THREE.Vector3(
+                    Math.sin(walkerEl.object3D.rotation.y),
+                    0,
+                    Math.cos(walkerEl.object3D.rotation.y)
+                );
+                const walkerRight = new THREE.Vector3(walkerFwd.z, 0, -walkerFwd.x);
+
+                const targetX = pos.x - walkerFwd.x * FOLLOW_DISTANCE + walkerRight.x * FOLLOW_SIDE_OFFSET;
+                const targetZ = pos.z - walkerFwd.z * FOLLOW_DISTANCE + walkerRight.z * FOLLOW_SIDE_OFFSET;
+                const targetY = WALKER_Y + 1.5;
+
+                // Yumuşak geçiş (lerp)
+                const lerpSpeed = 0.04;
+                rigPos.x += (targetX - rigPos.x) * lerpSpeed;
+                rigPos.y += (targetY - rigPos.y) * lerpSpeed;
+                rigPos.z += (targetZ - rigPos.z) * lerpSpeed;
+
+                // Balon konumu güncelle
+                positionBubble();
+
+                // Ara sıra konuşma
+                const now = Date.now();
+                if (now - lastProxQuoteTime > PROX_QUOTE_INTERVAL) {
+                    lastProxQuoteTime = now;
+                    showBubble(walkerProximityQuotes[proxQuoteIndex % walkerProximityQuotes.length], 5000);
+                    proxQuoteIndex++;
+                }
+            }
+        }
+
         requestAnimationFrame(walkerTick);
     }
 
+    // Rehber tıklandığında — vücudun herhangi yerine
     function showWalkerLabel() {
         const msg = walkerMessages[walkerMsgIndex % walkerMessages.length];
         walkerMsgIndex++;
-        document.getElementById('walker-text').innerHTML = msg.text;
+        document.getElementById('walker-text').innerHTML = msg.text.replace(/\n\n/g, '<br><br>');
         document.getElementById('walker-tip').textContent = msg.tip;
+
+        // Takip modu butonu güncelle
+        const ftBtn = document.getElementById('follow-toggle-btn');
+        if (followMode) {
+            ftBtn.textContent = '⏹ Takibi Durdur';
+            ftBtn.classList.add('stop');
+        } else {
+            ftBtn.textContent = '🚶 Benimle Yürü!';
+            ftBtn.classList.remove('stop');
+        }
+
         document.getElementById('walker-label').classList.add('visible');
+        // Tıklandığında kısa süre dur
         walkerMoving = false;
-        setTimeout(() => { walkerMoving = true; }, 10000);
+        if (!followMode) {
+            setTimeout(() => { walkerMoving = true; }, 12000);
+        }
     }
 
     function closeWalkerLabel() {
@@ -1534,11 +1714,9 @@
         walkerMoving = true;
     }
 
-    // Sahne yüklenince walker tick başlat
+    // Sahne yüklenince başlat
     const sceneEl = document.querySelector('a-scene');
-    if (sceneEl) {
-        sceneEl.addEventListener('loaded', () => { setTimeout(walkerTick, 1200); });
-    }
+    if (sceneEl) sceneEl.addEventListener('loaded', () => { setTimeout(walkerTick, 1200); });
     window.addEventListener('load', () => { setTimeout(walkerTick, 2500); });
 
     </script>
