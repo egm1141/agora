@@ -31,6 +31,7 @@
         }
 
         /* ===== BAŞLANGIÇ EKRANI ===== */
+
         #start-screen {
             position: fixed;
             inset: 0;
@@ -1772,6 +1773,7 @@
         <button class="exhibit-btn" onclick="openPOI('tunel')">🌊 Su Tünelleri</button>
         <button class="exhibit-btn" onclick="openPOI('bazilika')">⚖️ Bazilika</button>
         <button class="exhibit-btn" onclick="openPOI('su-kanali')">🏞️ Su Kanalı</button>
+        <button class="exhibit-btn" onclick="openPOI('aslan')">🦁 Aslan Heykeli</button>
         <div class="menu-sep"></div>
         <button class="exhibit-btn teal" onclick="openQuiz()">🎮 Bilgi Yarışması</button>
         <button class="exhibit-btn amber" onclick="startHunt()">🔍 Eser Bulmacası</button>
@@ -1889,7 +1891,7 @@
     <!-- =================== SAHNE =================== -->
     <a-scene physics="debug:false" vr-mode-ui="enabled:false" loading-screen="enabled:false"
         renderer="antialias:true;colorManagement:true;" fog="type: exponential; color: #acc; density: 0.0035">
-        <a-assets timeout="3000">
+        <a-assets timeout="10000">
             <!-- Ses Asset'leri -->
             <audio id="bazilika-s" src="https://raw.githubusercontent.com/egm1141/agora/main/bazilika.mp3"
                 preload="auto"></audio>
@@ -1902,9 +1904,11 @@
             <!-- Gerçekçilik için yeni Mixin'ler ve Dokular (GitHub üzerinden) -->
             <img id="marble-t" src="https://raw.githubusercontent.com/egm1141/agora/main/marble.png">
             <img id="stone-t" src="https://raw.githubusercontent.com/egm1141/agora/main/stone.png">
+            <img id="grave-t"
+                src="https://raw.githubusercontent.com/egm1141/agora/main/weathered_grave_stone_png_1775641789076.png">
             <a-mixin id="rock-m" geometry="primitive:box;width:0.4;height:0.25;depth:0.4"
                 material="color:#b5b0a1;roughness:0.9"></a-mixin>
-            <a-mixin id="grave-m" material="src: #stone-t; color: #8d7a64; roughness: 0.9"></a-mixin>
+            <a-mixin id="grave-m" material="src: #grave-t; roughness: 0.9"></a-mixin>
             <a-mixin id="grass-m" geometry="primitive:cone;radiusBottom:0.12;height:0.4"
                 material="color:#6e855a;roughness:1"></a-mixin>
             <!-- Mimari Mixin'ler -->
@@ -2062,7 +2066,7 @@
                 <a-text position="0 1.5 1.16" value="ANIT KAPI&#10;(Propylon)" align="center" color="#e8c87a"
                     width="4"></a-text>
             </a-entity>
-            <a-entity position="35 0 81">
+            <a-entity position="40 0 80">
                 <a-box position="0 1 0" width="26" height="2" depth="21" color="#8c8779" static-body></a-box>
                 <a-entity position="0 0 -10.5">
                     <a-box position="0 0.2 -2" width="5" height="0.4" depth="1" color="#7d796e"></a-box>
@@ -2168,8 +2172,6 @@
                 <a-entity mixin="rock-m" position="5 0 15" rotation="20 40 10"></a-entity>
                 <a-entity mixin="rock-m" position="-6 0 -12" rotation="-10 20 5" scale="1.5 0.5 1.5"></a-entity>
 
-
-
                 <a-mixin id="col-m" geometry="primitive:cylinder;radius:0.4;height:10"
                     material="src:#marble-t;color:#cfc9ba;roughness:0.8;repeat:2 8"></a-mixin>
                 <a-mixin id="base-m" geometry="primitive:box;width:1.1;height:0.6;depth:1.1"
@@ -2187,16 +2189,97 @@
                 <a-entity position="0 5.6 -20"><a-entity mixin="col-m"></a-entity><a-entity mixin="base-m"
                         position="0 -5 0"></a-entity><a-entity mixin="cap-m" position="0 5 0"></a-entity></a-entity>
             </a-entity>
+
+            <!-- ASLAN HEYKELİ -->
+            <a-entity id="lion-statue" position="25 0 68" rotation="0 -210 0">
+                <!-- Kaide (Pedestal) -->
+                <a-box position="0 0.25 0" width="1.5" height="0.5" depth="2.5"
+                    material="src: #stone-t; color: #9a9587; roughness: 0.9; repeat: 1 2"></a-box>
+                <!-- Gövde -->
+                <a-box position="0 0.9 0" width="0.8" height="0.8" depth="1.8"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8; repeat: 1 2"></a-box>
+                <!-- Bacaklar -->
+                <a-box position="-0.3 0.4 0.6" width="0.2" height="0.6" depth="0.2"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
+                <a-box position="0.3 0.4 0.6" width="0.2" height="0.6" depth="0.2"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
+                <a-box position="-0.3 0.4 -0.6" width="0.2" height="0.6" depth="0.2"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
+                <a-box position="0.3 0.4 -0.6" width="0.2" height="0.6" depth="0.2"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
+                <!-- Kafa -->
+                <a-box position="0 1.5 0.8" width="0.8" height="0.8" depth="0.8"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
+                <!-- Yele -->
+                <a-box position="0 1.5 0.6" width="1.1" height="1.2" depth="0.6" color="#b5b0a1"
+                    material="opacity: 0.9; roughness: 1"></a-box>
+                <!-- Kuyruk -->
+                <a-box position="0 1.2 -1" width="0.1" height="0.7" depth="0.1"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8" rotation="-45 0 0"></a-box>
+                <!-- Yazı -->
+                <a-text value="ASLAN HEYKELI" position="0 2.2 0" align="center" color="#e8c87a" width="4"
+                    rotation="0 135 0"></a-text>
+            </a-entity>
+
+            <a-entity id="lion-statue-2" position="55 0 68" rotation="0 225 0">
+                <!-- Kaide (Pedestal) -->
+                <a-box position="0 0.25 0" width="1.5" height="0.5" depth="2.5"
+                    material="src: #stone-t; color: #9a9587; roughness: 0.9; repeat: 1 2"></a-box>
+                <!-- Gövde -->
+                <a-box position="0 0.9 0" width="0.8" height="0.8" depth="1.8"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8; repeat: 1 2"></a-box>
+                <!-- Bacaklar -->
+                <a-box position="-0.3 0.4 0.6" width="0.2" height="0.6" depth="0.2"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
+                <a-box position="0.3 0.4 0.6" width="0.2" height="0.6" depth="0.2"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
+                <a-box position="-0.3 0.4 -0.6" width="0.2" height="0.6" depth="0.2"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
+                <a-box position="0.3 0.4 -0.6" width="0.2" height="0.6" depth="0.2"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
+                <!-- Kafa -->
+                <a-box position="0 1.5 0.8" width="0.8" height="0.8" depth="0.8"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
+                <!-- Yele -->
+                <a-box position="0 1.5 0.6" width="1.1" height="1.2" depth="0.6" color="#b5b0a1"
+                    material="opacity: 0.9; roughness: 1"></a-box>
+                <!-- Kuyruk -->
+                <a-box position="0 1.2 -1" width="0.1" height="0.7" depth="0.1"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8" rotation="-45 0 0"></a-box>
+                <!-- Yazı -->
+                <a-text value="ASLAN HEYKELI" position="0 2.2 0" align="center" color="#e8c87a" width="4"
+                    rotation="0 135 0"></a-text>
+            </a-entity>
+
+            <!-- ANTIK KÖPRÜ -->
+            <a-entity id="ancient-bridge" position="24 0 83" rotation="0 0 0">
+                <!-- Yol -->
+                <a-box position="0 0.1 0" width="6" height="0.3" depth="12"
+                    material="src: #stone-t; color: #9a9587; roughness: 0.9; repeat: 3 6"></a-box>
+                <!-- Korkuluklar -->
+                <a-box position="-3.1 0.6 0" width="0.25" height="1.2" depth="12"
+                    material="src: #stone-t; color: #858074; repeat: 1 6"></a-box>
+                <a-box position="3.1 0.6 0" width="0.25" height="1.2" depth="12"
+                    material="src: #stone-t; color: #858074; repeat: 1 6"></a-box>
+                <!-- Sütunlar -->
+                <a-box position="-3.1 0.7 5.5" width="0.5" height="1.5" depth="0.5" color="#7a7569"></a-box>
+                <a-box position="3.1 0.7 5.5" width="0.5" height="1.5" depth="0.5" color="#7a7569"></a-box>
+                <a-box position="-3.1 0.7 -5.5" width="0.5" height="1.5" depth="0.5" color="#7a7569"></a-box>
+                <a-box position="3.1 0.7 -5.5" width="0.5" height="1.5" depth="0.5" color="#7a7569"></a-box>
+                <!-- Alt Kemer -->
+                <a-torus position="0 -1.5 0" radius="5.5" tube="0.4" arc="180" rotation="0 90 0"
+                    material="src: #stone-t; color: #45423a; repeat: 8 1"></a-torus>
+            </a-entity>
         </a-entity>
 
 
         <!-- ALT KAT -->
         <a-mixin id="arch-t" geometry="primitive:torus;radius:3;tube:0.5;arc:180"
-            material="color:#45423a;roughness:1"></a-mixin>
+            material="src: #stone-t; color: #45423a; roughness: 1; repeat: 10 1"></a-mixin>
         <a-mixin id="arch-s" geometry="primitive:torus;radius:3.75;tube:0.5;arc:180"
-            material="color:#45423a;roughness:1"></a-mixin>
+            material="src: #stone-t; color: #45423a; roughness: 1; repeat: 12 1"></a-mixin>
         <a-mixin id="pil-c" geometry="primitive:box;width:1;height:6;depth:1.5"
-            material="color:#45423a;roughness:1"></a-mixin>
+            material="src: #stone-t; color: #45423a; roughness: 1; repeat: 1 3"></a-mixin>
         <a-mixin id="pil-t" geometry="primitive:box;width:1;height:7.5;depth:1.5"
             material="color:#45423a;roughness:1"></a-mixin>
         <a-entity id="basement">
@@ -2306,9 +2389,11 @@
             { id: 'propylon', icon: '🚪', category: 'Anıtsal Giriş', title: 'Propylon (Anıtsal Kapı)', desc: 'MS 178 depreminin ardından İmparator Marcus Aurelius ve İmparatoriçe Faustina tarafından yeniden inşa ettirilen görkemli giriş kapısı.', facts: [{ label: 'İnşa Tarihi', val: 'MS 2. yüzyıl sonu' }, { label: 'Yaptıran', val: 'Marcus Aurelius' }, { label: 'Özellik', val: 'Faustina portre kabartması' }, { label: 'Konum', val: 'Körfeze bakan cadde girişi' }], tags: ['Marcus Aurelius', 'Deprem Sonrası', 'Anıt', 'Kabartma'], world: { x: 56, y: 14, z: 41 }, turDurak: 2 },
             { id: 'kolonad', icon: '🏛️', category: 'Portiko', title: 'Batı Stoa (Kolonad)', desc: 'Üç sıra Korent düzeni sütunuyla yükselen bu portiko antik dönemde ticaretin ve siyasi toplantıların kalbiydi. Her sütun 10 metre yüksekliğinde.', facts: [{ label: 'Sütun Düzeni', val: 'Korint (Korent)' }, { label: 'Sütun Yüksekliği', val: '10 metre' }, { label: 'Dönem', val: 'MS 2. yüzyıl' }, { label: 'Alt Kat', val: 'Sarnıca dönüştürüldü' }], tags: ['Korint Düzeni', 'Ticaret', 'Siyaset', 'Portiko'], world: { x: 18, y: 18, z: 52 }, turDurak: 1, sound: 'Bati.mp3' },
             { id: 'tunel', icon: '🌊', category: 'Alt Yapı', title: 'Roma Tünelleri', desc: 'MS 2. yüzyılda inşa edilen tonozlu geçitler şehrin su ve kanalizasyon sistemini oluşturuyordu. Duvarlarındaki graffitiler dünyanın en eski örneklerindendir.', facts: [{ label: 'İnşa Tarihi', val: 'MS 2. yüzyıl' }, { label: 'Özellik', val: 'Demir-meşe kökü graffiti' }, { label: 'İşlev', val: 'Su ve kanalizasyon' }, { label: 'Diller', val: 'Çok dilli yazıtlar' }], tags: ['Altyapı', 'Su Sistemi', 'Graffiti', 'Dünya Rekoru'], world: { x: 2, y: 10, z: 22 }, turDurak: 5, sound: 'Grandfetolar.mp3' },
-            { id: 'mezarlik', icon: '⚰️', category: 'Osmanlı Dönemi', title: 'Osmanlı Mezarlığı', desc: 'Bizans ve Osmanlı dönemlerinde agora mezarlık olarak kullanıldı. 1932 kazılarıyla yeniden keşfedildi.', facts: [{ label: 'Dönem', val: '18–19. yüzyıl' }, { label: 'Mezar Taşları', val: 'Arap harfli yazıtlar' }, { label: 'Kazı Başlangıcı', val: '1932' }, { label: 'Özellik', val: 'Kabartma çiçek desenleri' }], tags: ['Osmanlı', '19. Yüzyıl', 'Kazı', 'Katmanlı Tarih'], world: { x: 43, y: 12, z: 81 }, turDurak: 3 },
+            { id: 'mezarlik', icon: '⚰️', category: 'Osmanlı Dönemi', title: 'Osmanlı Mezarlığı', desc: 'Bizans ve Osmanlı dönemlerinde agora mezarlık olarak kullanıldı. 1932 kazılarıyla yeniden keşfedildi.', facts: [{ label: 'Dönem', val: '18–19. yüzyıl' }, { label: 'Mezar Taşları', val: 'Arap harfli yazıtlar' }, { label: 'Kazı Başlangıcı', val: '1932' }, { label: 'Özellik', val: 'Kabartma çiçek desenleri' }], tags: ['Osmanlı', '19. Yüzyıl', 'Kazı', 'Katmanlı Tarih'], world: { x: 63, y: 12, z: 80 }, turDurak: 3 },
             { id: 'cesme', icon: '💧', category: 'Su Yapısı', title: 'Antik Çeşme (Nymphaeum)', desc: 'MS 2. yüzyıldan bu yana suyun aktığı bu çeşme, hem içme suyu hem de sosyal toplanma mekânı işlevi gördü.', facts: [{ label: 'Dönem', val: 'MS 2. yüzyıl' }, { label: 'Tür', val: 'Nymphaeum (çeşme anıtı)' }, { label: 'İşlev', val: 'İçme suyu ve sosyal alan' }, { label: 'Sistem', val: 'Tünel-sarnıç-çeşme ağı' }], tags: ['Hidrolik', 'Nymphaeum', 'Sosyal Alan', 'Roma'], world: { x: 8, y: 3, z: 85 }, turDurak: 6 },
-            { id: 'kusyuvasi', icon: '🐦', category: 'Doğa & Tarih', title: 'Martı Yuvası', desc: 'Antik sütunların arasına kurulmuş martı yuvası. İzmir körfezi martıları 2000 yıldır bu taşların arasında yuvalanıyor.', facts: [{ label: 'Tür', val: 'Akdeniz Martısı' }, { label: 'Süreklilik', val: '2000+ yıl' }, { label: 'Konum', val: 'Batı Stoa sütunları' }, { label: 'Kayıt', val: 'Roma dönemi şiirlerinde' }], tags: ['Fauna', 'Süreklilik', 'Martı', 'Antik Hayvan'], world: { x: 18, y: 20, z: 57 }, turDurak: 0 },
+            { id: 'kusyuvasi', icon: '🐦', category: 'Doğa & Tarih', title: 'Martı Yuvası', desc: 'Antik sütunların arasına kurulmuş martı yuvası. İzmir körfezi martıları 2000 yıldır bu taşların arasında yuvalanıyor.', facts: [{ label: 'Tür', val: 'Akdeniz Martısı' }, { label: 'Süreklilik', val: '2000+ year' }, { label: 'Konum', val: 'Batı Stoa sütunları' }, { label: 'Kayıt', val: 'Roma dönemi şiirlerinde' }], tags: ['Fauna', 'Süreklilik', 'Martı', 'Antik Hayvan'], world: { x: 18, y: 20, z: 57 }, turDurak: 0 },
+            { id: 'aslan', icon: '🦁', category: 'Heykel', title: 'Aslan Heykeli', desc: 'Antik dönemde gücü ve korumayı simgeleyen mermer aslan heykeli. Agoranın çeşitli noktalarında bu tür figüratif süslemelere rastlanırdı.', facts: [{ label: 'Malzeme', val: 'Mermer' }, { label: 'Sembolizm', val: 'Güç ve Koruma' }, { label: 'Dönem', val: 'Roma Dönemi' }], tags: ['Heykel', 'Sanat', 'Sembolizm'], world: { x: 23, y: 12, z: 65 }, turDurak: -1 },
+            { id: 'kopru', icon: '🌉', category: 'Mimari', title: 'Antik Köprü', desc: 'Agoranın su kanalları ve tünel girişleri arasında bağlantı sağlayan taş kemerli köprü.', facts: [{ label: 'Malzeme', val: 'Kesme Taş' }, { label: 'Tür', val: 'Kemerli Köprü' }, { label: 'Dönem', val: 'Roma Dönemi' }], tags: ['Mimari', 'Ulaşım', 'Mühendislik'], world: { x: 24, y: 12, z: 83 }, turDurak: -1 },
             { id: 'su-kanali', icon: '🏞️', category: 'Hidroloji', title: 'Su Kanalı', desc: 'Tüneller boyunca uzanan bu kanal Roma döneminde şehrin su dağıtım ağının temel bileşeniydi.', facts: [{ label: 'Uzunluk', val: '~50 metre (görünen)' }, { label: 'İnşa', val: 'MS 2. yüzyıl' }, { label: 'Bağlantı', val: 'Yeraltı sarnıçları' }, { label: 'Malzeme', val: 'Taş ve kireç harcı' }], tags: ['Hidrolik', 'Mühendislik', 'Su', 'Roma'], world: { x: 8, y: 3, z: 58 }, turDurak: -1 },
         ];
 
