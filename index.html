@@ -1774,7 +1774,7 @@
         <button class="exhibit-btn" onclick="openPOI('tunel')">🌊 Su Tünelleri</button>
         <button class="exhibit-btn" onclick="openPOI('bazilika')">⚖️ Bazilika</button>
         <button class="exhibit-btn" onclick="openPOI('su-kanali')">🏞️ Su Kanalı</button>
-        <button class="exhibit-btn" onclick="openPOI('aslan')">🦁 Aslan Heykeli</button>
+
         <div class="menu-sep"></div>
         <button class="exhibit-btn teal" onclick="openQuiz()">🎮 Bilgi Yarışması</button>
         <button class="exhibit-btn amber" onclick="startHunt()">🔍 Eser Bulmacası</button>
@@ -1905,7 +1905,9 @@
             <!-- Gerçekçilik için yeni Mixin'ler ve Dokular (Yerel ve GitHub karması) -->
             <img id="marble-t" src="marble.png">
             <img id="stone-t" src="https://raw.githubusercontent.com/egm1141/agora/main/stone.png">
+            <img id="menekles-t" src="menekles.png">
             <img id="grave-t" src="grave-stone.png">
+            <img id="zemin-t" src="zemin.png">
             <a-mixin id="rock-m" geometry="primitive:box;width:0.4;height:0.25;depth:0.4"
                 material="color:#b5b0a1;roughness:0.9"></a-mixin>
             <a-mixin id="grave-m" material="src: #grave-t; roughness: 0.9"></a-mixin>
@@ -1934,20 +1936,36 @@
             </a-camera>
         </a-entity>
 
-        <a-plane position="-80.5 6.85 0" rotation="-90 0 0" width="139" height="300" color="#8d7a64"
+        <a-plane position="-80.5 6.82 0" rotation="-90 0 0" width="139" height="300" src="#zemin-t" repeat="20 40"
             material="roughness:1" static-body></a-plane>
-        <a-plane position="80.5 6.85 0" rotation="-90 0 0" width="139" height="300" color="#8d7a64"
+        <a-plane position="80.5 6.82 0" rotation="-90 0 0" width="139" height="300" src="#zemin-t" repeat="20 40"
             material="roughness:1" static-body></a-plane>
-        <a-plane position="0 6.85 -66" rotation="-90 0 0" width="22" height="168" color="#8d7a64" material="roughness:1"
-            static-body></a-plane>
-        <a-plane position="0 6.85 119" rotation="-90 0 0" width="22" height="62" color="#8d7a64" material="roughness:1"
-            static-body></a-plane>
-        <a-plane position="0 6.85 59" rotation="-90 0 0" width="10" height="58" color="#8d7a64" material="roughness:1"
-            static-body></a-plane>
-        <a-plane position="-7 6.85 24" rotation="-90 0 0" width="8" height="12" color="#8d7a64" material="roughness:1"
-            static-body></a-plane>
-        <a-plane position="7 6.85 24" rotation="-90 0 0" width="8" height="12" color="#8d7a64" material="roughness:1"
-            static-body></a-plane>
+        <a-plane position="0 6.82 -66" rotation="-90 0 0" width="22" height="168" src="#zemin-t" repeat="4 30"
+            material="roughness:1" static-body></a-plane>
+        <a-plane position="0 6.82 119" rotation="-90 0 0" width="22" height="62" src="#zemin-t" repeat="4 10"
+            material="roughness:1" static-body></a-plane>
+        <a-plane position="0 6.82 59" rotation="-90 0 0" width="10" height="58" src="#zemin-t" repeat="2 10"
+            material="roughness:1" static-body></a-plane>
+        <a-plane position="-7 6.82 24" rotation="-90 0 0" width="8" height="12" src="#zemin-t" repeat="2 3"
+            material="roughness:1" static-body></a-plane>
+        <a-plane position="7 6.82 24" rotation="-90 0 0" width="8" height="12" src="#zemin-t" repeat="2 3"
+            material="roughness:1" static-body></a-plane>
+
+        <!-- Çimen kümeleri (Dağınık) -->
+        <a-entity position="0 6.8 0">
+            <a-entity position="12 0 15"><a-entity mixin="grass-m"></a-entity><a-entity mixin="grass-m"
+                    position="0.2 0 0.2" scale="0.8 1.2 0.8"></a-entity></a-entity>
+            <a-entity position="-15 0 10"><a-entity mixin="grass-m"></a-entity><a-entity mixin="grass-m"
+                    position="-0.3 0 0.1" scale="1.1 0.9 1.1"></a-entity></a-entity>
+            <a-entity position="25 0 45"><a-entity mixin="grass-m"></a-entity><a-entity mixin="grass-m"
+                    position="0.3 0 -0.2" scale="1.2 0.8 1"></a-entity></a-entity>
+            <a-entity position="-30 0 60"><a-entity mixin="grass-m"></a-entity><a-entity mixin="grass-m"
+                    position="0.1 0 0.3" scale="0.7 1.3 0.7"></a-entity></a-entity>
+            <a-entity position="40 0 30"><a-entity mixin="grass-m"></a-entity><a-entity mixin="grass-m"
+                    position="-0.2 0 -0.1" scale="0.9 1.1 0.9"></a-entity></a-entity>
+            <a-entity position="10 0 80"><a-entity mixin="grass-m"></a-entity></a-entity>
+            <a-entity position="-10 0 80"><a-entity mixin="grass-m"></a-entity></a-entity>
+        </a-entity>
 
 
 
@@ -2065,7 +2083,7 @@
                     <a-plane position="0 0 1.12" width="2" height="0.5" color="#5a564d" opacity="0.15"></a-plane>
                 </a-entity>
                 <a-plane position="0 1.5 1.15" width="2.5" height="1" color="#1a1208" opacity="0.9"></a-plane>
-                <a-text position="0 1.5 1.16" value="ANIT KAPI&#10;(Propylon)" align="center" color="#e8c87a"
+                <a-text position="0 1.5 1.16" value="KEMERLİ KAPI&#10;(Propylon)" align="center" color="#e8c87a"
                     width="4"></a-text>
             </a-entity>
             <a-entity position="40 0 80">
@@ -2192,66 +2210,7 @@
                         position="0 -5 0"></a-entity><a-entity mixin="cap-m" position="0 5 0"></a-entity></a-entity>
             </a-entity>
 
-            <!-- ASLAN HEYKELİ -->
-            <a-entity id="lion-statue" position="25 0 68" rotation="0 -210 0">
-                <!-- Kaide (Pedestal) -->
-                <a-box position="0 0.25 0" width="1.5" height="0.5" depth="2.5"
-                    material="src: #stone-t; color: #9a9587; roughness: 0.9; repeat: 1 2"></a-box>
-                <!-- Gövde -->
-                <a-box position="0 0.9 0" width="0.8" height="0.8" depth="1.8"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8; repeat: 1 2"></a-box>
-                <!-- Bacaklar -->
-                <a-box position="-0.3 0.4 0.6" width="0.2" height="0.6" depth="0.2"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
-                <a-box position="0.3 0.4 0.6" width="0.2" height="0.6" depth="0.2"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
-                <a-box position="-0.3 0.4 -0.6" width="0.2" height="0.6" depth="0.2"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
-                <a-box position="0.3 0.4 -0.6" width="0.2" height="0.6" depth="0.2"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
-                <!-- Kafa -->
-                <a-box position="0 1.5 0.8" width="0.8" height="0.8" depth="0.8"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
-                <!-- Yele -->
-                <a-box position="0 1.5 0.6" width="1.1" height="1.2" depth="0.6" color="#b5b0a1"
-                    material="opacity: 0.9; roughness: 1"></a-box>
-                <!-- Kuyruk -->
-                <a-box position="0 1.2 -1" width="0.1" height="0.7" depth="0.1"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8" rotation="-45 0 0"></a-box>
-                <!-- Yazı -->
-                <a-text value="ASLAN HEYKELI" position="0 2.2 0" align="center" color="#e8c87a" width="4"
-                    rotation="0 135 0"></a-text>
-            </a-entity>
 
-            <a-entity id="lion-statue-2" position="55 0 68" rotation="0 225 0">
-                <!-- Kaide (Pedestal) -->
-                <a-box position="0 0.25 0" width="1.5" height="0.5" depth="2.5"
-                    material="src: #stone-t; color: #9a9587; roughness: 0.9; repeat: 1 2"></a-box>
-                <!-- Gövde -->
-                <a-box position="0 0.9 0" width="0.8" height="0.8" depth="1.8"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8; repeat: 1 2"></a-box>
-                <!-- Bacaklar -->
-                <a-box position="-0.3 0.4 0.6" width="0.2" height="0.6" depth="0.2"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
-                <a-box position="0.3 0.4 0.6" width="0.2" height="0.6" depth="0.2"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
-                <a-box position="-0.3 0.4 -0.6" width="0.2" height="0.6" depth="0.2"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
-                <a-box position="0.3 0.4 -0.6" width="0.2" height="0.6" depth="0.2"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
-                <!-- Kafa -->
-                <a-box position="0 1.5 0.8" width="0.8" height="0.8" depth="0.8"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8"></a-box>
-                <!-- Yele -->
-                <a-box position="0 1.5 0.6" width="1.1" height="1.2" depth="0.6" color="#b5b0a1"
-                    material="opacity: 0.9; roughness: 1"></a-box>
-                <!-- Kuyruk -->
-                <a-box position="0 1.2 -1" width="0.1" height="0.7" depth="0.1"
-                    material="src: #marble-t; color: #cfc9ba; roughness: 0.8" rotation="-45 0 0"></a-box>
-                <!-- Yazı -->
-                <a-text value="ASLAN HEYKELI" position="0 2.2 0" align="center" color="#e8c87a" width="4"
-                    rotation="0 135 0"></a-text>
-            </a-entity>
 
             <!-- ARŞLI KAPI (ÜST KAT GEÇİŞİ) -->
             <a-entity id="faustina-gate-upper" position="22 0 83" rotation="0 0 0">
@@ -2280,7 +2239,7 @@
 
         <a-entity id="basement">
             <a-box position="0 6.5 59" width="10" height="0.6" depth="58" material="color:#3d3a33;roughness:1"></a-box>
-            <a-box position="0 0.05 48" width="80" height="0.1" depth="80" material="color:#33302a;roughness:1"></a-box>
+            <a-box position="0 0.08 48" width="80" height="0.1" depth="80" material="color:#33302a;roughness:1"></a-box>
             <a-box position="-12 3.25 48" width="2" height="6.5" depth="80"
                 material="color:#312f2a;roughness:1"></a-box>
             <a-box position="-4 3.25 30" width="2" height="6.5" depth="40" material="color:#312f2a;roughness:1"></a-box>
@@ -2290,6 +2249,22 @@
             <a-box position="12 3.25 48" width="2" height="6.5" depth="80" material="color:#312f2a;roughness:1"></a-box>
             <a-box position="0 3.25 8" width="26" height="6.5" depth="2" material="color:#312f2a;roughness:1"></a-box>
             <a-box position="0 3.25 88" width="26" height="6.5" depth="2" material="color:#312f2a;roughness:1"></a-box>
+
+            <!-- Menekles Yazıtı (x1, z68) -->
+            <a-entity position="2.5 0.05 68" rotation="0 270 0">
+                <!-- Kaide -->
+                <a-box position="0 0.1 0" width="1.2" height="0.2" depth="1"
+                    material="src: #stone-t; color: #858074"></a-box>
+                <!-- Stel Gövdesi -->
+                <a-box position="0 0.9 0" width="1" height="1.4" depth="0.4"
+                    material="src: #marble-t; color: #cfc9ba; roughness: 0.9"></a-box>
+                <!-- Yazıt (PNG olarak eklendi) -->
+                <a-plane src="#menekles-t" position="0 0.9 0.21" width="0.8" height="1.2" transparent="true"></a-plane>
+
+                <!-- Bilgi Butonu -->
+                <a-sphere class="clickable" position="0 1.8 0" radius="0.15" color="#e8c87a" onclick="openPOI('yazit')"
+                    animation="property: scale; to: 1.2 1.2 1.2; dir: alternate; loop: true; dur: 1000"></a-sphere>
+            </a-entity>
 
 
         </a-entity>
@@ -2381,14 +2356,14 @@
         // POI VERİLERİ
         // ============================================================
         const POI_DATA = [
-            { id: 'bazilika', icon: '⚖️', category: 'Kamu Yapısı', title: 'Bazilika', desc: 'Roma dünyasının bilinen en büyük bazilikası. 165×28 metre ölçüleriyle kentin adliye sarayıydı; hakimler burada karar verirdi.', facts: [{ label: 'Boyutlar', val: '165 × 28 metre' }, { label: 'İnşa Tarihi', val: 'MS 2. yüzyıl' }, { label: 'Mimari Düzen', val: 'Üç nefli bazilika planı' }, { label: 'İşlev', val: 'Adliye sarayı, mahkeme salonu' }], tags: ['Roma Dönemi', 'MS 2. Yüzyıl', 'Hukuk', 'En Büyük'], world: { x: 7, y: 12, z: 20 }, turDurak: 4, sound: 'bazilika.mp3' },
-            { id: 'propylon', icon: '🚪', category: 'Anıtsal Giriş', title: 'Propylon (Anıtsal Kapı)', desc: 'MS 178 depreminin ardından İmparator Marcus Aurelius ve İmparatoriçe Faustina tarafından yeniden inşa ettirilen görkemli giriş kapısı.', facts: [{ label: 'İnşa Tarihi', val: 'MS 2. yüzyıl sonu' }, { label: 'Yaptıran', val: 'Marcus Aurelius' }, { label: 'Özellik', val: 'Faustina portre kabartması' }, { label: 'Konum', val: 'Körfeze bakan cadde girişi' }], tags: ['Marcus Aurelius', 'Deprem Sonrası', 'Anıt', 'Kabartma'], world: { x: 56, y: 14, z: 41 }, turDurak: 2 },
-            { id: 'kolonad', icon: '🏛️', category: 'Portiko', title: 'Batı Stoa (Kolonad)', desc: 'Üç sıra Korent düzeni sütunuyla yükselen bu portiko antik dönemde ticaretin ve siyasi toplantıların kalbiydi. Her sütun 10 metre yüksekliğinde.', facts: [{ label: 'Sütun Düzeni', val: 'Korint (Korent)' }, { label: 'Sütun Yüksekliği', val: '10 metre' }, { label: 'Dönem', val: 'MS 2. yüzyıl' }, { label: 'Alt Kat', val: 'Sarnıca dönüştürüldü' }], tags: ['Korint Düzeni', 'Ticaret', 'Siyaset', 'Portiko'], world: { x: 18, y: 18, z: 52 }, turDurak: 1, sound: 'Bati.mp3' },
-            { id: 'tunel', icon: '🌊', category: 'Alt Yapı', title: 'Roma Tünelleri', desc: 'MS 2. yüzyılda inşa edilen tonozlu geçitler şehrin su ve kanalizasyon sistemini oluşturuyordu. Duvarlarındaki graffitiler dünyanın en eski örneklerindendir.', facts: [{ label: 'İnşa Tarihi', val: 'MS 2. yüzyıl' }, { label: 'Özellik', val: 'Demir-meşe kökü graffiti' }, { label: 'İşlev', val: 'Su ve kanalizasyon' }, { label: 'Diller', val: 'Çok dilli yazıtlar' }], tags: ['Altyapı', 'Su Sistemi', 'Graffiti', 'Dünya Rekoru'], world: { x: 2, y: 10, z: 22 }, turDurak: 5, sound: 'Grandfetolar.mp3' },
+            { id: 'bazilika', icon: '⚖️', category: 'Kamu Yapısı', title: 'Bazilika', desc: 'Bazilikalar ortada geniş ve yüksek, yanlarda ise dar ve alçak birbirine paralel ince uzun koridorlar şeklinde tasarlanmış bir plana sahip olan yapılardır. Plan özellikleri açısından Hristiyan kiliselerine öncülük eden Roma Dönemi bazilikaları, kentin hukuk işlerinin görüldüğü bir tür adliye sarayıdır. Öte yandan kentin ticari yaşamına yön veren tüccar ve bankerlerin faaliyetleri için de bazilikalar tercih edilmiştir.\n\nAgoranın kuzey kanadında yer alan bazilika, dıştan dışa 165 x 28 m ölçülerinde, dikdörtgen bir plana sahiptir. Ölçüleri itibariyle, Smyrna agora bazilikası, bilinen en büyük Roma Dönemi Bazilikası olma özelliğine sahiptir. Günümüze ulaşan görkemli bodrum katının doğu ve batı uçlarında görülen çapraz tonozlar Roma Dönemi mimarlığının en güzel örnekleri arasındadır.\n\nBazilikanın kuzey cephesinde, bodrum katına açılan iki anıtsal kapıdan batı yandaki günümüzde tamamıyla açığa çıkarılmıştır. Roma Dönemi sonlarına doğru, devlet agorasının giderek ticari bir anlam kazanmaya başladığını gösteren tonozlu dükkan sıraları, bazilikanın kuzey cephesinde gün ışığına çıkarılmıştır.', facts: [{ label: 'Boyutlar', val: '165 × 28 metre' }, { label: 'Hukuki İşlev', val: 'Adliye Sarayı' }, { label: 'Ticari İşlev', val: 'Bankerler ve Tüccarlar' }, { label: 'Mimari Özellik', val: 'Çapraz Tonozlar' }], tags: ['Roma Dönemi', 'MS 2. Yüzyıl', 'Hukuk', 'En Büyük'], world: { x: 7, y: 12, z: 20 }, turDurak: 4, sound: 'bazilika.mp3' },
+            { id: 'propylon', icon: '🚪', category: 'Anıtsal Giriş', title: 'Kemerli Kapı (Propylon)', desc: 'Izgara planlı olan Smyrna kentinin, doğu-batı yönlü paralel caddelerinden biri agoradan geçiyordu. Olasılıkla agorayı iki eşit parçaya bölen caddenin batı yandan agoraya giriş yaptığı yerde görkemli bir kapı bulunmaktadır.\n\nİki gözlü olduğu düşünülen kapının kuzey kemerinin merkezinde Roma İmparatoru Marcus Aurelius’un eşi Faustina’nın portre kabartması yer alır. Günümüzde kullanımda olan sokağın altında olan ikinci gözde ise olasılıkla Marcus Aurelius’un portresi yer almaktadır. bu iki isim, MS.178’de depremle yıkılan agorayı yeniden inşa ettirdiği için Smyrnalılar vefa borçlarını bu kapı ile ödemiştir.\n\n1940’lı yıllarda hatalı ölçülerle onarılan kemerli kapı 2004 yılında aslına uygun olarak yeniden restore edilmiştir.', facts: [{ label: 'Deprem Sonrası', val: 'MS 178' }, { label: 'Portreler', val: 'Faustina & Marcus Aurelius' }, { label: 'Restorasyon', val: '2004 (Aslına uygun)' }, { label: 'Şehir Planı', val: 'Izgara Plan' }], tags: ['Marcus Aurelius', 'Deprem Sonrası', 'Anıt', 'Kabartma'], world: { x: 56, y: 14, z: 41 }, turDurak: 2 },
+            { id: 'kolonad', icon: '🏛️', category: 'Portiko', title: 'Batı Stoa', desc: 'Üç sıra sütun dizisiyle ayrılmış neflerden (galeri) oluşan batı stoa da bazilika gibi bir bodrum kat üzerinde yükselmekteydi. Günümüzde daha çok, kemerli bodrum katları görülen batı stoanın antik dönemde bodrum katı üzerinde yükselen iki katlı bir yapı olduğu anlaşılmaktadır.\n\nAvludan üç sıra basamakla çıkılan zemin kat ve ahşap tabanlı ikinci kat, Antik Çağ’da insanların yağmur ve güneşten korunarak gezinti yaptığı yerlerdi. Olasılıkla Roma Dönemi sonlarında bodrum kat galerilerinin bazı duvarları örülerek yapılan sarnıçlar bunun en güzel örneği olarak günümüze ulaşmıştır.\n\nBatı stoanın avluya bakan cephesindeki birinci kat sütunları, 1940’lı yıllarda ayağa kaldırılmıştır.', facts: [{ label: 'Yapı', val: 'İki Katlı' }, { label: 'Nef Sayısı', val: 'Üç Sıra Sütun' }, { label: 'Dönem', val: 'Roma Dönemi' }, { label: 'Özellik', val: 'Sarnıçlı Bodrum Kat' }], tags: ['Korint Düzeni', 'Ticaret', 'Siyaset', 'Portiko'], world: { x: 18, y: 18, z: 52 }, turDurak: 1, sound: 'Bati.mp3' },
+            { id: 'tunel', icon: '🌊', category: 'Alt Yapı', title: 'Graffitiler', desc: 'Roma Dönemi’ne ait duvar resimleri ve yazıları olan graffitiler bazilika bodrum katı duvar ve kemer ayaklarında yer alan sıvalar üzerine yapılmıştır. Demir ve Meşe Kökü karışımı bir mürekkeple çizilmiş olanlar dışında kazıma yöntemiyle yapılmış örnekler de vardır.\n\nGraffitiler, özellikle Roma dönemindeki günlük sosyal hayat konusunda çok önemli bilgiler vermektedir. Graffitilerde aşk oyunlarından gladyatör mücadelelerine, cinsellikten yelkenli resimlerine, sevgili adlarından kuşlara, gemilere, bilmecelere değin çok farklı konulara yer verildiği tespit edilmiştir. Roma Dönemi’nde Batı Anadolu’nun yıldızı parlayan üç kent, Pergamon, Ephesos ve Smyrna arasındaki rekabetin izleri bile bu duvarlarda görülmektedir.', facts: [{ label: 'Yöntem', val: 'Mürekkep ve Kazıma' }, { label: 'Malzeme', val: 'Demir ve Meşe Kökü' }, { label: 'Konular', val: 'Sosyal Hayat, Aşk, Mücadele' }, { label: 'Özgünlük', val: 'Dünyanın En Eski Örnekleri' }], tags: ['Altyapı', 'Su Sistemi', 'Graffiti', 'Dünya Rekoru'], world: { x: 2, y: 10, z: 22 }, turDurak: 5, sound: 'Grandfetolar.mp3' },
             { id: 'mezarlik', icon: '⚰️', category: 'Osmanlı Dönemi', title: 'Osmanlı Mezarlığı', desc: 'Bizans ve Osmanlı dönemlerinde agora mezarlık olarak kullanıldı. 1932 kazılarıyla yeniden keşfedildi.', facts: [{ label: 'Dönem', val: '18–19. yüzyıl' }, { label: 'Mezar Taşları', val: 'Arap harfli yazıtlar' }, { label: 'Kazı Başlangıcı', val: '1932' }, { label: 'Özellik', val: 'Kabartma çiçek desenleri' }], tags: ['Osmanlı', '19. Yüzyıl', 'Kazı', 'Katmanlı Tarih'], world: { x: 63, y: 12, z: 80 }, turDurak: 3 },
             { id: 'cesme', icon: '💧', category: 'Su Yapısı', title: 'Antik Çeşme (Nymphaeum)', desc: 'MS 2. yüzyıldan bu yana suyun aktığı bu çeşme, hem içme suyu hem de sosyal toplanma mekânı işlevi gördü.', facts: [{ label: 'Dönem', val: 'MS 2. yüzyıl' }, { label: 'Tür', val: 'Nymphaeum (çeşme anıtı)' }, { label: 'İşlev', val: 'İçme suyu ve sosyal alan' }, { label: 'Sistem', val: 'Tünel-sarnıç-çeşme ağı' }], tags: ['Hidrolik', 'Nymphaeum', 'Sosyal Alan', 'Roma'], world: { x: 8, y: 3, z: 85 }, turDurak: 6 },
             { id: 'kusyuvasi', icon: '🐦', category: 'Doğa & Tarih', title: 'Martı Yuvası', desc: 'Antik sütunların arasına kurulmuş martı yuvası. İzmir körfezi martıları 2000 yıldır bu taşların arasında yuvalanıyor.', facts: [{ label: 'Tür', val: 'Akdeniz Martısı' }, { label: 'Süreklilik', val: '2000+ year' }, { label: 'Konum', val: 'Batı Stoa sütunları' }, { label: 'Kayıt', val: 'Roma dönemi şiirlerinde' }], tags: ['Fauna', 'Süreklilik', 'Martı', 'Antik Hayvan'], world: { x: 18, y: 20, z: 57 }, turDurak: 0 },
-            { id: 'aslan', icon: '🦁', category: 'Heykel', title: 'Aslan Heykeli', desc: 'Antik dönemde gücü ve korumayı simgeleyen mermer aslan heykeli. Agoranın çeşitli noktalarında bu tür figüratif süslemelere rastlanırdı.', facts: [{ label: 'Malzeme', val: 'Mermer' }, { label: 'Sembolizm', val: 'Güç ve Koruma' }, { label: 'Dönem', val: 'Roma Dönemi' }], tags: ['Heykel', 'Sanat', 'Sembolizm'], world: { x: 23, y: 12, z: 65 }, turDurak: -1 },
+            { id: 'yazit', icon: '📜', category: 'Yazıt', title: 'Menekles Yazıtı', desc: 'İyi talihle. Güzellik ve büyüklükte Asia’nın birincisi ve en ünlü şehri, başkent, en kutsal meclisin (Roma Senatosu) kararı uyarınca üç kere neokoros olan şehir, İona’nın süsü Smyrna, onun sevgili vatanı, keskin silahlarla yapılan dövüşleri içeren ve ardarda beş gün süren gladyatör oyunlarını düzenlemiş olan, Asia’daki impatorluk kültünün başrahibi Iulius Menekles Diaphantos onurlandırıldı. Yazıtın orijinal metni:\n\nΙΟΥΛΙΟΝ\nΜΕΝΕΚΛΕΑ\nΔΙΟΦΑΝΤΟΥ\nΑΣΙΑΡΧΗΝ\nΕΝΔΟΞΩΣ ΦΙΛΟΤΕΙΜΗΣΑΜΕΝΟΝ\nΕΣ ΗΜΕΡΩΝ ΠΕΝΤΕ\nΤΟΥΣ ΟΞΕΣΙΝ\nΗ ΓΛΥΚΥΤΑΤΗ ΠΑΤΡΙΣ', facts: [{ label: 'onurlandırılan', val: 'Iulius Menekles' }, { label: 'Unvan', val: 'Asia Başrahibi' }, { label: 'Dönem', val: 'Roma Dönemi' }, { label: 'Etkinlik', val: 'Gladyatör Oyunları' }], tags: ['Yazıt', 'Gladyatör', 'Smyrna', 'Onurlandırma'], world: { x: 1, y: 2, z: 68 }, turDurak: -1 },
             { id: 'kopru', icon: '🌉', category: 'Mimari', title: 'Antik Köprü', desc: 'Agoranın su kanalları ve tünel girişleri arasında bağlantı sağlayan taş kemerli köprü.', facts: [{ label: 'Malzeme', val: 'Kesme Taş' }, { label: 'Tür', val: 'Kemerli Köprü' }, { label: 'Dönem', val: 'Roma Dönemi' }], tags: ['Mimari', 'Ulaşım', 'Mühendislik'], world: { x: 24, y: 12, z: 83 }, turDurak: -1 },
             { id: 'su-kanali', icon: '🏞️', category: 'Hidroloji', title: 'Su Kanalı', desc: 'Tüneller boyunca uzanan bu kanal Roma döneminde şehrin su dağıtım ağının temel bileşeniydi.', facts: [{ label: 'Uzunluk', val: '~50 metre (görünen)' }, { label: 'İnşa', val: 'MS 2. yüzyıl' }, { label: 'Bağlantı', val: 'Yeraltı sarnıçları' }, { label: 'Malzeme', val: 'Taş ve kireç harcı' }], tags: ['Hidrolik', 'Mühendislik', 'Su', 'Roma'], world: { x: 8, y: 3, z: 58 }, turDurak: -1 },
         ];
@@ -2401,8 +2376,8 @@
         // QUIZ VERİLERİ
         // ============================================================
         const QUIZ_Q = [
-            { q: "Smyrna Agorası'ndaki bazilika, bilinen en büyük Roma dönemi bazilikasıdır.", a: true, exp: "Doğru! Bazilika dıştan dışa 165×28 metre ölçüleriyle gerçekten bilinen en büyük Roma bazilikasıdır." },
-            { q: "Anıtsal Kapı (Propylon) MS 178 depreminden sonra inşa edilmiştir.", a: true, exp: "Doğru! MS 178 depremi Smyrna'yı büyük ölçüde yıkmış, Marcus Aurelius şehri yeniden inşa ettirmiştir." },
+            { q: "Smyrna Agorası'ndaki bazilika, bilinen en büyük Roma dönemi bazilikasıdır.", a: true, exp: "Doğru! Bazilika dıştan dışa 165×28m ölçüleriyle en büyük Roma bazilikasıdır. Plan özellikleri açısından Hristiyan kiliselerine öncülük etmiştir." },
+            { q: "Kemerli Kapı (Propylon) MS 178 depreminden sonra yeniden inşa edilmiştir.", a: true, exp: "Doğru! MS 178 depreminin ardından Marcus Aurelius ve eşi Faustina tarafından yeniden inşa ettirilmiştir." },
             { q: "Su tünellerindeki graffitiler modern turistler tarafından yapılmıştır.", a: false, exp: "Yanlış! Graffitiler Roma dönemine aittir ve dünyanın demir-meşe kökü ile yapılmış en eski graffitileridir." },
             { q: "Agora, Bizans ve Osmanlı dönemlerinde mezarlık olarak kullanılmıştır.", a: true, exp: "Doğru! Agora alanında Osmanlı dönemine ait mermer mezar taşları bulunmaktadır." },
             { q: "Smyrna Agorası'nın su kanalı sistemi MS 5. yüzyılda yapılmıştır.", a: false, exp: "Yanlış! Su tünelleri MS 2. yüzyılda, Roma döneminde inşa edilmiştir." },
@@ -2414,8 +2389,8 @@
         // BULMACA VERİLERİ
         // ============================================================
         const HUNT_TARGETS = {
-            upper: { clue: '🏛️ Anıtsal Kapının yakınında parlayan altın bir nesne gizli!', hint: 'Üst katta, büyük kapının etrafını arayın...', name: 'Anıtsal Kapı Yakını', info: 'Tebrikler! Bu altın nesneyi Anıtsal Kapı\'nın (Propylon) hemen yanında gizledik. MS 178 depreminden sonra yeniden inşa edilen bu kapı İmparatoriçe Faustina\'nın portresini taşımaktadır.' },
-            lower: { clue: '💧 Tünellerde, su kanalının sol koridorunda gizli bir hazine var!', hint: 'Alt kata inin, sol tarafa geçin ve ilerleyin...', name: 'Sol Tünel Koridoru', info: 'Tebrikler! Bu altın nesneyi sol tünel koridorunda gizledik. MS 2. yüzyılda inşa edilen bu tüneller antik Smyrna\'nın su yönetim sisteminin kanıtıdır.' },
+            upper: { clue: '🏛️ Kemerli Kapının yakınında parlayan altın bir nesne gizli!', hint: 'Üst katta, büyük kapının etrafını arayın...', name: 'Kemerli Kapı Yakını', info: 'Tebrikler! Kemerli Kapı (Propylon) MS 178 depreminden sonra Marcus Aurelius ve Faustina tarafından inşa ettirilmiştir. 2004 yılında aslına uygun olarak restore edilmiştir.' },
+            lower: { clue: '💧 Graffitilerin bulunduğu tünellerde gizli bir hazine var!', hint: 'Alt kata inin, tünel duvarlarını inceleyerek ilerleyin...', name: 'Graffitili Tünel', info: 'Tebrikler! Bu tünellerdeki graffitiler, demir ve meşe kökü mürekkebiyle bazilika bodrum katı duvarlarına yapılmıştır. Roma dönemindeki günlük sosyal hayat (aşk, gladyatör vb.) hakkında eşsiz bilgiler sunar.' },
         };
 
         // ============================================================
@@ -2432,7 +2407,7 @@
             { date: "MS 4-6. yy", major: false, icon: "✝️", title: "Bizans Dönemi", sub: "Hristiyanlaşma", detail: "Roma'nın Hristiyanlaşmasıyla birlikte Smyrna da dönüşüme uğradı. Agora yavaş yavaş terk edildi." },
             { date: "1000-1400", major: false, icon: "⚰️", title: "Mezarlık Dönemi", sub: "Agora terk edildi", detail: "Ortaçağ boyunca agora mezarlık olarak kullanıldı. Hem Bizans hem de Osmanlı dönemi mezar taşları alanda görülmektedir." },
             { date: "1932", major: true, icon: "🔍", title: "İlk Kazılar", sub: "Bilimsel araştırmalar", detail: "1932'de Türk arkeologlar öncülüğünde Smyrna Agorası'nda sistematik kazılar başladı." },
-            { date: "Günümüz", major: true, icon: "🌟", title: "Müze & Park", sub: "Ziyaretçilere açık", detail: "Smyrna Agorası bugün İzmir'in en önemli açık hava müzelerinden biridir. Kazılar hâlâ devam etmektedir." },
+            { date: "Günümüz", major: true, icon: "🌟", title: "Müze & Restorasyon", sub: "Ziyaretçilere açık", detail: "Smyrna Agorası bugün İzmir'in en önemli açık hava müzelerlerinden biridir. 2004 yılında Kemerli Kapı aslına uygun olarak restore edilmiştir. Kazılar hâlâ devam etmektedir." },
         ];
 
         // ============================================================
