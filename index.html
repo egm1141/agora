@@ -1908,11 +1908,16 @@
             <img id="menekles-t" src="menekles.png">
             <img id="grave-t" src="grave-stone.png">
             <img id="zemin-t" src="zemin.png">
+            <img id="grass-t"
+                src="https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/terrain/grasslight-big.jpg"
+                crossorigin="anonymous">
             <a-mixin id="rock-m" geometry="primitive:box;width:0.4;height:0.25;depth:0.4"
                 material="color:#b5b0a1;roughness:0.9"></a-mixin>
             <a-mixin id="grave-m" material="src: #grave-t; roughness: 0.9"></a-mixin>
             <a-mixin id="grass-m" geometry="primitive:cone;radiusBottom:0.12;height:0.4"
                 material="color:#6e855a;roughness:1"></a-mixin>
+            <a-mixin id="grass-patch-m" geometry="primitive:plane;width:12;height:12" rotation="-90 0 0"
+                material="src:#grass-t;repeat:4 4;roughness:1;transparent:true;opacity:0.9"></a-mixin>
             <!-- Mimari Mixin'ler -->
             <a-mixin id="stone-block-m" geometry="primitive:box;width:1.95;height:0.95;depth:1.95"
                 material="color:#9a9587;roughness:0.9"></a-mixin>
@@ -1965,6 +1970,15 @@
                     position="-0.2 0 -0.1" scale="0.9 1.1 0.9"></a-entity></a-entity>
             <a-entity position="10 0 80"><a-entity mixin="grass-m"></a-entity></a-entity>
             <a-entity position="-10 0 80"><a-entity mixin="grass-m"></a-entity></a-entity>
+
+            <!-- Tek Parça Büyük Çimenlik Alan (x20,z23'den x63,z72'ye) -->
+            <a-entity position="41.5 0.03 47.5">
+                <a-entity mixin="grass-patch-m" geometry="width:43;height:49" material="repeat:12 14"></a-entity>
+                <!-- Alana serpiştirilmiş detaylar -->
+                <a-entity position="-18 0 -22" mixin="grass-m"></a-entity>
+                <a-entity position="18 0 22" mixin="grass-m" scale="1.2 0.8 1.2"></a-entity>
+                <a-entity position="0 0 0" mixin="grass-m"></a-entity>
+            </a-entity>
         </a-entity>
 
 
@@ -2083,9 +2097,10 @@
                     <a-plane position="0 0 1.12" width="2" height="0.5" color="#5a564d" opacity="0.15"></a-plane>
                 </a-entity>
                 <a-plane position="0 1.5 1.15" width="2.5" height="1" color="#1a1208" opacity="0.9"></a-plane>
-                <a-text position="0 1.5 1.16" value="KEMERLİ KAPI&#10;(Propylon)" align="center" color="#e8c87a"
-                    width="4"></a-text>
+                <a-text position="0 1.5 1.16" value="KEMERLİ KAPI&#10;(Propylon)" align="center" color="#e8c87a" width="4"></a-text>
             </a-entity>
+
+            <!-- BOŞ YÜKSELTİ (Eski Yerinde Kalıyor) -->
             <a-entity position="40 0 80">
                 <a-box position="0 1 0" width="26" height="2" depth="21" color="#8c8779" static-body></a-box>
                 <a-entity position="0 0 -10.5">
@@ -2101,47 +2116,27 @@
                     <a-box position="0 0.4 10" width="25" height="0.8" depth="0.2" color="#6e6a5f"></a-box>
                     <a-box position="-12.5 0.4 0" width="0.2" height="0.8" depth="20" color="#6e6a5f"></a-box>
                     <a-box position="12.5 0.4 0" width="0.2" height="0.8" depth="20" color="#6e6a5f"></a-box>
-
-                    <!-- Mevcut Mezarlar -->
-                    <a-box mixin="grave-m" position="-8 0.8 -6" width="0.5" height="1.6" depth="0.15"
-                        rotation="5 15 0"></a-box>
-                    <a-box mixin="grave-m" position="-6 0.7 -5" width="0.4" height="1.4" depth="0.1"
-                        rotation="0 -10 0"></a-box>
-                    <a-box mixin="grave-m" position="-4 1 -6" width="0.6" height="2" depth="0.2"
-                        rotation="-5 5 2"></a-box>
-                    <a-box mixin="grave-m" position="4 1.1 -6" width="0.6" height="2.2" depth="0.15"
-                        rotation="-10 25 0"></a-box>
-
-                    <!-- Yeni Eklenen Mezarlar (Sıra 1) -->
-                    <a-box mixin="grave-m" position="-10 0.9 -1" width="0.4" height="1.8" depth="0.1"
-                        rotation="-5 12 0"></a-box>
-                    <a-box mixin="grave-m" position="-2 1.1 -1.5" width="0.5" height="2.1" depth="0.15"
-                        rotation="8 -8 3"></a-box>
-                    <a-box mixin="grave-m" position="2 0.8 -0.8" width="0.3" height="1.5" depth="0.1"
-                        rotation="0 18 -4"></a-box>
-                    <a-box mixin="grave-m" position="8 1 -1.2" width="0.5" height="1.9" depth="0.12"
-                        rotation="-10 0 6"></a-box>
-
-                    <!-- Yeni Eklenen Mezarlar (Sıra 2) -->
-                    <a-box mixin="grave-m" position="-7 1 4" width="0.45" height="2.0" depth="0.14"
-                        rotation="12 15 0"></a-box>
-                    <a-box mixin="grave-m" position="0 0.9 3.5" width="0.5" height="1.8" depth="0.15"
-                        rotation="-5 -12 2"></a-box>
-                    <a-box mixin="grave-m" position="5 1.1 4.2" width="0.4" height="2.3" depth="0.1"
-                        rotation="18 10 -5"></a-box>
-                    <a-box mixin="grave-m" position="10 0.8 3.8" width="0.6" height="1.6" depth="0.2"
-                        rotation="0 0 12"></a-box>
-
-                    <!-- Yeni Eklenen Mezarlar (Sıra 3) -->
-                    <a-box mixin="grave-m" position="-9 0.8 8" width="0.4" height="1.7" depth="0.1"
-                        rotation="-8 -20 0"></a-box>
-                    <a-box mixin="grave-m" position="-3 1.2 7.5" width="0.55" height="2.4" depth="0.15"
-                        rotation="10 25 4"></a-box>
-                    <a-box mixin="grave-m" position="3 0.9 8.2" width="0.45" height="1.9" depth="0.12"
-                        rotation="-15 5 -8"></a-box>
-                    <a-box mixin="grave-m" position="7 1 8.5" width="0.5" height="2.1" depth="0.15"
-                        rotation="0 -18 2"></a-box>
                 </a-entity>
+            </a-entity>
+
+            <!-- MEZARLARIN YENİ YERİ (Zemin Üzerinde) -->
+            <a-entity position="71 0.05 79" rotation="0 180 0">
+                <a-box mixin="grave-m" position="-8 0.8 -6" width="0.5" height="1.6" depth="0.15" rotation="5 15 0"></a-box>
+                <a-box mixin="grave-m" position="-6 0.7 -5" width="0.4" height="1.4" depth="0.1" rotation="0 -10 0"></a-box>
+                <a-box mixin="grave-m" position="-4 1 -6" width="0.6" height="2" depth="0.2" rotation="-5 5 2"></a-box>
+                <a-box mixin="grave-m" position="4 1.1 -6" width="0.6" height="2.2" depth="0.15" rotation="-10 25 0"></a-box>
+                <a-box mixin="grave-m" position="-10 0.9 -1" width="0.4" height="1.8" depth="0.1" rotation="-5 12 0"></a-box>
+                <a-box mixin="grave-m" position="-2 1.1 -1.5" width="0.5" height="2.1" depth="0.15" rotation="8 -8 3"></a-box>
+                <a-box mixin="grave-m" position="2 0.8 -0.8" width="0.3" height="1.5" depth="0.1" rotation="0 18 -4"></a-box>
+                <a-box mixin="grave-m" position="8 1 -1.2" width="0.5" height="1.9" depth="0.12" rotation="-10 0 6"></a-box>
+                <a-box mixin="grave-m" position="-7 1 4" width="0.45" height="2.0" depth="0.14" rotation="12 15 0"></a-box>
+                <a-box mixin="grave-m" position="0 0.9 3.5" width="0.5" height="1.8" depth="0.15" rotation="-5 -12 2"></a-box>
+                <a-box mixin="grave-m" position="5 1.1 4.2" width="0.4" height="2.3" depth="0.1" rotation="18 10 -5"></a-box>
+                <a-box mixin="grave-m" position="10 0.8 3.8" width="0.6" height="1.6" depth="0.2" rotation="0 0 12"></a-box>
+                <a-box mixin="grave-m" position="-9 0.8 8" width="0.4" height="1.7" depth="0.1" rotation="-8 -20 0"></a-box>
+                <a-box mixin="grave-m" position="-3 1.2 7.5" width="0.55" height="2.4" depth="0.15" rotation="10 25 4"></a-box>
+                <a-box mixin="grave-m" position="3 0.9 8.2" width="0.45" height="1.9" depth="0.12" rotation="-15 5 -8"></a-box>
+                <a-box mixin="grave-m" position="7 1 8.5" width="0.5" height="2.1" depth="0.15" rotation="0 -18 2"></a-box>
             </a-entity>
             <a-entity position="42 0 36">
                 <!-- Gölge Planı -->
