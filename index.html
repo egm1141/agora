@@ -853,7 +853,7 @@
             left: 0;
             right: 0;
             height: 70px;
-            background: linear-gradient(to top, rgba(6,4,2,0.95) 0%, transparent 100%);
+            background: linear-gradient(to top, rgba(6, 4, 2, 0.95) 0%, transparent 100%);
             pointer-events: none;
         }
 
@@ -1814,8 +1814,7 @@
             <button class="poi-panel-close" onclick="closePOI()">✕</button>
         </div>
         <div class="poi-img-wrap" id="poi-img-wrap">
-            <img class="poi-panel-img" id="poi-panel-img" src="" alt=""
-                onload="this.classList.add('img-loaded')"
+            <img class="poi-panel-img" id="poi-panel-img" src="" alt="" onload="this.classList.add('img-loaded')"
                 onerror="document.getElementById('poi-img-wrap').classList.remove('has-img');this.src=''">
             <div class="poi-img-fade"></div>
             <div class="poi-img-badge">📸 Smyrna Agorası</div>
@@ -2162,7 +2161,8 @@
                     <a-plane position="0 0 1.12" width="2" height="0.5" color="#5a564d" opacity="0.15"></a-plane>
                 </a-entity>
                 <a-plane position="0 1.5 1.15" width="2.5" height="1" color="#1a1208" opacity="0.9"></a-plane>
-                <a-text position="0 1.5 1.16" value="KEMERLİ KAPI&#10;(Propylon)" align="center" color="#e8c87a" width="4"></a-text>
+                <a-text position="0 1.5 1.16" value="KEMERLİ KAPI&#10;(Propylon)" align="center" color="#e8c87a"
+                    width="4"></a-text>
             </a-entity>
 
             <!-- BOŞ YÜKSELTİ (Eski Yerinde Kalıyor) -->
@@ -2186,22 +2186,37 @@
 
             <!-- MEZARLARIN YENİ YERİ (Zemin Üzerinde) -->
             <a-entity position="71 0.05 79" rotation="0 180 0">
-                <a-box mixin="grave-m" position="-8 0.8 -6" width="0.5" height="1.6" depth="0.15" rotation="5 15 0"></a-box>
-                <a-box mixin="grave-m" position="-6 0.7 -5" width="0.4" height="1.4" depth="0.1" rotation="0 -10 0"></a-box>
+                <a-box mixin="grave-m" position="-8 0.8 -6" width="0.5" height="1.6" depth="0.15"
+                    rotation="5 15 0"></a-box>
+                <a-box mixin="grave-m" position="-6 0.7 -5" width="0.4" height="1.4" depth="0.1"
+                    rotation="0 -10 0"></a-box>
                 <a-box mixin="grave-m" position="-4 1 -6" width="0.6" height="2" depth="0.2" rotation="-5 5 2"></a-box>
-                <a-box mixin="grave-m" position="4 1.1 -6" width="0.6" height="2.2" depth="0.15" rotation="-10 25 0"></a-box>
-                <a-box mixin="grave-m" position="-10 0.9 -1" width="0.4" height="1.8" depth="0.1" rotation="-5 12 0"></a-box>
-                <a-box mixin="grave-m" position="-2 1.1 -1.5" width="0.5" height="2.1" depth="0.15" rotation="8 -8 3"></a-box>
-                <a-box mixin="grave-m" position="2 0.8 -0.8" width="0.3" height="1.5" depth="0.1" rotation="0 18 -4"></a-box>
-                <a-box mixin="grave-m" position="8 1 -1.2" width="0.5" height="1.9" depth="0.12" rotation="-10 0 6"></a-box>
-                <a-box mixin="grave-m" position="-7 1 4" width="0.45" height="2.0" depth="0.14" rotation="12 15 0"></a-box>
-                <a-box mixin="grave-m" position="0 0.9 3.5" width="0.5" height="1.8" depth="0.15" rotation="-5 -12 2"></a-box>
-                <a-box mixin="grave-m" position="5 1.1 4.2" width="0.4" height="2.3" depth="0.1" rotation="18 10 -5"></a-box>
-                <a-box mixin="grave-m" position="10 0.8 3.8" width="0.6" height="1.6" depth="0.2" rotation="0 0 12"></a-box>
-                <a-box mixin="grave-m" position="-9 0.8 8" width="0.4" height="1.7" depth="0.1" rotation="-8 -20 0"></a-box>
-                <a-box mixin="grave-m" position="-3 1.2 7.5" width="0.55" height="2.4" depth="0.15" rotation="10 25 4"></a-box>
-                <a-box mixin="grave-m" position="3 0.9 8.2" width="0.45" height="1.9" depth="0.12" rotation="-15 5 -8"></a-box>
-                <a-box mixin="grave-m" position="7 1 8.5" width="0.5" height="2.1" depth="0.15" rotation="0 -18 2"></a-box>
+                <a-box mixin="grave-m" position="4 1.1 -6" width="0.6" height="2.2" depth="0.15"
+                    rotation="-10 25 0"></a-box>
+                <a-box mixin="grave-m" position="-10 0.9 -1" width="0.4" height="1.8" depth="0.1"
+                    rotation="-5 12 0"></a-box>
+                <a-box mixin="grave-m" position="-2 1.1 -1.5" width="0.5" height="2.1" depth="0.15"
+                    rotation="8 -8 3"></a-box>
+                <a-box mixin="grave-m" position="2 0.8 -0.8" width="0.3" height="1.5" depth="0.1"
+                    rotation="0 18 -4"></a-box>
+                <a-box mixin="grave-m" position="8 1 -1.2" width="0.5" height="1.9" depth="0.12"
+                    rotation="-10 0 6"></a-box>
+                <a-box mixin="grave-m" position="-7 1 4" width="0.45" height="2.0" depth="0.14"
+                    rotation="12 15 0"></a-box>
+                <a-box mixin="grave-m" position="0 0.9 3.5" width="0.5" height="1.8" depth="0.15"
+                    rotation="-5 -12 2"></a-box>
+                <a-box mixin="grave-m" position="5 1.1 4.2" width="0.4" height="2.3" depth="0.1"
+                    rotation="18 10 -5"></a-box>
+                <a-box mixin="grave-m" position="10 0.8 3.8" width="0.6" height="1.6" depth="0.2"
+                    rotation="0 0 12"></a-box>
+                <a-box mixin="grave-m" position="-9 0.8 8" width="0.4" height="1.7" depth="0.1"
+                    rotation="-8 -20 0"></a-box>
+                <a-box mixin="grave-m" position="-3 1.2 7.5" width="0.55" height="2.4" depth="0.15"
+                    rotation="10 25 4"></a-box>
+                <a-box mixin="grave-m" position="3 0.9 8.2" width="0.45" height="1.9" depth="0.12"
+                    rotation="-15 5 -8"></a-box>
+                <a-box mixin="grave-m" position="7 1 8.5" width="0.5" height="2.1" depth="0.15"
+                    rotation="0 -18 2"></a-box>
             </a-entity>
             <a-entity position="42 0 36">
                 <!-- Gölge Planı -->
@@ -2665,7 +2680,7 @@
 
             // --- Fotoğraf yönetimi ---
             const imgWrap = document.getElementById('poi-img-wrap');
-            const imgEl   = document.getElementById('poi-panel-img');
+            const imgEl = document.getElementById('poi-panel-img');
             if (poi.image && imgWrap && imgEl) {
                 imgEl.classList.remove('img-loaded');
                 imgEl.src = poi.image;
