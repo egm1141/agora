@@ -813,6 +813,66 @@
             padding: 20px 24px;
         }
 
+        /* ===== POI FOTOĞRAF ===== */
+        .poi-img-wrap {
+            width: 100%;
+            height: auto;
+            max-height: 380px;
+            overflow: hidden;
+            position: relative;
+            background: #0a0804;
+            border-bottom: 1px solid rgba(232, 200, 122, 0.15);
+            display: none;
+            flex-shrink: 0;
+            text-align: center;
+        }
+
+        .poi-img-wrap.has-img {
+            display: block;
+        }
+
+        .poi-panel-img {
+            width: auto;
+            max-width: 100%;
+            height: auto;
+            max-height: 380px;
+            object-fit: contain;
+            display: inline-block;
+            filter: sepia(10%) brightness(0.9) contrast(1.05) saturate(0.95);
+            opacity: 0;
+            transition: opacity 0.55s ease;
+        }
+
+        .poi-panel-img.img-loaded {
+            opacity: 1;
+        }
+
+        .poi-img-fade {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: linear-gradient(to top, rgba(6,4,2,0.95) 0%, transparent 100%);
+            pointer-events: none;
+        }
+
+        .poi-img-badge {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            background: rgba(4, 3, 1, 0.78);
+            border: 1px solid rgba(232, 200, 122, 0.28);
+            color: rgba(232, 200, 122, 0.65);
+            font-family: 'Cinzel', serif;
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            padding: 3px 9px;
+            border-radius: 4px;
+            backdrop-filter: blur(8px);
+            text-transform: uppercase;
+        }
+
         .poi-panel-desc {
             color: rgba(240, 232, 210, 0.85);
             font-size: 16px;
@@ -1753,6 +1813,13 @@
                 style="display:none">🔊</button>
             <button class="poi-panel-close" onclick="closePOI()">✕</button>
         </div>
+        <div class="poi-img-wrap" id="poi-img-wrap">
+            <img class="poi-panel-img" id="poi-panel-img" src="" alt=""
+                onload="this.classList.add('img-loaded')"
+                onerror="document.getElementById('poi-img-wrap').classList.remove('has-img');this.src=''">
+            <div class="poi-img-fade"></div>
+            <div class="poi-img-badge">📸 Smyrna Agorası</div>
+        </div>
         <div class="poi-panel-body">
             <div class="poi-panel-desc" id="poi-desc">Açıklama</div>
             <div class="poi-panel-facts" id="poi-facts"></div>
@@ -1908,9 +1975,7 @@
             <img id="menekles-t" src="menekles.png">
             <img id="grave-t" src="grave-stone.png">
             <img id="zemin-t" src="zemin.png">
-            <img id="grass-t"
-                src="https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/terrain/grasslight-big.jpg"
-                crossorigin="anonymous">
+            <img id="grass-t" src="cimen_dokusu.jpg">
             <a-mixin id="rock-m" geometry="primitive:box;width:0.4;height:0.25;depth:0.4"
                 material="color:#b5b0a1;roughness:0.9"></a-mixin>
             <a-mixin id="grave-m" material="src: #grave-t; roughness: 0.9"></a-mixin>
@@ -2352,11 +2417,11 @@
         // ============================================================
         const POI_DATA = [
             { id: 'bazilika', icon: '⚖️', category: 'Kamu Yapısı', title: 'Bazilika', desc: 'Bazilikalar ortada geniş ve yüksek, yanlarda ise dar ve alçak birbirine paralel ince uzun koridorlar şeklinde tasarlanmış bir plana sahip olan yapılardır. Plan özellikleri açısından Hristiyan kiliselerine öncülük eden Roma Dönemi bazilikaları, kentin hukuk işlerinin görüldüğü bir tür adliye sarayıdır. Öte yandan kentin ticari yaşamına yön veren tüccar ve bankerlerin faaliyetleri için de bazilikalar tercih edilmiştir.\n\nAgoranın kuzey kanadında yer alan bazilika, dıştan dışa 165 x 28 m ölçülerinde, dikdörtgen bir plana sahiptir. Ölçüleri itibariyle, Smyrna agora bazilikası, bilinen en büyük Roma Dönemi Bazilikası olma özelliğine sahiptir. Günümüze ulaşan görkemli bodrum katının doğu ve batı uçlarında görülen çapraz tonozlar Roma Dönemi mimarlığının en güzel örnekleri arasındadır.\n\nBazilikanın kuzey cephesinde, bodrum katına açılan iki anıtsal kapıdan batı yandaki günümüzde tamamıyla açığa çıkarılmıştır. Roma Dönemi sonlarına doğru, devlet agorasının giderek ticari bir anlam kazanmaya başladığını gösteren tonozlu dükkan sıraları, bazilikanın kuzey cephesinde gün ışığına çıkarılmıştır.', facts: [{ label: 'Boyutlar', val: '165 × 28 metre' }, { label: 'Hukuki İşlev', val: 'Adliye Sarayı' }, { label: 'Ticari İşlev', val: 'Bankerler ve Tüccarlar' }, { label: 'Mimari Özellik', val: 'Çapraz Tonozlar' }], tags: ['Roma Dönemi', 'MS 2. Yüzyıl', 'Hukuk', 'En Büyük'], world: { x: 7, y: 12, z: 20 }, turDurak: 4, sound: 'bazilika.mp3' },
-            { id: 'propylon', icon: '🚪', category: 'Anıtsal Giriş', title: 'Kemerli Kapı (Propylon)', desc: 'Izgara planlı olan Smyrna kentinin, doğu-batı yönlü paralel caddelerinden biri agoradan geçiyordu. Olasılıkla agorayı iki eşit parçaya bölen caddenin batı yandan agoraya giriş yaptığı yerde görkemli bir kapı bulunmaktadır.\n\nİki gözlü olduğu düşünülen kapının kuzey kemerinin merkezinde Roma İmparatoru Marcus Aurelius’un eşi Faustina’nın portre kabartması yer alır. Günümüzde kullanımda olan sokağın altında olan ikinci gözde ise olasılıkla Marcus Aurelius’un portresi yer almaktadır. bu iki isim, MS.178’de depremle yıkılan agorayı yeniden inşa ettirdiği için Smyrnalılar vefa borçlarını bu kapı ile ödemiştir.\n\n1940’lı yıllarda hatalı ölçülerle onarılan kemerli kapı 2004 yılında aslına uygun olarak yeniden restore edilmiştir.', facts: [{ label: 'Deprem Sonrası', val: 'MS 178' }, { label: 'Portreler', val: 'Faustina & Marcus Aurelius' }, { label: 'Restorasyon', val: '2004 (Aslına uygun)' }, { label: 'Şehir Planı', val: 'Izgara Plan' }], tags: ['Marcus Aurelius', 'Deprem Sonrası', 'Anıt', 'Kabartma'], world: { x: 56, y: 14, z: 41 }, turDurak: 2 },
+            { id: 'propylon', icon: '🚪', category: 'Anıtsal Giriş', title: 'Kemerli Kapı (Propylon)', desc: 'Izgara planlı olan Smyrna kentinin, doğu-batı yönlü paralel caddelerinden biri agoradan geçiyordu. Olasılıkla agorayı iki eşit parçaya bölen caddenin batı yandan agoraya giriş yaptığı yerde görkemli bir kapı bulunmaktadır.\n\nİki gözlü olduğu düşünülen kapının kuzey kemerinin merkezinde Roma İmparatoru Marcus Aurelius’un eşi Faustina’nın portre kabartması yer alır. Günümüzde kullanımda olan sokağın altında olan ikinci gözde ise olasılıkla Marcus Aurelius’un portresi yer almaktadır. bu iki isim, MS.178’de depremle yıkılan agorayı yeniden inşa ettirdiği için Smyrnalılar vefa borçlarını bu kapı ile ödemiştir.\n\n1940’lı yıllarda hatalı ölçülerle onarılan kemerli kapı 2004 yılında aslına uygun olarak yeniden restore edilmiştir.', facts: [{ label: 'Deprem Sonrası', val: 'MS 178' }, { label: 'Portreler', val: 'Faustina & Marcus Aurelius' }, { label: 'Restorasyon', val: '2004 (Aslına uygun)' }, { label: 'Şehir Planı', val: 'Izgara Plan' }], tags: ['Marcus Aurelius', 'Deprem Sonrası', 'Anıt', 'Kabartma'], world: { x: 56, y: 14, z: 41 }, turDurak: 2, image: 'propylon.jpg' },
             { id: 'kolonad', icon: '🏛️', category: 'Portiko', title: 'Batı Stoa', desc: 'Üç sıra sütun dizisiyle ayrılmış neflerden (galeri) oluşan batı stoa da bazilika gibi bir bodrum kat üzerinde yükselmekteydi. Günümüzde daha çok, kemerli bodrum katları görülen batı stoanın antik dönemde bodrum katı üzerinde yükselen iki katlı bir yapı olduğu anlaşılmaktadır.\n\nAvludan üç sıra basamakla çıkılan zemin kat ve ahşap tabanlı ikinci kat, Antik Çağ’da insanların yağmur ve güneşten korunarak gezinti yaptığı yerlerdi. Olasılıkla Roma Dönemi sonlarında bodrum kat galerilerinin bazı duvarları örülerek yapılan sarnıçlar bunun en güzel örneği olarak günümüze ulaşmıştır.\n\nBatı stoanın avluya bakan cephesindeki birinci kat sütunları, 1940’lı yıllarda ayağa kaldırılmıştır.', facts: [{ label: 'Yapı', val: 'İki Katlı' }, { label: 'Nef Sayısı', val: 'Üç Sıra Sütun' }, { label: 'Dönem', val: 'Roma Dönemi' }, { label: 'Özellik', val: 'Sarnıçlı Bodrum Kat' }], tags: ['Korint Düzeni', 'Ticaret', 'Siyaset', 'Portiko'], world: { x: 18, y: 18, z: 52 }, turDurak: 1, sound: 'Bati.mp3' },
             { id: 'tunel', icon: '🌊', category: 'Alt Yapı', title: 'Graffitiler', desc: 'Roma Dönemi’ne ait duvar resimleri ve yazıları olan graffitiler bazilika bodrum katı duvar ve kemer ayaklarında yer alan sıvalar üzerine yapılmıştır. Demir ve Meşe Kökü karışımı bir mürekkeple çizilmiş olanlar dışında kazıma yöntemiyle yapılmış örnekler de vardır.\n\nGraffitiler, özellikle Roma dönemindeki günlük sosyal hayat konusunda çok önemli bilgiler vermektedir. Graffitilerde aşk oyunlarından gladyatör mücadelelerine, cinsellikten yelkenli resimlerine, sevgili adlarından kuşlara, gemilere, bilmecelere değin çok farklı konulara yer verildiği tespit edilmiştir. Roma Dönemi’nde Batı Anadolu’nun yıldızı parlayan üç kent, Pergamon, Ephesos ve Smyrna arasındaki rekabetin izleri bile bu duvarlarda görülmektedir.', facts: [{ label: 'Yöntem', val: 'Mürekkep ve Kazıma' }, { label: 'Malzeme', val: 'Demir ve Meşe Kökü' }, { label: 'Konular', val: 'Sosyal Hayat, Aşk, Mücadele' }, { label: 'Özgünlük', val: 'Dünyanın En Eski Örnekleri' }], tags: ['Altyapı', 'Su Sistemi', 'Graffiti', 'Dünya Rekoru'], world: { x: 2, y: 10, z: 22 }, turDurak: 5, sound: 'Grandfetolar.mp3' },
             { id: 'mezarlik', icon: '⚰️', category: 'Osmanlı Dönemi', title: 'Osmanlı Mezarlığı', desc: 'Bizans ve Osmanlı dönemlerinde agora mezarlık olarak kullanıldı. 1932 kazılarıyla yeniden keşfedildi.', facts: [{ label: 'Dönem', val: '18–19. yüzyıl' }, { label: 'Mezar Taşları', val: 'Arap harfli yazıtlar' }, { label: 'Kazı Başlangıcı', val: '1932' }, { label: 'Özellik', val: 'Kabartma çiçek desenleri' }], tags: ['Osmanlı', '19. Yüzyıl', 'Kazı', 'Katmanlı Tarih'], world: { x: 63, y: 12, z: 80 }, turDurak: 3 },
-            { id: 'cesme', icon: '💧', category: 'Su Yapısı', title: 'Antik Çeşme (Nymphaeum)', desc: 'MS 2. yüzyıldan bu yana suyun aktığı bu çeşme, hem içme suyu hem de sosyal toplanma mekânı işlevi gördü.', facts: [{ label: 'Dönem', val: 'MS 2. yüzyıl' }, { label: 'Tür', val: 'Nymphaeum (çeşme anıtı)' }, { label: 'İşlev', val: 'İçme suyu ve sosyal alan' }, { label: 'Sistem', val: 'Tünel-sarnıç-çeşme ağı' }], tags: ['Hidrolik', 'Nymphaeum', 'Sosyal Alan', 'Roma'], world: { x: 8, y: 3, z: 85 }, turDurak: 6 },
+            { id: 'cesme', icon: '💧', category: 'Su Yapısı', title: 'Antik Çeşme (Nymphaeum)', desc: 'MS 2. yüzyıldan bu yana suyun aktığı bu çeşme, hem içme suyu hem de sosyal toplanma mekânı işlevi gördü.', facts: [{ label: 'Dönem', val: 'MS 2. yüzyıl' }, { label: 'Tür', val: 'Nymphaeum (çeşme anıtı)' }, { label: 'İşlev', val: 'İçme suyu ve sosyal alan' }, { label: 'Sistem', val: 'Tünel-sarnıç-çeşme ağı' }], tags: ['Hidrolik', 'Nymphaeum', 'Sosyal Alan', 'Roma'], world: { x: 8, y: 3, z: 85 }, turDurak: 6, image: 'cesme.png' },
             { id: 'kusyuvasi', icon: '🐦', category: 'Doğa & Tarih', title: 'Martı Yuvası', desc: 'Antik sütunların arasına kurulmuş martı yuvası. İzmir körfezi martıları 2000 yıldır bu taşların arasında yuvalanıyor.', facts: [{ label: 'Tür', val: 'Akdeniz Martısı' }, { label: 'Süreklilik', val: '2000+ year' }, { label: 'Konum', val: 'Batı Stoa sütunları' }, { label: 'Kayıt', val: 'Roma dönemi şiirlerinde' }], tags: ['Fauna', 'Süreklilik', 'Martı', 'Antik Hayvan'], world: { x: 18, y: 20, z: 57 }, turDurak: 0 },
             { id: 'yazit', icon: '📜', category: 'Yazıt', title: 'Menekles Yazıtı', desc: 'İyi talihle. Güzellik ve büyüklükte Asia’nın birincisi ve en ünlü şehri, başkent, en kutsal meclisin (Roma Senatosu) kararı uyarınca üç kere neokoros olan şehir, İona’nın süsü Smyrna, onun sevgili vatanı, keskin silahlarla yapılan dövüşleri içeren ve ardarda beş gün süren gladyatör oyunlarını düzenlemiş olan, Asia’daki impatorluk kültünün başrahibi Iulius Menekles Diaphantos onurlandırıldı. Yazıtın orijinal metni:\n\nΙΟΥΛΙΟΝ\nΜΕΝΕΚΛΕΑ\nΔΙΟΦΑΝΤΟΥ\nΑΣΙΑΡΧΗΝ\nΕΝΔΟΞΩΣ ΦΙΛΟΤΕΙΜΗΣΑΜΕΝΟΝ\nΕΣ ΗΜΕΡΩΝ ΠΕΝΤΕ\nΤΟΥΣ ΟΞΕΣΙΝ\nΗ ΓΛΥΚΥΤΑΤΗ ΠΑΤΡΙΣ', facts: [{ label: 'onurlandırılan', val: 'Iulius Menekles' }, { label: 'Unvan', val: 'Asia Başrahibi' }, { label: 'Dönem', val: 'Roma Dönemi' }, { label: 'Etkinlik', val: 'Gladyatör Oyunları' }], tags: ['Yazıt', 'Gladyatör', 'Smyrna', 'Onurlandırma'], world: { x: 1, y: 2, z: 68 }, turDurak: -1 },
             { id: 'kopru', icon: '🌉', category: 'Mimari', title: 'Antik Köprü', desc: 'Agoranın su kanalları ve tünel girişleri arasında bağlantı sağlayan taş kemerli köprü.', facts: [{ label: 'Malzeme', val: 'Kesme Taş' }, { label: 'Tür', val: 'Kemerli Köprü' }, { label: 'Dönem', val: 'Roma Dönemi' }], tags: ['Mimari', 'Ulaşım', 'Mühendislik'], world: { x: 24, y: 12, z: 83 }, turDurak: -1 },
@@ -2597,6 +2662,18 @@
             document.getElementById('poi-category').textContent = poi.category;
             document.getElementById('poi-title').textContent = poi.title;
             document.getElementById('poi-desc').textContent = poi.desc;
+
+            // --- Fotoğraf yönetimi ---
+            const imgWrap = document.getElementById('poi-img-wrap');
+            const imgEl   = document.getElementById('poi-panel-img');
+            if (poi.image && imgWrap && imgEl) {
+                imgEl.classList.remove('img-loaded');
+                imgEl.src = poi.image;
+                imgWrap.classList.add('has-img');
+            } else if (imgWrap) {
+                imgWrap.classList.remove('has-img');
+                if (imgEl) imgEl.src = '';
+            }
             document.getElementById('poi-facts').innerHTML = poi.facts.map(f => `<div class="poi-fact-card"><div class="poi-fact-label">${f.label}</div><div class="poi-fact-val">${f.val}</div></div>`).join('');
             document.getElementById('poi-tags').innerHTML = poi.tags.map(t => `<span class="poi-tag">${t}</span>`).join('');
             const gb = document.getElementById('poi-guide-btn');
